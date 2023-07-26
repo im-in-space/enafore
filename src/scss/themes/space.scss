@@ -25,11 +25,17 @@ $scrollbar-track: #1e1e2d;
 @import "_scrollbars.scss";
 
 :root {
-    --svg-fill: #ff9800;
+    --svg-fill: #{$button-bg};
     --settings-list-item-text: #{$main-text-color};
     --settings-list-item-text-hover: #{$main-text-color};
-    --settings-list-item-bg-active: #{darken($main-text-color, 10%)};
     --status-direct-background: #313543 !important;
+
+    --action-button-fill-color: #606984;
+    --action-button-fill-color-hover: #{$anchor-color};
+    --action-button-fill-color-active: #{lighten($anchor-color, 12%)};
+    --action-button-fill-color-pressed: #{$button-bg};
+    --action-button-fill-color-pressed-hover: #{lighten($button-bg, 12%)};
+    --action-button-fill-color-pressed-active: #{lighten($button-bg, 15%)};
 
     --button-primary-bg: #{$button-bg};
     --button-primary-bg-hover: #{$button-bg-hover};
