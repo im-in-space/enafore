@@ -1,8 +1,9 @@
-const prefersDarkTheme = process.browser && matchMedia('(prefers-color-scheme: dark)').matches
+// const prefersDarkTheme = process.browser && matchMedia('(prefers-color-scheme: dark)').matches
+const prefersDarkTheme = true
 const meta = process.browser && document.getElementById('theThemeColor')
 
 export const DEFAULT_LIGHT_THEME = 'default' // theme that is shown by default
-export const DEFAULT_DARK_THEME = 'ozark' // theme that is shown for prefers-color-scheme:dark
+export const DEFAULT_DARK_THEME = 'space' // theme that is shown for prefers-color-scheme:dark
 export const DEFAULT_THEME = prefersDarkTheme ? DEFAULT_DARK_THEME : DEFAULT_LIGHT_THEME
 
 function getExistingThemeLink () {

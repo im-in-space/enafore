@@ -2,7 +2,7 @@
 
 A somewhat unstable fediverse client forked from [Pinafore](https://github.com/nolanlawson/pinafore) with better support for Akkoma and glitch-soc instances.
 
-Enafore is available at [pinafore.easrng.net](https://pinafore.easrng.net).
+im-in.space's Enafore is available at [pf.im-in.space](https://pf.im-in.space).
 
 See the [user guide](https://github.com/easrng/enafore/blob/main/docs/User-Guide.md) for basic usage. See the [admin guide](https://github.com/easrng/enafore/blob/main/docs/Admin-Guide.md) if Enafore cannot connect to your instance.
 

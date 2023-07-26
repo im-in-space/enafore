@@ -1,0 +1,53 @@
+$main-theme-color: #222233;
+$body-bg-color: #1f232b;
+$main-bg-color: #282c37;
+$anchor-color: #3aaacf;
+$main-text-color: #ffffff;
+$border-color: lighten($main-bg-color, 16%);
+$secondary-text-color: $main-text-color;
+$toast-border: $main-theme-color;
+$toast-bg: lighten($body-bg-color, 4%);
+$focus-outline: darken($main-theme-color, 10%);
+$compose-background: darken($main-theme-color, 12%);
+
+$button-bg: #ff9800;
+$button-bg-hover: #ffa51f;
+
+@import "_base.scss";
+@import "_dark.scss";
+@import "_dark_navbar.scss";
+
+$scrollbar-face: #313543;
+$scrollbar-face-hover: #313543;
+$scrollbar-face-active: #353a49;
+$scrollbar-track: #1e1e2d;
+
+@import "_scrollbars.scss";
+
+:root {
+    --svg-fill: #ff9800;
+    --settings-list-item-text: #{$main-text-color};
+    --settings-list-item-text-hover: #{$main-text-color};
+    --settings-list-item-bg-active: #{darken($main-text-color, 10%)};
+    --status-direct-background: #313543 !important;
+
+    --button-primary-bg: #{$button-bg};
+    --button-primary-bg-hover: #{$button-bg-hover};
+    --button-primary-bg-active: #{$button-bg-hover};
+    --button-bg: #{$button-bg};
+    --button-bg-hover: #{$button-bg-hover};
+    --button-bg-active: #{$button-bg-hover};
+}
+
+.status-spoiler-button button {
+    background-color: #29293d;
+
+    &:hover,
+    &:active {
+        background: #707b97;
+    }
+}
+
+.compose-box-length {
+    color: var(--action-button-fill-color) !important;
+}

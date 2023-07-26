@@ -1,5 +1,11 @@
 const themes = [
   {
+    name: 'space',
+    label: 'Space',
+    dark: true,
+    color: '#222233'
+  },
+  {
     name: 'default',
     label: 'intl.themeRoyal',
     dark: false,

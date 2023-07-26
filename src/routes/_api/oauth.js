@@ -1,9 +1,9 @@
 import { post, paramsString, WRITE_TIMEOUT } from '../_utils/ajax.js'
 import { basename } from './utils.js'
 
-const WEBSITE = 'https://pinafore.easrng.net'
+const WEBSITE = 'https://pf.im-in.space'
 const SCOPES = 'read write follow push'
-const CLIENT_NAME = 'Enafore'
+const CLIENT_NAME = 'Enafore in Space'
 
 export function registerApplication (instanceName, redirectUri) {
   const url = `${basename(instanceName)}/api/v1/apps`
