@@ -125,7 +125,8 @@ export default {
       'process.env.LOCALE': JSON.stringify(LOCALE),
       'process.env.EMOJI_PICKER_I18N': emojiPickerI18n ? JSON.stringify(emojiPickerI18n) : 'undefined',
       'process.env.PINAFORE_VERSION': JSON.stringify(version),
-      'process.env.IS_SERVICE_WORKER': 'false'
+      'process.env.IS_SERVICE_WORKER': 'false',
+      'process.env.THEME_COLORS': 'null'
     }),
     new CircularDependencyPlugin({
       exclude: /node_modules/,

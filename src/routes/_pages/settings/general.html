@@ -24,11 +24,6 @@
       {intl.allSensitive}
     </label>
     <label class="setting-group">
-      <input type="checkbox" id="choice-large-inline-media"
-             bind:checked="$largeInlineMedia" on:change="onChange(event)">
-      {intl.largeMedia}
-    </label>
-    <label class="setting-group">
       <input type="checkbox" id="choice-autoplay-gif"
              bind:checked="$autoplayGifs" on:change="onChange(event)">
       {intl.autoplayGifs}
@@ -115,6 +110,11 @@
       <input type="checkbox" id="choice-disable-long-aria-labels"
              bind:checked="$disableLongAriaLabels" on:change="onChange(event)">
       {intl.shortAria}
+    </label>
+    <label class="setting-group">
+      <input type="checkbox" id="choice-grayscale"
+             bind:checked="$enableGrayscale" on:change="onChange(event)">
+      {intl.grayscaleMode}
     </label>
   </form>
 

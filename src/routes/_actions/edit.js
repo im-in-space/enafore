@@ -12,7 +12,7 @@ export async function edit (status) {
   let inReplyToHandle = null
   if (status.in_reply_to_id) {
     const replyingTo = await database.getStatus(currentInstance, status.in_reply_to_id)
-    inReplyToHandle = '@' + replyingTo.account.acct
+    if (replyingTo) inReplyToHandle = '@' + replyingTo.account.acct
   }
   store.setComposeData('dialog', {
     text: source.text || statusHtmlToPlainText(status.content, status.mentions),

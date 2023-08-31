@@ -1,6 +1,6 @@
 import { DEFAULT_THEME } from '../../_utils/themeEngine.js'
 import { mark, stop } from '../../_utils/marks.js'
-import { MAX_STATUS_CHARS } from '../../_static/statuses.js'
+import { MAX_STATUS_CHARS, MAX_STATUS_MEDIA_ATTACHMENTS } from '../../_static/statuses.js'
 
 function computeForInstance (store, computedKey, key, defaultValue) {
   store.compute(computedKey,
@@ -105,6 +105,17 @@ export function instanceComputations (store) {
         }
       }
       return MAX_STATUS_CHARS
+    }
+  )
+
+  store.compute(
+    'maxStatusMediaAttachments',
+    ['currentInstanceInfo'],
+    (currentInstanceInfo) => {
+      if (currentInstanceInfo && currentInstanceInfo.configuration && currentInstanceInfo.configuration.statuses && currentInstanceInfo.configuration.statuses.max_media_attachments) {
+        return currentInstanceInfo.configuration.statuses.max_media_attachments
+      }
+      return MAX_STATUS_MEDIA_ATTACHMENTS
     }
   )
 

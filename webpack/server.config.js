@@ -14,7 +14,8 @@ const NOOP_MODULES = [
   'tesseract.js-core/tesseract-core.wasm',
   'tesseract.js-core/tesseract-core.wasm.js',
   'tesseract.js/src/createWorker.js',
-  'tesseract.js/src/createWorker.js.map'
+  'tesseract.js/src/createWorker.js.map',
+  '@easrng/image-grid/index.js'
 ]
 
 const serverResolve = JSON.parse(JSON.stringify(resolve))
@@ -66,7 +67,8 @@ export default {
       'process.env.INLINE_SVGS': JSON.stringify(inlineSvgs),
       'process.env.LOCALE': JSON.stringify(LOCALE),
       'process.env.PINAFORE_VERSION': JSON.stringify(version),
-      'process.env.IS_SERVICE_WORKER': 'false'
+      'process.env.IS_SERVICE_WORKER': 'false',
+      'process.env.THEME_COLORS': 'null'
     })
   ]
 }

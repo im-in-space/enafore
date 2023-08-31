@@ -5,12 +5,11 @@ import path from 'path'
 import { rollup } from 'rollup'
 import terser from '@rollup/plugin-terser'
 import replace from '@rollup/plugin-replace'
-import { themes } from '../src/routes/_static/themes.js'
 import terserOptions from './terserOptions.js'
+import { inlineThemeColors } from '../webpack/shared.config.js'
 
 const __dirname = path.dirname(new URL(import.meta.url).pathname)
 const writeFile = promisify(fs.writeFile)
-const themeColors = Object.fromEntries(themes.map(_ => ([_.name, _.color])))
 
 export async function buildInlineScript () {
   const inlineScriptPath = path.join(__dirname, '../src/inline-script/inline-script.js')
@@ -21,7 +20,7 @@ export async function buildInlineScript () {
       replace({
         values: {
           'process.browser': true,
-          'process.env.THEME_COLORS': JSON.stringify(themeColors)
+          'process.env.THEME_COLORS': JSON.stringify(inlineThemeColors)
         },
         preventAssignment: true
       }),

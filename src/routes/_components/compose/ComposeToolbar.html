@@ -12,7 +12,7 @@
       label="{intl.addMedia}"
       href={$uploadingMedia ? '#fa-spinner' : '#fa-camera'}
       on:click="onMediaClick()"
-      disabled={$uploadingMedia || (media.length === 4)}
+      disabled={$uploadingMedia || (media.length === $maxStatusMediaAttachments)}
     />
     <IconButton
       className="compose-toolbar-button"

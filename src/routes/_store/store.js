@@ -32,7 +32,6 @@ const persistedState = {
   disableDecomojiConverter: false,
   enableGrayscale: false,
   hideCards: false,
-  largeInlineMedia: false,
   leftRightChangesFocus: isKaiOS(),
   instanceNameInSearch: '',
   instanceThemes: {},

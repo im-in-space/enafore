@@ -12,10 +12,7 @@ export default {
   logIn: 'Log in',
   footer: `
     <p>
-      Enafore is
-      <a rel="noopener" target="_blank" href="https://github.com/easrng/enafore">open-source software</a>
-      originally created by
-      <a rel="noopener" target="_blank" href="https://nolanlawson.com">Nolan Lawson</a>, forked by 
+      Enafore is <a rel="noopener" target="_blank" href="https://github.com/easrng/enafore">open-source software</a> by 
       <a rel="noopener" target="_blank" href="https://easrng.net">easrng</a>, and distributed under the
       <a rel="noopener" target="_blank"
          href="https://github.com/easrng/enafore/blob/main/LICENSE">AGPL License</a>.
@@ -244,8 +241,8 @@ export default {
   unmuteAccount: 'Unmute {account}',
   showReblogsFromAccount: 'Show boosts from {account}',
   hideReblogsFromAccount: 'Hide boosts from {account}',
-  showDomain: 'Unhide {domain}',
-  hideDomain: 'Hide {domain}',
+  showDomain: 'Unblock {domain}',
+  hideDomain: 'Block {domain}',
   reportAccount: 'Report {account}',
   mentionAccount: 'Mention {account}',
   copyLinkToAccount: 'Copy link to account',
@@ -322,7 +319,7 @@ export default {
   clickToSeeAvatar: 'Click to see avatar',
   opensInNewWindow: '{label} (opens in new window)',
   blocked: 'Blocked',
-  domainHidden: 'Domain hidden',
+  domainHidden: 'Domain blocked',
   muted: 'Muted',
   followsYou: 'Follows you',
   avatarForAccount: 'Avatar for {account}',
@@ -339,7 +336,7 @@ export default {
     <a rel="noopener" target="_blank"
        href="https://github.com/easrng/enafore">free and open-source software</a>
     created by
-    <a rel="noopener" target="_blank" href="https://nolanlawson.com">Nolan Lawson</a>
+    <a rel="noopener" target="_blank" href="https://easrng.net">easrng</a>
     and distributed under the
     <a rel="noopener" target="_blank"
        href="https://github.com/easrng/enafore/blob/main/LICENSE">GNU Affero General Public License</a>.
@@ -413,7 +410,7 @@ export default {
   immediacy: 'Immediacy',
   showAbsoluteTimestamps: 'Show absolute timestamps (e.g. "March 3rd") instead of relative timestamps (e.g. "5 minutes ago")',
   ui: 'UI',
-  grayscaleMode: 'Grayscale mode',
+  grayscaleMode: 'Show emojis, images, and videos in grayscale',
   wellnessFooter: `These settings are partly based on guidelines from the
     <a rel="noopener" target="_blank" href="https://humanetech.com">Center for Humane Technology</a>.`,
   // This is a link: "You can filter or disable notifications in the _instance settings_"

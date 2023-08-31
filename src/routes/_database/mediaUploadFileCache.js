@@ -2,10 +2,10 @@
 // We keep them in IDB to avoid tainted canvas errors after a refresh.
 
 import { get, set, keys, del } from '../_thirdparty/idb-keyval/idb-keyval.js'
+import { store } from '../_store/store.js'
 
 const PREFIX = 'media-cache-'
 const DELIMITER = '-cache-'
-const LIMIT = 4 // you can upload 4 images per post, this seems reasonable despite cross-instance usage
 export const DELETE_AFTER = 604800000 // 7 days
 
 let deleteAfter = DELETE_AFTER
@@ -43,7 +43,9 @@ export async function setCachedMediaFile (id, file) {
     return // do nothing, it's already in there
   }
 
-  while (allKeys.length >= LIMIT) {
+  const { maxStatusMediaAttachments } = store.get()
+
+  while (allKeys.length >= maxStatusMediaAttachments) {
     // already sorted in chronological order, so delete the oldest
     await del(allKeys.shift())
   }

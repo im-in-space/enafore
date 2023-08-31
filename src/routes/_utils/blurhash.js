@@ -12,11 +12,6 @@ let worker
 let canvas
 let canvasContext2D
 
-cache.on('evict', (evictedUrl, blurhash) => {
-  console.log('evicted URL', evictedUrl, 'with blurhash', blurhash)
-  URL.revokeObjectURL(evictedUrl)
-})
-
 export function init () {
   worker = worker || new PromiseWorker(new BlurhashWorker())
 }
@@ -34,8 +29,18 @@ function initCanvas () {
 async function decodeUsingCanvas (imageData) {
   initCanvas()
   canvasContext2D.putImageData(imageData, 0, 0)
-  const blob = await new Promise(resolve => canvas.toBlob(resolve))
-  return URL.createObjectURL(blob)
+  return await new Promise((resolve, reject) => {
+    const reader = new window.FileReader()
+    reader.addEventListener('error', () => {
+      reject(reader.error)
+    })
+    reader.addEventListener('load', () => {
+      resolve(reader.result)
+    })
+    canvas.toBlob(blob => {
+      reader.readAsDataURL(blob)
+    })
+  })
 }
 
 async function decodeWithoutCache (blurhash) {

@@ -8,10 +8,7 @@ import {
   setWebShareData,
   closeKeyValIDBConnection
 } from './routes/_database/webShare.js'
-import {
-  getLastThemeColor,
-  getLastTheme
-} from './routes/_database/theme.js'
+import { getLastTheme } from './routes/_database/theme.js'
 import { getKnownInstances } from './routes/_database/knownInstances.js'
 import { basename } from './routes/_api/utils.js'
 
@@ -128,7 +125,7 @@ self.addEventListener('fetch', event => {
             (await caches.match('/manifest.json')) ||
             (await fetch('/manifest.json'))
           ).json()
-          manifest.theme_color = await getLastThemeColor() || manifest.theme_color
+          manifest.theme_color = process.env.THEME_COLORS[await getLastTheme()] || manifest.theme_color
           await closeKeyValIDBConnection() // don't need to keep the IDB connection open
           return new Response(JSON.stringify(manifest), {
             headers: {

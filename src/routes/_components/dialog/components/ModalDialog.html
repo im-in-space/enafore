@@ -172,6 +172,13 @@
       const dialogElement = this.refs.node.parentElement
       this._a11yDialog = new A11yDialog(dialogElement)
       this._a11yDialog.on('hide', async () => {
+        window.removeEventListener('popstate', this.onPopState)
+        const { statePopped, statePushed, id } = this.get()
+        if (statePushed && !statePopped) {
+          // If we weren't closed due to popstate, then pop state to ensure the correct history.
+          window.history.back()
+        }
+        popShortcutScope(`modal-${id}`)
         if (shouldAnimate && !reduceMotion) {
           this.refs.node.parentElement.style.display = 'flex'
           try {
@@ -209,15 +216,6 @@
       on('showDialog', this, this.showDialog)
       on('closeDialog', this, this.closeDialog)
       pushShortcutScope(`modal-${id}`)
-    },
-    ondestroy () {
-      window.removeEventListener('popstate', this.onPopState)
-      const { statePopped, statePushed, id } = this.get()
-      if (statePushed && !statePopped) {
-        // If we weren't closed due to popstate, then pop state to ensure the correct history.
-        window.history.back()
-      }
-      popShortcutScope(`modal-${id}`)
     },
     components: { Shortcut, SvgIcon },
     data: () => ({

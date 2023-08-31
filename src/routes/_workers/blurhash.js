@@ -22,7 +22,16 @@ registerPromiseWorker(async (encoded) => {
   if (OFFSCREEN_CANVAS) {
     OFFSCREEN_CANVAS_CONTEXT_2D.putImageData(imageData, 0, 0)
     const blob = await OFFSCREEN_CANVAS.convertToBlob()
-    const decoded = URL.createObjectURL(blob)
+    const decoded = await new Promise((resolve, reject) => {
+      const reader = new self.FileReader()
+      reader.addEventListener('error', () => {
+        reject(reader.error)
+      })
+      reader.addEventListener('load', () => {
+        resolve(reader.result)
+      })
+      reader.readAsDataURL(blob)
+    })
     return { decoded, imageData: null }
   } else {
     return { imageData, decoded: null }

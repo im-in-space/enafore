@@ -1,5 +1,5 @@
 <li class="search-result">
-  <a {href} class="search-result-anchor" rel="prefetch">
+  <a {href} class="search-result-anchor {className}" rel="prefetch">
     <slot></slot>
   </a>
 </li>
@@ -13,9 +13,11 @@
     border-bottom: none;
   }
   .search-result-anchor {
-    padding: 20px;
     flex: 1;
     background: var(--settings-list-item-bg);
+  }
+  .search-result-anchor:not(.search-result-anchor-status) {
+    padding: 20px;
   }
   .search-result-anchor, .search-result-anchor:visited {
     color: var(--body-text-color);
@@ -29,7 +31,7 @@
   }
 
   @media (max-width: 767px) {
-    .search-result-anchor {
+    .search-result-anchor:not(.search-result-anchor-status) {
       padding: 15px 10px;
     }
   }

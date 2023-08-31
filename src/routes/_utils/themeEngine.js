@@ -1,3 +1,4 @@
+import { themes } from '../_static/themes.js'
 // const prefersDarkTheme = process.browser && matchMedia('(prefers-color-scheme: dark)').matches
 const prefersDarkTheme = true
 const meta = process.browser && document.getElementById('theThemeColor')
@@ -5,6 +6,7 @@ const meta = process.browser && document.getElementById('theThemeColor')
 export const DEFAULT_LIGHT_THEME = 'default' // theme that is shown by default
 export const DEFAULT_DARK_THEME = 'space' // theme that is shown for prefers-color-scheme:dark
 export const DEFAULT_THEME = prefersDarkTheme ? DEFAULT_DARK_THEME : DEFAULT_LIGHT_THEME
+const THEME_COLORS = process.env.THEME_COLORS ? process.env.THEME_COLORS : Object.fromEntries(themes.map(_ => ([_.name, _.color])))
 
 function getExistingThemeLink () {
   return document.head.querySelector('link[rel=stylesheet][href^="/theme-"]')
@@ -28,10 +30,7 @@ function loadCSS (href) {
 }
 
 export function switchToTheme (themeName = DEFAULT_THEME, enableGrayscale) {
-  if (enableGrayscale) {
-    themeName = prefersDarkTheme ? 'dark-grayscale' : 'grayscale'
-  }
-  const themeColor = window.__themeColors[themeName]
-  meta.content = themeColor || window.__themeColors[DEFAULT_THEME]
+  const themeColor = THEME_COLORS[themeName]
+  meta.content = themeColor || THEME_COLORS[DEFAULT_THEME]
   loadCSS(`/theme-${themeName}.css`)
 }

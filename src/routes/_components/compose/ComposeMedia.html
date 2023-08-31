@@ -1,7 +1,7 @@
 {#if media.length}
   <ul class="compose-media-container"
       aria-label="{intl.mediaUploads}"
-      style="grid-template-columns: repeat({media.length}, 1fr);"
+      style="grid-template-columns: repeat({Math.min(media.length, 4)}, 1fr);"
   >
     {#each media as mediaItem, index}
       <ComposeMediaItem {realm} {mediaItem} {index} {media} />
@@ -13,7 +13,7 @@
     grid-area: media;
     list-style: none;
     display: grid;
-    grid-column-gap: 5px;
+    grid-gap: 5px;
     align-items: center;
     justify-content: center;
     margin: 10px 0 0 0;

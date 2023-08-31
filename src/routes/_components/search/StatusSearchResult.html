@@ -1,4 +1,4 @@
-<SearchResult href="/statuses/{status.id}">
+<SearchResult href="/statuses/{status.id}" className="search-result-anchor-status">
   <Status {index} {length}
           timelineType="search" timelineValue="search"
           {status} />
@@ -10,6 +10,9 @@
   import Status from '../status/Status.html'
 
   export default {
+    oncreate () {
+      this.store.set({ currentTimeline: 'search' })
+    },
     components: {
       SearchResult,
       Status

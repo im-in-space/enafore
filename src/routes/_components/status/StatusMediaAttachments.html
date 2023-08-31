@@ -1,8 +1,9 @@
 {#if sensitive }
-<div class={computedClass} style={customSize}>
-  <div class="status-sensitive-inner-div">
-    {#if sensitiveShown}
-      <button id={elementId}
+<div class={computedClass}>
+  <easrng-image-grid class={innerComputedClass} style={computedStyle}>
+    <div slot="extra">
+      {#if sensitiveShown}
+        <button id={elementId}
               type="button"
               class="status-sensitive-media-button"
               aria-label="{intl.hideSensitiveMedia}"
@@ -12,9 +13,9 @@
           <SvgIcon className="status-sensitive-media-svg"
                    href="#fa-eye-slash" />
         </div>
-      </button>
-    {:else}
-      <button id={elementId}
+        </button>
+      {:else}
+        <button id={elementId}
               type="button"
               class="status-sensitive-media-button"
               aria-label="{intl.showSensitiveMedia}"
@@ -29,16 +30,25 @@
         <div class="svg-wrapper">
           <SvgIcon className="status-sensitive-media-svg" href="#fa-eye" />
         </div>
-      </button>
-    {/if}
-    <MediaAttachments {mediaAttachments} {sensitive} {sensitiveShown} {uuid} />
-  </div>
+        </button>
+      {/if}
+    </div>
+    {#each mediaAttachments as media, index}
+      <Media {media} {uuid} {mediaAttachments} {index} {showAsSensitive} />
+    {/each}
+  </easrng-image-grid>
 </div>
 {#if enableShortcuts}
   <Shortcut scope={shortcutScope} key="y" on:pressed="toggleSensitiveMedia(false)"/>
 {/if}
 {:else}
-  <MediaAttachments {mediaAttachments} {sensitive} {sensitiveShown} {uuid} />
+  <div class="status-media">
+    <easrng-image-grid class={innerComputedClass} style={computedStyle}>
+      {#each mediaAttachments as media, index}
+        <Media {media} {uuid} {mediaAttachments} {index} {showAsSensitive} />
+      {/each}
+    </easrng-image-grid>
+  </div>
 {/if}
 {#if enableShortcuts}
   <Shortcut scope={shortcutScope} key="i" on:pressed="showFirstMedia()" />
@@ -58,13 +68,9 @@
     height: 100%;
   }
 
-  .status-sensitive-media-container.grouped-images .status-sensitive-inner-div {
+  .status-sensitive-media-container .status-sensitive-inner-div {
     position: relative;
     width: 100%;
-  }
-
-  .status-sensitive-media-container.grouped-images {
-    grid-area: media-grp;
   }
 
   .status-sensitive-media-button {
@@ -97,14 +103,6 @@
     height: 100%;
   }
 
-  .status-sensitive-media-container.status-sensitive-media-hidden {
-    width: 100%;
-    margin: 10px auto;
-  }
-  .status-sensitive-media-container.status-sensitive-media-hidden.not-grouped-images {
-      height: 250px;
-  }
-
   .status-sensitive-media-container .status-sensitive-media-warning {
     top: 0;
     left: 0;
@@ -134,6 +132,7 @@
     pointer-events: none;
     background: var(--mask-bg);
   }
+
   .status-sensitive-media-hidden .svg-wrapper {
     position: absolute;
     background: none;
@@ -143,12 +142,14 @@
     bottom: 0;
   }
 
-  .status-sensitive-media-container.grouped-images .svg-wrapper {
+  .status-sensitive-media-container .svg-wrapper {
     border-radius: 6px;
   }
+
   .status-sensitive-media-container.status-sensitive-media-shown .svg-wrapper {
     background: none;
   }
+
   :global(.status-sensitive-media-svg) {
     width: 24px;
     height: 24px;
@@ -158,38 +159,61 @@
     margin: 5px;
     padding: 6px 10px;
   }
+  
   :global(.status-sensitive-media-container.status-sensitive-media-hidden .status-sensitive-media-svg) {
     fill: var(--blurhash-sensitive-text-color);
     background: var(--mask-bg);
   }
+
+  .status-media {
+    grid-area: media;
+    margin: 10px 10px 10px 5px;
+  }
+
+  .status-media easrng-image-grid {
+    overflow: hidden;
+    border-radius: 6px;
+    position: relative;
+    max-height: calc(50vh * var(--attatchment-count));
+  }
+
+  .status-media :global(.inline-media img),
+  .status-media :global(.inline-media .lazy-image) {
+    width: 100%;
+    height: 100%;
+  }
+  
+  .status-media.status-media-is-sensitive {
+    height: inherit;
+    margin: 0;
+  }
 </style>
 <script>
-  import MediaAttachments from './MediaAttachments.html'
+  import Media from './Media.html'
   import Shortcut from '../shortcut/Shortcut.html'
   import SvgIcon from '../SvgIcon.html'
   import { store } from '../../_store/store.js'
   import { registerClickDelegate } from '../../_utils/delegate.js'
   import { classname } from '../../_utils/classname.js'
   import { importShowMediaDialog } from '../dialog/asyncDialogs/importShowMediaDialog.js'
+  import '@easrng/image-grid/index.js'
 
-  export default {
+export default {
     oncreate () {
       const { elementId } = this.get()
       registerClickDelegate(this, elementId, () => this.toggleSensitiveMedia(true))
     },
     components: {
-      MediaAttachments,
+      Media,
       Shortcut,
       SvgIcon
     },
     store: () => store,
     computed: {
-      computedClass: ({ sensitiveShown, oddCols, twoCols, $largeInlineMedia }) => classname(
+      computedClass: ({ sensitiveShown }) => classname(
         'status-sensitive-media-container',
         sensitiveShown ? 'status-sensitive-media-shown' : 'status-sensitive-media-hidden',
-        oddCols && 'odd-cols',
-        twoCols && 'two-cols',
-        $largeInlineMedia ? 'not-grouped-images' : 'grouped-images'
+        'status-media'
       ),
       mediaAttachments: ({ originalStatus }) => originalStatus.media_attachments,
       sensitiveShown: ({ $sensitivesShown, uuid }) => !!$sensitivesShown[uuid],
@@ -197,20 +221,12 @@
         !$neverMarkMediaAsSensitive && ($markMediaAsSensitive || originalStatus.sensitive || originalStatus.spoiler_text)
       ),
       elementId: ({ uuid }) => `sensitive-${uuid}`,
-      customSize: ({ $largeInlineMedia, mediaAttachments }) => {
-        if ($largeInlineMedia || !mediaAttachments || mediaAttachments.length < 5) {
-          return ''
-        }
-        return `padding-bottom: ${Math.ceil(mediaAttachments.length / 2) * 29}%;`
-      },
-      nCols: ({ mediaAttachments, $largeInlineMedia }) => {
-        return (!$largeInlineMedia && mediaAttachments.length > 1) ? 2 : 1
-      },
-      oddCols: ({ mediaAttachments }) => {
-        return (mediaAttachments.length > 1 && (mediaAttachments.length % 2))
-      },
-      twoCols: ({ mediaAttachments }) => {
-        return (mediaAttachments.length === 2)
+      innerComputedClass: ({ sensitive }) => classname(
+        sensitive && 'status-media-is-sensitive'
+      ),
+      computedStyle: ({ mediaAttachments }) => `--attatchment-count:${mediaAttachments.length}`,
+      showAsSensitive: ({ sensitive, sensitiveShown }) => {
+        return sensitive ? !sensitiveShown : false
       }
     },
     methods: {

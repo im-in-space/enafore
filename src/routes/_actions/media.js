@@ -6,13 +6,17 @@ import { formatIntl } from '../_utils/formatIntl.js'
 import { database } from '../_database/database.js'
 
 export async function doMediaUpload (realm, file) {
-  const { currentInstance, accessToken } = store.get()
+  const { currentInstance, accessToken, maxStatusMediaAttachments } = store.get()
   store.set({ uploadingMedia: true })
   try {
+    let composeMedia = store.getComposeData(realm, 'media') || []
+    if (composeMedia.length === maxStatusMediaAttachments) {
+      throw new Error('Only ' + maxStatusMediaAttachments + ' media max are allowed')
+    }
     const response = await uploadMedia(currentInstance, accessToken, file)
-    const composeMedia = store.getComposeData(realm, 'media') || []
-    if (composeMedia.length === 4) {
-      throw new Error('Only 4 media max are allowed')
+    composeMedia = store.getComposeData(realm, 'media') || []
+    if (composeMedia.length === maxStatusMediaAttachments) {
+      throw new Error('Only ' + maxStatusMediaAttachments + ' media max are allowed')
     }
     await database.setCachedMediaFile(response.id, file)
     composeMedia.push({

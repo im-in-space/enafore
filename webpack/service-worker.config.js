@@ -2,9 +2,9 @@ import { LOCALE } from '../src/routes/_static/intl'
 import path from 'path'
 
 import config from 'sapper/config/webpack.js'
-import terser from './terser.config'
+import terser from './terser.config.js'
 import webpack from 'webpack'
-import { mode, dev, resolve } from './shared.config'
+import { mode, dev, resolve, inlineThemeColors } from './shared.config.js'
 
 export default {
   entry: config.serviceworker.entry(),
@@ -37,7 +37,8 @@ export default {
       'process.env.NODE_ENV': JSON.stringify(mode),
       'process.env.SAPPER_TIMESTAMP': process.env.SAPPER_TIMESTAMP || Date.now(),
       'process.env.LOCALE': JSON.stringify(LOCALE),
-      'process.env.IS_SERVICE_WORKER': 'true'
+      'process.env.IS_SERVICE_WORKER': 'true',
+      'process.env.THEME_COLORS': JSON.stringify(inlineThemeColors)
     })
   ].filter(Boolean)
 }

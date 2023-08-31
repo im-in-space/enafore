@@ -35,6 +35,13 @@
     width={intrinsicWidth}
     height={intrinsicHeight}
   />
+{:elseif type === 'unknown'}
+  <div class="file-container">
+    <a href={url} class="file-link" rel="noopener" target="_blank">
+      <SvgIcon className="file-modal-icon" href="#fa-file" />
+      <div class="file-label">Download File</div>
+    </a>
+  </div>
 {:else}
   <img
     class="media-fit"
@@ -65,6 +72,31 @@
     padding: 30px 10px;
     margin: 10px;
   }
+  .file-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    min-height: 200px;
+  }
+  .file-link {
+    background: var(--audio-bg);
+    border-radius: 6px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 30px;
+    font-size: 1rem;
+  }
+  :global(.file-modal-icon) {
+    fill: currentColor;
+    width: 72px;
+    height: 72px;
+    margin: 10px;
+  }
   @media (max-width: 767px) {
     .audio-player-container {
       min-height: 200px;
@@ -76,6 +108,7 @@
 <script>
   import { get } from '../../../_utils/lodash-lite.js'
   import MediaControlsFix from '../../MediaControlsFix.html'
+  import SvgIcon from '../../SvgIcon.html'
 
   export default {
     computed: {
@@ -96,7 +129,8 @@
       }
     },
     components: {
-      MediaControlsFix
+      MediaControlsFix,
+      SvgIcon
     }
   }
 </script>

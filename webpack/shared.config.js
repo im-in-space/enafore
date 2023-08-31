@@ -1,11 +1,12 @@
 import svgs from '../bin/svgs.js'
 import { execSync } from 'child_process'
+import { themes } from '../src/routes/_static/themes.js'
 
-const inlineSvgs = svgs.filter(_ => _.inline).map(_ => `#${_.id}`)
-const mode = process.env.NODE_ENV || 'production'
-const dev = mode === 'development'
+export const inlineSvgs = svgs.filter(_ => _.inline).map(_ => `#${_.id}`)
+export const mode = process.env.NODE_ENV || 'production'
+export const dev = mode === 'development'
 
-const resolve = {
+export const resolve = {
   extensions: ['.js', '.json', '.html'],
   mainFields: ['svelte', 'module', 'browser', 'main'],
   alias: {
@@ -19,12 +20,5 @@ const resolve = {
 
 const commitCount = parseInt(execSync('git rev-list --count HEAD').toString().trim()) - 2701
 const commitHash = execSync('git rev-parse --short HEAD').toString().trim()
-const version = 'v' + commitCount + '-' + commitHash
-
-export {
-  mode,
-  dev,
-  resolve,
-  inlineSvgs,
-  version
-}
+export const version = 'v' + commitCount + '-' + commitHash
+export const inlineThemeColors = Object.fromEntries(themes.map(_ => ([_.name, _.color])))

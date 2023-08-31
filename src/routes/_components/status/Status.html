@@ -7,7 +7,7 @@
          on:recalculateHeight
          ref:article
          on:load|capture="recalculateHeight()"
-         style={"--status-level:" + ((treeMetadata && treeMetadata.level) || 0)}
+         style={"--status-level:" + Math.min(8, (treeMetadata && treeMetadata.level) || 0)}
 >
   {#if showHeader}
     <StatusHeader {...params} />
@@ -72,9 +72,8 @@
         "sidebar mentions     mentions      mentions"
         "sidebar content      content       content"
         "sidebar card         card          card"
-        "sidebar media-grp    media-grp     media-grp"
+        "sidebar media        media         media"
         "sidebar poll         poll          poll"
-        "media   media        media         media"
         "quote   quote        quote         quote"
         "....... reactions    reactions     reactions"
         "....... toolbar      toolbar       toolbar"
@@ -104,7 +103,6 @@
       "mentions    mentions"
       "content     content"
       "card        card"
-      "media-grp   media-grp"
       "media       media"
       "poll        poll"
       "quote       quote"

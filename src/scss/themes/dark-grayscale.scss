@@ -26,3 +26,7 @@ $compose-background: lighten($main-theme-color, 52%);
 
   --nav-indicator-bg: #{$main-theme-color}; // special override on the nav indicator color
 }
+
+.theme-preview {
+  filter: var(--theme-preview-filter,none);
+}
