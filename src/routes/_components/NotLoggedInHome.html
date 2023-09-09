@@ -2,8 +2,8 @@
   <FreeTextLayout>
     <div class="not-logged-in-home">
       <div class="banner">
-        <SvgIcon className="not-logged-in-home-svg" href="#pinafore-logo" />
-        <h1>{intl.appName}</h1>
+        <SvgIcon className="not-logged-in-home-svg" href="#logo" />
+        <h1>{appName}</h1>
       </div>
       <div>
         {@html intl.homeDescription}
@@ -17,17 +17,20 @@
   .not-logged-in-home {
     margin: 10px;
   }
+
   .not-logged-in-home .banner {
     display: flex;
     align-items: center;
     margin: 0 0 30px;
   }
+
   :global(.not-logged-in-home-svg) {
     width: 70px;
     height: 70px;
     fill: var(--banner-fill);
     display: inline-block;
   }
+
   .not-logged-in-home h1 {
     color: var(--banner-fill);
     display: inline-block;
@@ -57,6 +60,11 @@
       FreeTextLayout,
       HiddenFromSSR,
       SvgIcon
+    },
+    data: () => {
+      return {
+        appName: 'Enafore in Space'
+      }
     }
   }
 </script>

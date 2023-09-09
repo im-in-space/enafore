@@ -4,7 +4,7 @@ import path from 'path'
 import config from 'sapper/config/webpack.js'
 import terser from './terser.config.js'
 import webpack from 'webpack'
-import { mode, dev, resolve, inlineThemeColors } from './shared.config.js'
+import { mode, dev, resolve, inlineThemeColors, isUpstream } from './shared.config.js'
 
 export default {
   entry: config.serviceworker.entry(),
@@ -38,7 +38,8 @@ export default {
       'process.env.SAPPER_TIMESTAMP': process.env.SAPPER_TIMESTAMP || Date.now(),
       'process.env.LOCALE': JSON.stringify(LOCALE),
       'process.env.IS_SERVICE_WORKER': 'true',
-      'process.env.THEME_COLORS': JSON.stringify(inlineThemeColors)
+      'process.env.THEME_COLORS': JSON.stringify(inlineThemeColors),
+      'process.env.UPSTREAM': isUpstream
     })
   ].filter(Boolean)
 }

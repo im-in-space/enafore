@@ -22,3 +22,4 @@ const commitCount = parseInt(execSync('git rev-list --count HEAD').toString().tr
 const commitHash = execSync('git rev-parse --short HEAD').toString().trim()
 export const version = 'v' + commitCount + '-' + commitHash
 export const inlineThemeColors = Object.fromEntries(themes.map(_ => ([_.name, _.color])))
+export const isUpstream = execSync('git remote get-url origin').toString().includes('easrng/enafore')

@@ -1,5 +1,5 @@
 export default [
-  { id: 'pinafore-logo', src: 'src/static/sailboat.svg', inline: true },
+  { id: 'logo', src: 'src/static/logo.svg', inline: true },
   { id: 'fa-arrow-left', src: 'src/thirdparty/font-awesome-svg-png/white/svg/arrow-left.svg' },
   { id: 'fa-bell', src: 'src/thirdparty/font-awesome-svg-png/white/svg/bell.svg', inline: true },
   { id: 'fa-bell-o', src: 'src/thirdparty/font-awesome-svg-png/white/svg/bell-o.svg' },
@@ -62,12 +62,12 @@ export default [
   { id: 'fa-hashtag', src: 'src/thirdparty/font-awesome-svg-png/white/svg/hashtag.svg' },
   { id: 'fa-bookmark', src: 'src/thirdparty/font-awesome-svg-png/white/svg/bookmark.svg' },
   { id: 'fa-code', src: 'src/thirdparty/font-awesome-svg-png/white/svg/code.svg' },
-  { id: 'fa-markdown', src: 'src/markdown.svg' },
+  { id: 'fa-markdown', src: 'src/static/markdown.svg' },
   { id: 'fa-file-text', src: 'src/thirdparty/font-awesome-svg-png/white/svg/file-text.svg' },
   { id: 'fa-file', src: 'src/thirdparty/font-awesome-svg-png/white/svg/file.svg' },
   { id: 'fa-bold', src: 'src/thirdparty/font-awesome-svg-png/white/svg/bold.svg' },
   { id: 'fa-circle', src: 'src/thirdparty/font-awesome-svg-png/white/svg/circle.svg' },
   { id: 'fa-language', src: 'src/thirdparty/font-awesome-svg-png/white/svg/language.svg' },
   { id: 'fa-quote-right', src: 'src/thirdparty/font-awesome-svg-png/white/svg/quote-right.svg' },
-  { id: 'misskey-logo', src: 'src/misskey.svg' }
+  { id: 'misskey-logo', src: 'src/static/misskey.svg' }
 ]

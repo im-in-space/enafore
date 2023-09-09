@@ -43,6 +43,7 @@ $scrollbar-track: #1e1e2d;
     --button-bg: #{$button-bg};
     --button-bg-hover: #{$button-bg-hover};
     --button-bg-active: #{$button-bg-hover};
+    --banner-fill: #{lighten($main-theme-color, 50%)};
 }
 
 .status-spoiler-button button {

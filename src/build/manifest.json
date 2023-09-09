@@ -1,6 +1,6 @@
 {
   "theme_color": "#4169e1",
-  "name": "{intl.longAppName}",
+  "name": "{intl.appName}",
   "short_name": "{intl.appName}",
   "description": "{intl.appDescription}",
   "categories": [
@@ -30,85 +30,29 @@
   },
   "icons": [
     {
-      "src": "icon-48.png",
-      "sizes": "48x48",
-      "type": "image/png"
+      "src": "/icons/favicon.ico",
+      "type": "image/x-icon",
+      "sizes": "16x16 32x32"
     },
+    { "src": "/icons/icon-192.png", "type": "image/png", "sizes": "192x192" },
+    { "src": "/icons/icon-512.png", "type": "image/png", "sizes": "512x512" },
     {
-      "src": "icon-72.png",
-      "sizes": "72x72",
-      "type": "image/png"
-    },
-    {
-      "src": "icon-96.png",
-      "sizes": "96x96",
-      "type": "image/png"
-    },
-    {
-      "src": "icon-144.png",
-      "sizes": "144x144",
-      "type": "image/png"
-    },
-    {
-      "src": "icon-192.png",
+      "src": "/icons/icon-192-maskable.png",
+      "type": "image/png",
       "sizes": "192x192",
-      "type": "image/png"
+      "purpose": "maskable"
     },
     {
-      "src": "icon-512.png",
+      "src": "/icons/icon-512-maskable.png",
+      "type": "image/png",
       "sizes": "512x512",
-      "type": "image/png"
-    },
-    {
-      "src": "icon-44.png",
-      "sizes": "44x44",
-      "type": "image/png"
-    },
-    {
-      "src": "icon-50.png",
-      "sizes": "50x50",
-      "type": "image/png"
-    },
-    {
-      "src": "icon-150.png",
-      "sizes": "150x150",
-      "type": "image/png"
-    },
-    {
-      "src": "icon-48-maskable.png",
-      "sizes": "48x48",
-      "type": "image/png",
       "purpose": "maskable"
     },
     {
-      "src": "icon-72-maskable.png",
-      "sizes": "72x72",
-      "type": "image/png",
-      "purpose": "maskable"
-    },
-    {
-      "src": "icon-96-maskable.png",
-      "sizes": "96x96",
-      "type": "image/png",
-      "purpose": "maskable"
-    },
-    {
-      "src": "icon-144-maskable.png",
-      "sizes": "144x144",
-      "type": "image/png",
-      "purpose": "maskable"
-    },
-    {
-      "src": "icon-192-maskable.png",
+      "src": "/icon-push-badge.png",
       "sizes": "192x192",
       "type": "image/png",
-      "purpose": "maskable"
-    },
-    {
-      "src": "icon-512-maskable.png",
-      "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "maskable"
+      "purpose": "monochrome"
     }
   ],
   "shortcuts": [

@@ -72,6 +72,7 @@
         this.store.set({ focusSearchInput: false }) // reset
         this.focusSearchInput()
       }
+      this.store.set({ currentTimeline: 'search' })
     },
     store: () => store,
     components: {
