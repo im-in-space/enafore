@@ -76,7 +76,7 @@ export function navComputations (store) {
         {
           name: 'home',
           href: '/',
-          svg: '#pinafore-logo',
+          svg: '#logo',
           label: 'intl.home'
         },
         {

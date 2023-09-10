@@ -27,7 +27,6 @@ export default {
     </p>
   `,
   // Manifest
-  longAppName: 'Enafore para Mastodon',
   newStatus: 'Nuevo toot',
   // Generic UI
   loading: 'Cargando',

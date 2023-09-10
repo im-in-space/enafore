@@ -8,6 +8,7 @@ import { putMediaMetadata } from '../_api/media.js'
 import { uniqBy } from '../_thirdparty/lodash/objects.js'
 import { scheduleIdleTask } from '../_utils/scheduleIdleTask.js'
 import { formatIntl } from '../_utils/formatIntl.js'
+import { prepareToRehydrate, rehydrateStatusOrNotification } from './rehydrateStatusOrNotification.js'
 
 export async function insertHandleForReply (statusId) {
   const { currentInstance } = store.get()
@@ -56,9 +57,11 @@ export async function postStatus (realm, text, inReplyToId, mediaIds,
       }
     }))
     if (editId) {
+      prepareToRehydrate()
       const status = await putStatusToServer(currentInstance, accessToken, editId, text,
         inReplyToId, mediaIds, sensitive, spoilerText, visibility, poll, contentType, quoteId)
       await database.insertStatus(currentInstance, status)
+      await rehydrateStatusOrNotification({ status })
       emit('statusUpdated', status)
       emit('postedStatus', realm, inReplyToUuid)
     } else {

@@ -29,7 +29,6 @@ export default {
     </p>
   `,
   // Manifest
-  longAppName: 'Enafore для Mastodon',
   newStatus: 'Новая запись',
   // Generic UI
   loading: 'Загрузка',

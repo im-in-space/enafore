@@ -1,3 +1,6 @@
+<svelte:head>
+  <link rel="canonical" href={canonical}>
+</svelte:head>
 <Nav {page} />
 
 <div class="main-content">
@@ -17,6 +20,8 @@
 <script>
   import { store } from './_store/store.js'
   import { observe } from 'svelte-extras'
+  import { checkStats } from './_actions/stats.js'
+  import { scheduleIdleTask } from './_utils/scheduleIdleTask.js'
 
   export default {
     components: {
@@ -36,7 +41,9 @@
     store: () => store,
     computed: {
       page: ({ child }) => child.props.path.slice(1) || 'home',
-      infiniteScrollPage: ({ $isUserLoggedIn, page }) => $isUserLoggedIn && !page.startsWith('settings')
+      path: ({ child }) => child.props.path,
+      infiniteScrollPage: ({ $isUserLoggedIn, page }) => $isUserLoggedIn && !page.startsWith('settings'),
+      canonical: ({ path }) => 'https://pf.im-in.space/' + path
     },
     methods: {
       observe

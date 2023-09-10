@@ -11,7 +11,7 @@ export function registerApplication (instanceName, redirectUri) {
     client_name: CLIENT_NAME,
     redirect_uris: redirectUri,
     scopes: SCOPES,
-    website: WEBSITE
+    website: process.browser ? location.origin : WEBSITE
   }, null, { timeout: WRITE_TIMEOUT })
 }
 

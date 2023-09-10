@@ -1,12 +1,17 @@
 import { get } from '../_utils/lodash-lite.js'
 import { mark, stop } from '../_utils/marks.js'
-import { decode as decodeBlurhash, init as initBlurhash } from '../_utils/blurhash.js'
+import {
+  decode as decodeBlurhash,
+  init as initBlurhash
+} from '../_utils/blurhash.js'
 import { scheduleIdleTask } from '../_utils/scheduleIdleTask.js'
 import { statusHtmlToPlainText } from '../_utils/statusHtmlToPlainText.js'
 
 function getActualStatus (statusOrNotification) {
-  return get(statusOrNotification, ['status']) ||
+  return (
+    get(statusOrNotification, ['status']) ||
     get(statusOrNotification, ['notification', 'status'])
+  )
 }
 
 export function prepareToRehydrate () {
@@ -28,13 +33,16 @@ async function decodeAllBlurhashes (statusOrNotification) {
     .filter(_ => _.blurhash)
   if (mediaWithBlurhashes.length) {
     mark(`decodeBlurhash-${status.id}`)
-    await Promise.all(mediaWithBlurhashes.map(async media => {
-      try {
-        media.decodedBlurhash = await decodeBlurhash(media.blurhash)
-      } catch (err) {
-        console.warn('Could not decode blurhash, ignoring', err)
-      }
-    }))
+    await Promise.all(
+      mediaWithBlurhashes.map(async media => {
+        try {
+          media.decodedBlurhash = await decodeBlurhash(media.blurhash)
+          console.log('decoded blurhash for', media)
+        } catch (err) {
+          console.warn('Could not decode blurhash, ignoring', err)
+        }
+      })
+    )
     stop(`decodeBlurhash-${status.id}`)
   }
 }
@@ -57,11 +65,35 @@ async function calculatePlainTextContent (statusOrNotification) {
   })
 }
 
+export const rehydrated = Symbol('rehydrated')
+
+function markAsRehydrated (statusOrNotification) {
+  const status = getActualStatus(statusOrNotification)
+  if (!status) {
+    return
+  }
+  const originalStatus = status.reblog ? status.reblog : status
+  originalStatus[rehydrated] = true
+}
+
+function rehydrateQuote (statusOrNotification) {
+  const status = getActualStatus(statusOrNotification)
+  if (!status) {
+    return
+  }
+  const originalStatus = status.reblog ? status.reblog : status
+  if (originalStatus.quote) {
+    return rehydrateStatusOrNotification({ status: originalStatus.quote })
+  }
+}
+
 // Do stuff that we need to do when the status or notification is fetched from the database,
 // like calculating the blurhash or calculating the plain text content
 export async function rehydrateStatusOrNotification (statusOrNotification) {
   await Promise.all([
     decodeAllBlurhashes(statusOrNotification),
-    calculatePlainTextContent(statusOrNotification)
+    calculatePlainTextContent(statusOrNotification),
+    rehydrateQuote(statusOrNotification)
   ])
+  markAsRehydrated(statusOrNotification)
 }

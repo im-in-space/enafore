@@ -8,7 +8,7 @@ import {
   setWebShareData,
   closeKeyValIDBConnection
 } from './routes/_database/webShare.js'
-import { getLastTheme } from './routes/_database/theme.js'
+import { getLastTheme, getIconColors } from './routes/_database/theme.js'
 import { getKnownInstances } from './routes/_database/knownInstances.js'
 import { basename } from './routes/_api/utils.js'
 
@@ -125,7 +125,17 @@ self.addEventListener('fetch', event => {
             (await caches.match('/manifest.json')) ||
             (await fetch('/manifest.json'))
           ).json()
-          manifest.theme_color = process.env.THEME_COLORS[await getLastTheme()] || manifest.theme_color
+          manifest.theme_color =
+            process.env.THEME_COLORS[await getLastTheme()] ||
+            manifest.theme_color
+          if ((await getIconColors()) === 'alt') {
+            for (const icon of manifest.icons) {
+              icon.src = icon.src.replace(
+                /^(\/icons\/(?:apple-touch-icon|icon-(?:512|192)(?:-maskable)?)).png$/,
+                '$1-alt.png'
+              )
+            }
+          }
           await closeKeyValIDBConnection() // don't need to keep the IDB connection open
           return new Response(JSON.stringify(manifest), {
             headers: {

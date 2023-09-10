@@ -47,6 +47,7 @@
         const { accessToken, currentVerifyCredentials } = this.store.get()
         const statuses = await getPinnedStatuses(currentInstance, accessToken, currentVerifyCredentials.id)
         this.set({ statuses })
+        this.store.set({ currentTimeline: 'pinned' })
       } catch (e) {
         /* no await */ toast.say(formatIntl('intl.error', { error: (e.name || '') + ' ' + (e.message || '') }))
       } finally {
