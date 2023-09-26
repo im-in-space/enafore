@@ -41,7 +41,6 @@
     store: () => store,
     computed: {
       page: ({ child }) => child.props.path.slice(1) || 'home',
-      path: ({ child }) => child.props.path,
       infiniteScrollPage: ({ $isUserLoggedIn, page }) => $isUserLoggedIn && !page.startsWith('settings'),
       canonical: ({ path }) => 'https://pf.im-in.space/' + path
     },

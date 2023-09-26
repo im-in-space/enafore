@@ -252,9 +252,11 @@ textarea {
 .external-link-with-icon .external-link-svg,
 .status-edited-svg {
   margin-left: 4px;
-  width: 14px;
-  height: 14px;
+  width: 15px;
+  height: 15px;
   fill: var(--deemphasized-text-color);
+  vertical-align: middle;
+  margin-bottom: 2px;
 }
 
 .invisible {

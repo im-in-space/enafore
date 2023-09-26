@@ -34,6 +34,7 @@ export async function deleteAndRedraft (status) {
     },
     sensitive: !!status.sensitive,
     quoteId: status.quote_id,
+    localOnly: status.local_only,
     quoteHandle: status.quote && '@' + status.quote.account.acct
   })
   const showComposeDialog = await dialogPromise

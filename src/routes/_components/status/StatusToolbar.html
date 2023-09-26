@@ -175,28 +175,29 @@
         inReplyToId ? 'intl.replyToThread' : 'intl.reply'
       ),
       replyIcon: ({ inReplyToId }) => inReplyToId ? '#fa-reply-all' : '#fa-reply',
-      reblogLabel: ({ visibility }) => {
+      isUser: ({ originalAccountId, $currentVerifyCredentials }) => $currentVerifyCredentials && originalAccountId === $currentVerifyCredentials.id,
+      reblogLabel: ({ visibility, isUser }) => {
         switch (visibility) {
           case 'private':
-            return 'intl.cannotReblogFollowersOnly'
+            return isUser ? 'intl.reblog' + ' (' + 'intl.followersOnly' + ')' : 'intl.cannotReblogFollowersOnly'
           case 'direct':
             return 'intl.cannotReblogDirectMessage'
           default:
             return 'intl.reblog'
         }
       },
-      reblogIcon: ({ visibility }) => {
+      reblogIcon: ({ visibility, isUser }) => {
         switch (visibility) {
           case 'private':
-            return '#fa-lock'
+            return isUser ? '#fa-retweet-lock' : '#fa-lock'
           case 'direct':
             return '#fa-envelope'
           default:
             return '#fa-retweet'
         }
       },
-      reblogDisabled: ({ visibility }) => {
-        return visibility === 'private' || visibility === 'direct'
+      reblogDisabled: ({ visibility, isUser }) => {
+        return visibility === 'direct' || (visibility === 'private' && !isUser)
       },
       reblogged: ({ originalStatusId, $currentStatusModifications, originalStatus }) => {
         if ($currentStatusModifications && originalStatusId in $currentStatusModifications.reblogs) {

@@ -7,7 +7,6 @@ import { basename } from '../routes/_api/utils.js'
 import { onUserIsLoggedOut } from '../routes/_actions/onUserIsLoggedOut.js'
 import { storeLite } from '../routes/_store/storeLite.js'
 import { isIOSPre12Point2 } from '../routes/_utils/userAgent/isIOSPre12Point2.js'
-import { isMac } from '../routes/_utils/userAgent/isMac.js'
 
 const {
   currentInstance,
@@ -57,11 +56,6 @@ if (bottomNav) {
 if (centerNav) {
   document.getElementById('theCenterNavStyle')
     .setAttribute('media', 'all') // enables the style
-}
-
-// hack to make the scrollbars rounded only on macOS
-if (isMac()) {
-  document.documentElement.style.setProperty('--scrollbar-border-radius', '50px')
 }
 
 // Versions of iOS Safari before iOS 12.2 do not work properly as a PWA

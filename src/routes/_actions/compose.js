@@ -28,7 +28,7 @@ export async function insertHandleForReply (statusId) {
 
 export async function postStatus (realm, text, inReplyToId, mediaIds,
   sensitive, spoilerText, visibility,
-  mediaDescriptions, inReplyToUuid, poll, mediaFocalPoints, contentType, quoteId, editId) {
+  mediaDescriptions, inReplyToUuid, poll, mediaFocalPoints, contentType, quoteId, localOnly, editId) {
   const { currentInstance, accessToken, online } = store.get()
 
   if (!online) {
@@ -59,14 +59,14 @@ export async function postStatus (realm, text, inReplyToId, mediaIds,
     if (editId) {
       prepareToRehydrate()
       const status = await putStatusToServer(currentInstance, accessToken, editId, text,
-        inReplyToId, mediaIds, sensitive, spoilerText, visibility, poll, contentType, quoteId)
+        inReplyToId, mediaIds, sensitive, spoilerText, visibility, poll, contentType, quoteId, localOnly)
       await database.insertStatus(currentInstance, status)
       await rehydrateStatusOrNotification({ status })
       emit('statusUpdated', status)
       emit('postedStatus', realm, inReplyToUuid)
     } else {
       const status = await postStatusToServer(currentInstance, accessToken, text,
-        inReplyToId, mediaIds, sensitive, spoilerText, visibility, poll, contentType, quoteId)
+        inReplyToId, mediaIds, sensitive, spoilerText, visibility, poll, contentType, quoteId, localOnly)
       addStatusOrNotification(currentInstance, 'home', status)
       emit('postedStatus', realm, inReplyToUuid)
     }

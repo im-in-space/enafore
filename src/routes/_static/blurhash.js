@@ -1,1 +1,1 @@
-export const BLURHASH_RESOLUTION = 32
+export const RESOLUTION = 32

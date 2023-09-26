@@ -1,19 +1,11 @@
-<a class='main-nav-link focus-fix {selected ? "selected" : ""}'
-   aria-label={ariaLabel}
-   aria-current={selected}
-   on:click="onClick(event)"
-   rel="prefetch"
-   {href} >
+<a class='main-nav-link focus-fix {selected ? "selected" : ""}' aria-label={ariaLabel} aria-current={selected}
+  on:click="onClick(event)" rel="prefetch" {href}>
   <div class="nav-icon-and-label">
-    <NavItemIcon
-      {showBadge}
-      {badgeNumber}
-      {svg}
-    />
+    <NavItemIcon {showBadge} {badgeNumber} {svg} />
     <span class="nav-link-label">{label}</span>
   </div>
-  <div class="nav-indicator-wrapper {animationClasses}">
-    <div class="nav-indicator" ref:indicator></div>
+  <div class="nav-indicator-wrapper" ref:indicator>
+    <div class="nav-indicator"></div>
   </div>
 </a>
 <style>
@@ -35,11 +27,6 @@
     flex: 1;
   }
 
-  :global(body:not(.reduce-motion)) .nav-icon-and-label {
-    transition: transform 333ms ease-in;
-    will-change: transform;
-  }
-
   .main-nav-link.selected {
     background: var(--nav-a-selected-bg);
   }
@@ -49,25 +36,19 @@
   }
 
   .nav-indicator-wrapper {
-    width: 100%;
     height: var(--nav-indicator-height);
     display: flex;
     position: absolute;
     bottom: 0;
     left: 0;
+    right: 0;
     z-index: 1;
   }
 
   .nav-indicator {
     flex: 1;
-    transform-origin: left;
     border-top-right-radius: 1rem;
     border-top-left-radius: 1rem;
-  }
-
-  .nav-indicator-wrapper.animating > .nav-indicator {
-    transition: transform 333ms ease-in-out;
-    will-change: transform;
   }
 
   .main-nav-link.selected .nav-indicator {
@@ -127,11 +108,9 @@
   import { store } from '../_store/store.js'
   import { on, emit } from '../_utils/eventBus.js'
   import { mark, stop } from '../_utils/marks.js'
-  import { doubleRAF } from '../_utils/doubleRAF.js'
   import { scrollToTop } from '../_utils/scrollToTop.js'
   import { normalizePageName } from '../_utils/normalizePageName.js'
   import { formatIntl } from '../_utils/formatIntl.js'
-  import { classname } from '../_utils/classname.js'
 
   export default {
     oncreate () {
@@ -142,19 +121,15 @@
           this.animatePart1({ toPage })
         }
       })
-      on('animateNavPart2', this, ({ toPage, fromRect }) => {
+      on('animateNavPart2', this, ({ toPage, fromRect, fromLi }) => {
         const { name } = this.get()
         const { reduceMotion } = this.store.get()
         if (toPage === name && !reduceMotion) {
-          this.animatePart2({ fromRect })
+          this.animatePart2({ fromRect, fromLi })
         }
       })
     },
     store: () => store,
-    data: () => ({
-      preAnimating: false,
-      animating: false
-    }),
     computed: {
       selected: ({ page, name }) => name === normalizePageName(page),
       ariaLabel: ({ selected, name, label, $numberOfNotifications, $numberOfFollowRequests }) => {
@@ -173,9 +148,6 @@
       ),
       badgeNumber: ({ name, $numberOfNotifications, $numberOfFollowRequests }) => (
         (name === 'notifications' && $numberOfNotifications) || (name === 'community' && $numberOfFollowRequests) || 0
-      ),
-      animationClasses: ({ animating, preAnimating }) => classname(
-        animating && 'animating'
       )
     },
     methods: {
@@ -194,26 +166,42 @@
         mark('animateNavPart1 gBCR')
         const fromRect = indicator.getBoundingClientRect()
         stop('animateNavPart1 gBCR')
-        emit('animateNavPart2', { fromRect, toPage })
+        emit('animateNavPart2', { fromRect, fromLi: indicator.closest('li'), toPage })
       },
-      animatePart2 ({ fromRect }) {
+      async animatePart2 ({ fromRect, fromLi }) {
         const { indicator } = this.refs
+        const toLi = indicator.closest('li')
+        const affected = [fromLi, toLi]
+        const labels = affected.map(e => e.querySelector('.nav-icon-and-label'))
         mark('animateNavPart2 gBCR')
         const toRect = indicator.getBoundingClientRect()
         stop('animateNavPart2 gBCR')
-        const translateX = fromRect.left - toRect.left
-        const scaleX = fromRect.width / toRect.width
-        indicator.style.transform = `translateX(${translateX}px) scaleX(${scaleX})`
-        const onTransitionEnd = () => {
-          indicator.removeEventListener('transitionend', onTransitionEnd)
-          this.set({ animating: false, preAnimating: false })
-        }
-        indicator.addEventListener('transitionend', onTransitionEnd)
-        this.set({ preAnimating: true }) // avoids a flicker before the doubleRAF
-        doubleRAF(() => {
-          this.set({ animating: true })
-          indicator.style.transform = ''
+        const animation = indicator.animate([
+          { left: (fromRect.left - toRect.left) + 'px', right: (toRect.right - fromRect.right) + 'px' },
+          { left: '0rem', right: '0rem' }
+        ], {
+          duration: 333,
+          iterations: 1,
+          easing: 'ease-in-out'
         })
+        let lastAnimationFrame
+        const update = () => {
+          const { bottomNav } = this.store.get()
+          lastAnimationFrame = null
+          const currentRect = indicator.getBoundingClientRect()
+          for (let i = 0; i < affected.length; i++) {
+            const tabRect = affected[i].getBoundingClientRect()
+            const intersectionWidth = Math.max(0, Math.min(currentRect.right, tabRect.right) - Math.max(currentRect.left, tabRect.left))
+            labels[i].style.transform = `translateY(calc(${intersectionWidth / tabRect.width || 0} * var(--nav-indicator-height) * ${bottomNav ? '' : '-'}0.5))`
+          }
+          lastAnimationFrame = requestAnimationFrame(update)
+        }
+        update()
+        await animation.finished
+        if (lastAnimationFrame) window.cancelAnimationFrame(lastAnimationFrame)
+        for (const label of labels) {
+          label.style.transform = ''
+        }
       }
     },
     components: {

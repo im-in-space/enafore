@@ -6,6 +6,7 @@ import {
 } from '../_utils/blurhash.js'
 import { scheduleIdleTask } from '../_utils/scheduleIdleTask.js'
 import { statusHtmlToPlainText } from '../_utils/statusHtmlToPlainText.js'
+import { computeHashtagBarForStatus } from '../_utils/hashtagBar.js'
 
 function getActualStatus (statusOrNotification) {
   return (
@@ -87,9 +88,25 @@ function rehydrateQuote (statusOrNotification) {
   }
 }
 
+function setHashtagBar (statusOrNotification) {
+  const status = getActualStatus(statusOrNotification)
+  if (!status) {
+    return
+  }
+  const originalStatus = status.reblog ? status.reblog : status
+  try {
+    const { statusContent, hashtagsInBar } = computeHashtagBarForStatus(originalStatus)
+    originalStatus.content = statusContent
+    originalStatus.hashtagsInBar = hashtagsInBar
+  } catch (e) {
+    console.warn('failed to computeHashtagBarForStatus', originalStatus, e)
+  }
+}
+
 // Do stuff that we need to do when the status or notification is fetched from the database,
 // like calculating the blurhash or calculating the plain text content
 export async function rehydrateStatusOrNotification (statusOrNotification) {
+  setHashtagBar(statusOrNotification)
   await Promise.all([
     decodeAllBlurhashes(statusOrNotification),
     calculatePlainTextContent(statusOrNotification),

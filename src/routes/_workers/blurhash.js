@@ -1,6 +1,6 @@
-import { decode as decodeBlurHash } from 'blurhash'
+import { decodeBlurHash } from 'fast-blurhash'
 import registerPromiseWorker from 'promise-worker/register.js'
-import { BLURHASH_RESOLUTION as RESOLUTION } from '../_static/blurhash.js'
+import { RESOLUTION } from '../_static/blurhash.js'
 import { isChromePre82 } from '../_utils/userAgent/isChromePre82.js'
 
 // Disabled in Chrome because convertToBlob() is slow

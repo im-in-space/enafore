@@ -1,6 +1,6 @@
 <ul class="generic-dialog-list">
   {#each items as item (item.key)}
-  <li class="generic-dialog-list-item">
+  <li class="generic-dialog-list-item" data-key={item.key}>
     <button
         class="generic-dialog-list-button focus-fix"
         on:click="fire('click', item)">

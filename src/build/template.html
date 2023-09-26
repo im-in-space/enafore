@@ -40,8 +40,8 @@
       border-bottom-left-radius: 1rem;
       border-bottom-right-radius: 1rem;
     }
-    .main-nav-link.selected .nav-icon-and-label {
-      transform: translateY(calc(var(--nav-indicator-height) * 0.5)) !important;
+    .main-nav-link.selected:not(:root) .nav-icon-and-label:not(:root):not(:root) {
+      transform: translateY(calc(var(--nav-indicator-height) * 0.5));
     }
     @supports not (height: 1dvh) {
       /* In browsers that don't support dvh, use the large-small-dynamic-viewport-units-polyfill */

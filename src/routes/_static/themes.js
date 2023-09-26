@@ -30,6 +30,12 @@ const themes = [
     color: 'hotpink'
   },
   {
+    name: 'tangerine',
+    label: 'intl.themeTangerine',
+    dark: false,
+    color: '#df5815'
+  },
+  {
     name: 'oaken',
     label: 'intl.themeOaken',
     dark: false,
@@ -75,7 +81,13 @@ const themes = [
     name: 'punk',
     label: 'intl.themePunk',
     dark: true,
-    color: '#e04e41'
+    color: '#ff5050'
+  },
+  {
+    name: 'ember',
+    label: 'intl.themeEmber',
+    dark: true,
+    color: '#f76522'
   },
   {
     name: 'riot',

@@ -1,3 +1,4 @@
+<span class="status-relative-date-wrap">
 <a id={elementId}
    class="status-relative-date {isStatusInNotification ? 'status-in-notification' : '' }"
    href="/statuses/{originalStatusId}"
@@ -15,8 +16,12 @@
   <SvgIcon className="status-edited-svg" href="#fa-pencil" />
   {/if}
 </a>
+{#if localOnly}
+<span title="{intl.localOnly}"><SvgIcon className="status-edited-svg" href="#fa-home"/></span>
+{/if}
+</span>
 <style>
-  .status-relative-date {
+  .status-relative-date-wrap {
     grid-area: relative-date;
     align-self: center;
     margin-left: 5px;

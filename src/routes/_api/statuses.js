@@ -3,7 +3,7 @@ import { DEFAULT_TIMEOUT, get, post, put, WRITE_TIMEOUT } from '../_utils/ajax.j
 
 // post is create, put is edit
 async function postOrPutStatus (url, accessToken, method, text, inReplyToId, mediaIds,
-  sensitive, spoilerText, visibility, poll, contentType, quoteId) {
+  sensitive, spoilerText, visibility, poll, contentType, quoteId, localOnly) {
   const body = {
     status: text,
     media_ids: mediaIds,
@@ -11,6 +11,7 @@ async function postOrPutStatus (url, accessToken, method, text, inReplyToId, med
     spoiler_text: spoilerText,
     content_type: contentType,
     quote_id: quoteId,
+    local_only: localOnly,
     visibility,
     poll,
     ...(method === 'post' && {
@@ -23,7 +24,7 @@ async function postOrPutStatus (url, accessToken, method, text, inReplyToId, med
   for (const key of Object.keys(body)) {
     const value = body[key]
     // remove any unnecessary fields, except 'status' which must at least be an empty string
-    if (key !== 'status' && (!value || (Array.isArray(value) && !value.length))) {
+    if (key !== 'status' && key !== 'local_only' && (!value || (Array.isArray(value) && !value.length))) {
       delete body[key]
     }
   }
@@ -34,17 +35,17 @@ async function postOrPutStatus (url, accessToken, method, text, inReplyToId, med
 }
 
 export async function postStatus (instanceName, accessToken, text, inReplyToId, mediaIds,
-  sensitive, spoilerText, visibility, poll, contentType, quoteId) {
+  sensitive, spoilerText, visibility, poll, contentType, quoteId, localOnly) {
   const url = `${basename(instanceName)}/api/v1/statuses`
   return postOrPutStatus(url, accessToken, 'post', text, inReplyToId, mediaIds,
-    sensitive, spoilerText, visibility, poll, contentType, quoteId)
+    sensitive, spoilerText, visibility, poll, contentType, quoteId, localOnly)
 }
 
 export async function putStatus (instanceName, accessToken, id, text, inReplyToId, mediaIds,
-  sensitive, spoilerText, visibility, poll, contentType, quoteId) {
+  sensitive, spoilerText, visibility, poll, contentType, quoteId, localOnly) {
   const url = `${basename(instanceName)}/api/v1/statuses/${id}`
   return postOrPutStatus(url, accessToken, 'put', text, inReplyToId, mediaIds,
-    sensitive, spoilerText, visibility, poll, contentType, quoteId)
+    sensitive, spoilerText, visibility, poll, contentType, quoteId, localOnly)
 }
 
 export async function getStatusContext (instanceName, accessToken, statusId) {

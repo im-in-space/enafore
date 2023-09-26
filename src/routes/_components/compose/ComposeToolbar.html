@@ -26,7 +26,7 @@
     <IconButton
       className="compose-toolbar-button"
       label={postPrivacyLabel}
-      href={postPrivacy.icon}
+      href={actualPostPrivacy.icon}
       on:click="onPostPrivacyClick()"
       disabled={!!editId}
     />
@@ -45,6 +45,7 @@
       pressable={true}
       pressed={contentWarningShown}
     />
+    <ComposeLengthIndicator {length} {overLimit} />
   </div>
   <input ref:input
          on:change="onFileChange(event)"
@@ -61,9 +62,10 @@
   .compose-box-toolbar-items {
     display: flex;
     align-items: center;
+    flex-wrap: wrap;
   }
 
-  @media (max-width: 320px) {
+  @media (max-width: 340px) {
     :global(button.icon-button.compose-toolbar-button) {
       padding-left: 5px;
       padding-right: 5px;
@@ -89,19 +91,25 @@
   import { enablePoll, disablePoll } from '../../_actions/composePoll.js'
   import { updateCustomEmojiForInstance } from '../../_actions/emoji.js'
   import { formatIntl } from '../../_utils/formatIntl.js'
+  import ComposeLengthIndicator from './ComposeLengthIndicator.html'
 
   export default {
     components: {
-      IconButton
+      IconButton,
+      ComposeLengthIndicator
     },
     data: () => ({
       mediaAccept
     }),
     computed: {
-      postPrivacyLabel: ({ postPrivacy, editId }) => editId
-        ? postPrivacy.label
+      actualPostPrivacy: ({ postPrivacy, localOnly }) => ({
+        icon: postPrivacy.icon + (localOnly ? '-home' : ''),
+        label: postPrivacy.label + (localOnly ? ', ' + 'intl.localOnly' : '')
+      }),
+      postPrivacyLabel: ({ actualPostPrivacy, editId }) => editId
+        ? actualPostPrivacy.label
         : (
-            formatIntl('intl.postPrivacyLabel', { label: postPrivacy.label })
+            formatIntl('intl.postPrivacyLabel', { label: actualPostPrivacy.label })
           ),
       contentTypeIcon: ({ contentType }) => (KNOWN_CONTENT_TYPES[contentType] || KNOWN_CONTENT_TYPES.default).icon
     },

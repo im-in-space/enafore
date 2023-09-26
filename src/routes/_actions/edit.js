@@ -33,6 +33,7 @@ export async function edit (status) {
     },
     sensitive: !!status.sensitive,
     quoteId: status.quote_id,
+    localOnly: status.local_only,
     quoteHandle: status.quote && '@' + status.quote.account.acct,
     editId: status.id
   })

@@ -73,6 +73,11 @@
       {intl.disableFollowRequestCount}
     </label>
     <label class="setting-group">
+      <input type="checkbox" id="choice-hide-long-posts"
+             bind:checked="$hideLongPosts" on:change="onChange(event)">
+      {intl.hideLongPosts}
+    </label>
+    <label class="setting-group">
       <input type="checkbox" id="choice-disable-decomoji-converter"
              bind:checked="$disableDecomojiConverter" on:change="onChange(event)">
       {intl.disableDecomojiConverter}

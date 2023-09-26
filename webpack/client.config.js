@@ -23,6 +23,9 @@ const output = Object.assign(config.client.output(), {
   filename: dev ? '[fullhash]/[id].js' : '[id].[contenthash].[name].js',
   chunkFilename: dev ? '[fullhash]/[id].js' : '[id].[contenthash].[name].js'
 })
+if (output.publicPath[0] !== '/') {
+  output.publicPath = '/' + output.publicPath
+}
 
 process.on('unhandledRejection', err => {
   // TODO: seems to be a Webpack Bundle Analyzer error we can safely ignore

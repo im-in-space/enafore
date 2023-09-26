@@ -20,6 +20,7 @@ const persistedState = {
   bottomNav: false,
   centerNav: false,
   disableFollowRequestCount: false,
+  hideLongPosts: true,
   disableFavCounts: false,
   disableFollowerCounts: false,
   disableHotkeys: false,
