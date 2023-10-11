@@ -351,12 +351,8 @@ export default {
   </p>
 
   <p>
-    Enafore is a static site hosted on Github Pages. All data is stored locally in your browser and shared with the fediverse
+    Enafore is a static site. All data is stored locally in your browser and shared with the fediverse
     instance(s) you connect to.
-  </p>
-
-  <p>
-    Approximately once per day Enafore will send a request proxied through your instance so I can collect some general statistics. None of your personal information is sent. Unless you're on a single user instance.
   </p>
 
   <h2>Credits</h2>
