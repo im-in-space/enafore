@@ -1,11 +1,5 @@
 import resolve from '@rollup/plugin-node-resolve'
 
-// Moved Rollup into _thirdparty to avoid issues with "type": "module"
-// Build with:
-// yarn add @rollup/plugin-node-resolve lodash-es
-// npx rollup -c ./src/routes/_thirdparty/lodash/rollup.config.js
-// yarn remove @rollup/plugin-node-resolve lodash-es
-
 function createConfig (file) {
   const input = `./src/routes/_thirdparty/lodash/${file}`
   return {

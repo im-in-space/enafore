@@ -110,103 +110,88 @@ self.addEventListener('fetch', event => {
   const req = event.request
   const url = new URL(req.url)
 
-  // don't try to handle e.g. data: URIs
-  if (!url.protocol.startsWith('http')) {
+  const sameOrigin = url.origin === self.origin
+  if (!(sameOrigin && url.protocol.startsWith('http'))) {
     return
   }
-
   event.respondWith(
     (async () => {
-      const sameOrigin = url.origin === self.origin
-
-      if (sameOrigin) {
-        if (url.pathname === '/manifest.json') {
-          const manifest = await (
-            (await caches.match('/manifest.json')) ||
-            (await fetch('/manifest.json'))
-          ).json()
-          manifest.theme_color =
-            process.env.THEME_COLORS[await getLastTheme()] ||
-            manifest.theme_color
-          if ((await getIconColors()) === 'alt') {
-            for (const icon of manifest.icons) {
-              icon.src = icon.src.replace(
-                /^(\/icons\/(?:apple-touch-icon|icon-(?:512|192)(?:-maskable)?)).png$/,
-                '$1-alt.png'
-              )
-            }
-          }
-          await closeKeyValIDBConnection() // don't need to keep the IDB connection open
-          return new Response(JSON.stringify(manifest), {
-            headers: {
-              'content-type': 'application/json'
-            }
-          })
-        }
-        if (url.pathname === '/theme-sw.css') {
-          const theme = await getLastTheme()
-          if (theme) {
-            const response = await caches.match('/theme-' + theme + '.css')
-            if (response) {
-              return response
-            }
+      if (url.pathname === '/manifest.json') {
+        const manifest = await (
+          (await caches.match('/manifest.json')) ||
+          (await fetch('/manifest.json'))
+        ).json()
+        manifest.theme_color =
+          process.env.THEME_COLORS[await getLastTheme()] ||
+          manifest.theme_color
+        manifest.name = manifest.short_name = process.env.UPSTREAM ? 'Enafore' : location.hostname
+        if ((await getIconColors()) === 'alt') {
+          for (const icon of manifest.icons) {
+            icon.src = icon.src.replace(
+              /^(\/icons\/(?:apple-touch-icon|icon-(?:512|192)(?:-maskable)?)).png$/,
+              '$1-alt.png'
+            )
           }
         }
-        if (req.method === 'POST' && url.pathname === '/share') {
-          // handle Web Share Target requests (see manifest.json)
-          const formData = await req.formData()
-          const title = formData.get('title')
-          const text = formData.get('text')
-          const url = formData.get('url')
-          const file = formData.get('file')
-          await setWebShareData({ title, text, url, file })
-          await closeKeyValIDBConnection() // don't need to keep the IDB connection open
-          return Response.redirect(
-            '/?pwa=true&compose=true', // pwa=true because this can only be invoked from a PWA
-            303 // 303 recommended by https://web.dev/web-share-target/
-          )
-        }
-
-        if (url.pathname.startsWith('/nitter/')) {
-          return Response.redirect(
-            'https://farside.link/nitter/' +
-              decodeURIComponent(url.pathname.slice('/nitter/'.length)),
-            303
-          )
-        }
-
-        // always serve webpack-generated resources and
-        // static from the cache if possible
-        const response = await caches.match(req)
-        if (response) {
-          return response
-        }
-
-        for (const { regex, cache } of ON_DEMAND_CACHE) {
-          if (regex.test(url.pathname)) {
-            // cache this on-demand
-            const response = await fetch(req)
-            if (response && response.status >= 200 && response.status < 300) {
-              const clonedResponse = response.clone()
-              /* no await */
-              caches.open(cache).then(cache => cache.put(req, clonedResponse))
-            }
-            return response
+        await closeKeyValIDBConnection() // don't need to keep the IDB connection open
+        return new Response(JSON.stringify(manifest), {
+          headers: {
+            'content-type': 'application/json'
           }
-        }
-
-        // for routes, serve the /service-worker-index.html file from the most recent
-        // static cache
-        if (routes.find(route => route.pattern.test(url.pathname))) {
-          const response = await caches.match('/service-worker-index.html')
+        })
+      }
+      if (url.pathname === '/theme-sw.css') {
+        const theme = await getLastTheme()
+        if (theme) {
+          const response = await caches.match('/theme-' + theme + '.css')
           if (response) {
             return response
           }
         }
       }
+      if (req.method === 'POST' && url.pathname === '/share') {
+        // handle Web Share Target requests (see manifest.json)
+        const formData = await req.formData()
+        const title = formData.get('title')
+        const text = formData.get('text')
+        const url = formData.get('url')
+        const file = formData.get('file')
+        await setWebShareData({ title, text, url, file })
+        await closeKeyValIDBConnection() // don't need to keep the IDB connection open
+        return Response.redirect(
+          '/?pwa=true&compose=true', // pwa=true because this can only be invoked from a PWA
+          303 // 303 recommended by https://web.dev/web-share-target/
+        )
+      }
 
-      // for everything else, go network-only
-      return fetch(req)
+      // always serve webpack-generated resources and
+      // static from the cache if possible
+      const response = await caches.match(req)
+      if (response) {
+        return response
+      }
+
+      for (const { regex, cache } of ON_DEMAND_CACHE) {
+        if (regex.test(url.pathname)) {
+          // cache this on-demand
+          const response = await fetch(req)
+          if (response && response.status >= 200 && response.status < 300) {
+            const clonedResponse = response.clone()
+            /* no await */
+            caches.open(cache).then(cache => cache.put(req, clonedResponse))
+          }
+          return response
+        }
+      }
+
+      // for routes, serve the /service-worker-index.html file from the most recent
+      // static cache
+      if (routes.find(route => route.pattern.test(url.pathname))) {
+        const response = await caches.match('/service-worker-index.html')
+        if (response) {
+          return response
+        }
+      }
     })().catch(error => {
       console.error(error)
       return new Response('error in service worker', { status: 502 })

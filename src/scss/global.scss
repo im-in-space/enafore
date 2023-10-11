@@ -128,6 +128,10 @@ button,
     background: var(--button-bg-active);
   }
 
+  &:visited {
+    color: var(--button-text);
+  }
+
   &[disabled] {
     opacity: 0.35;
     pointer-events: none;
@@ -155,7 +159,7 @@ p {
   font-size: 1.3em;
 }
 
-.status-content p {
+.status-content p, .account-profile-note p {
   font-size: inherit;
 }
 
@@ -235,13 +239,14 @@ textarea {
 }
 
 .decomoji {
-  font-family: 'Kosugi Maru', ui-rounded, 'Hiragino Maru Gothic ProN', Quicksand,
+  font-family: KosugiMaruSubset, ui-rounded, 'Hiragino Maru Gothic ProN', Quicksand,
     Manjari, 'Arial Rounded MT', 'Arial Rounded MT Bold', Calibri,
     source-sans-pro, sans-serif;
   color: #fff;
   -webkit-text-stroke: #00a1eb 3px;
   text-stroke: #00a1eb 3px;
   paint-order: stroke fill;
+  font-style: normal;
   font-weight: 400;
 }
 

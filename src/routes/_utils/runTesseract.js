@@ -20,29 +20,12 @@ if (process.env.NODE_ENV !== 'production') {
   }
 }
 
-async function spyOnWorkerProgress (onProgress, runnable) {
-  const listener = event => {
-    const { data } = event
-    if (onProgress && data.status === 'progress' && steps.find(({ status }) => status === data.data.status)) {
-      onProgress(getTotalProgress(data.data))
-    }
-  }
-
-  worker.worker.addEventListener('message', listener)
-  try {
-    const res = await runnable()
-    return res
-  } finally {
-    worker.worker.removeEventListener('message', listener)
-  }
-}
-
 async function initWorker (onProgress) {
   if (!worker) {
-    worker = await (await importTesseractWorker())()
-    await spyOnWorkerProgress(onProgress, async () => {
-      await worker.loadLanguage('eng')
-      await worker.initialize('eng')
+    worker = await (await importTesseractWorker())(event => {
+      if (onProgress && typeof event.progress === 'number' && steps.find(({ status }) => status === event.status)) {
+        onProgress(getTotalProgress(event))
+      }
     })
   }
 }
@@ -78,16 +61,15 @@ function getTotalProgress (progressInfo) {
   return total
 }
 
-async function recognize (url, onProgress) {
-  return spyOnWorkerProgress(onProgress, () => worker.recognize(url, 'eng'))
+async function recognize (url) {
+  return worker.recognize(url)
 }
 
 export async function runTesseract (url, onProgress) {
   cancelDestroyWorker()
   await initWorker(onProgress)
   try {
-    const res = await recognize(url, onProgress)
-    console.log('result', res)
+    const res = await recognize(url)
     return res.data.text
   } finally {
     scheduleDestroyWorker()

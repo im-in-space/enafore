@@ -8,7 +8,7 @@ By default, [Mastodon allows cross-origin access to the `/api` endpoint](https:/
 If the nginx/Apache settings have been changed, though, then Enafore might not be able to connect to an instance. To check if the instance is supported, run this command (replacing `myinstance.com` with your instance URL):
 
 ```bash
-curl -sLv -H 'Origin: https://pinafore.easrng.net' -o /dev/null \
+curl -sLv -H 'Origin: https://enafore.social' -o /dev/null \
   myinstance.com/api/v1/instance
 ```
 

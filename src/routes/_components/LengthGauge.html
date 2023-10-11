@@ -5,6 +5,10 @@
 <style>
   .length-gauge {
     height: 2px;
+    flex-shrink: 0;
+    position: relative;
+    clip-path: inset(-20px 0 0 0 round calc(var(--input-border-radius-size)));
+    top: -2px;
   }
   .length-gauge-inner {
     transform-origin: left;

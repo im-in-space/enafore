@@ -48,8 +48,6 @@ function localeAwareInclude (collection, value) {
 export function computeHashtagBarForStatus (status) {
   let statusContent = status.content
 
-  const tagNames = status.tags.map((tag) => tag.name)
-
   // this is returned if we stop the processing early, it does not change what is displayed
   const defaultResult = {
     statusContent,
@@ -57,7 +55,11 @@ export function computeHashtagBarForStatus (status) {
   }
 
   // return early if this status does not have any tags
-  if (tagNames.length === 0) return defaultResult
+  if (!(status.tags && status.tags.length > 0)) {
+    return defaultResult
+  }
+
+  const tagNames = status.tags.map((tag) => tag.name)
 
   const template = document.createElement('template')
   template.innerHTML = statusContent.trimEnd()

@@ -1,6 +1,4 @@
-<div
-  class="status-reactions {isStatusInOwnThread ? 'status-in-own-thread' : ''}"
->
+<div class="status-reactions">
   {#each processedReactions as reaction}
   <button
     class="status-reaction not-same-pressed {reaction.me?'pressed':''}"
@@ -12,20 +10,25 @@
   {/each}
 </div>
 <style>
-  .status-reaction {
-    border-radius: 4px;
-    background: var(--action-button-fill-color);
-    padding: 0.25rem 0.5rem;
-    border: 0;
-    color: var(--button-primary-text);
-  }
-
   .status-reactions {
     display: flex;
     grid-template-rows: repeat(10001fr);
     margin: 0 5px 10px;
     grid-gap: 7px;
     grid-area: reactions;
+    overflow-x: auto;
+  }
+
+  .status-reaction {
+    border-radius: 4px;
+    background: var(--action-button-fill-color);
+    padding: 0.25rem 0.5rem;
+    border: 0;
+    color: var(--button-primary-text);
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    grid-gap: 0.5rem;
   }
 
   .status-reaction:hover {
@@ -47,31 +50,6 @@
 
   .status-reaction.pressed.not-same-pressed:active {
     background: var(--action-button-fill-color-pressed-active);
-  }
-
-  .status-reaction.muted-style {
-    background: var(--action-button-deemphasized-fill-color);
-  }
-
-  .status-reaction.muted-style:hover {
-    background: var(--action-button-deemphasized-fill-color-hover);
-  }
-
-  .status-reaction.muted-style.not-pressable:active,
-  .status-reaction.muted-style.same-pressed:active {
-    background: var(--action-button-deemphasized-fill-color-active);
-  }
-
-  .status-reaction.muted-style.pressed.not-same-pressed {
-    background: var(--action-button-deemphasized-fill-color-pressed);
-  }
-
-  .status-reaction.muted-style.pressed.not-same-pressed:hover {
-    background: var(--action-button-deemphasized-fill-color-pressed-hover);
-  }
-
-  .status-reaction.muted-style.pressed.not-same-pressed:active {
-    background: var(--action-button-deemphasized-fill-color-pressed-active);
   }
 </style>
 <script>

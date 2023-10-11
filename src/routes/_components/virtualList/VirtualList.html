@@ -127,7 +127,6 @@
         }
         mark('calculateListOffset')
         const { offsetParent } = node
-        // TODO: offsetParent is null sometimes in testcafe tests
         const listOffset = offsetParent ? offsetParent.offsetTop : 0
         this.store.setForRealm({ listOffset })
         stop('calculateListOffset')

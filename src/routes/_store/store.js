@@ -50,7 +50,6 @@ const persistedState = {
   reduceMotion:
     !process.browser || matchMedia('(prefers-reduced-motion: reduce)').matches,
   underlineLinks: false,
-  statusTranslationContents: {},
   iconColors: ''
 }
 
@@ -68,18 +67,19 @@ const nonPersistedState = {
     process.browser &&
     'serviceWorker' in navigator &&
     'PushManager' in window &&
-    'getKey' in window.PushSubscription.prototype,
+    'getKey' in PushSubscription.prototype,
   queryInSearch: '',
   repliesShown: {},
   sensitivesShown: {},
   spoilersShown: {},
   statusModifications: {},
   verifyCredentials: {},
+  statusTranslationContents: {},
   statusTranslations: {}
 }
 
 const state = Object.assign({}, persistedState, nonPersistedState)
-const keysToStoreInLocalStorage = new Set(Object.keys(persistedState))
+export const keysToStoreInLocalStorage = new Set(Object.keys(persistedState))
 
 export class PinaforeStore extends LocalStorageStore {
   constructor (state) {

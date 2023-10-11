@@ -30,7 +30,7 @@ async function decodeUsingCanvas (imageData) {
   initCanvas()
   canvasContext2D.putImageData(imageData, 0, 0)
   return await new Promise((resolve, reject) => {
-    const reader = new window.FileReader()
+    const reader = new FileReader()
     reader.addEventListener('error', () => {
       reject(reader.error)
     })

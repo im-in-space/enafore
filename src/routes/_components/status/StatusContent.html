@@ -221,12 +221,7 @@
           // hydrate external links
           const href = anchor.getAttribute('href')
           const hrefParsed = new URL(href, location.href)
-          const match = hrefParsed.href.match(/^https?:\/\/(?:[^/]+?\.)?(?:twitter\.com|nitter\.[^/]+)(?:\/(.*))?$/)
-          if (match) {
-            anchor.setAttribute('href', `/nitter/${encodeURIComponent(match[1] || '')}`)
-            anchor.setAttribute('target', '_blank')
-            anchor.setAttribute('rel', 'nofollow noopener')
-          } else if (hrefParsed.hostname.startsWith('pinafore') && hrefParsed.pathname === '/confetti') {
+          if (hrefParsed.hostname.startsWith('pinafore') && hrefParsed.pathname === '/confetti') {
             anchor.setAttribute('title', 'confetti!')
             anchor.setAttribute('target', '_self')
             anchor.setAttribute('href', '/confetti')

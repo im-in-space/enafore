@@ -22,7 +22,7 @@ function assign (ta) {
   let heightOffset = null
 
   function init () {
-    const style = window.getComputedStyle(ta, null)
+    const style = getComputedStyle(ta, null)
 
     if (style.boxSizing === 'content-box') {
       heightOffset = -(parseFloat(style.paddingTop) + parseFloat(style.paddingBottom))

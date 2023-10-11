@@ -1,5 +1,5 @@
 const decodeBase64 = base64 => {
-  const rawData = window.atob(base64)
+  const rawData = atob(base64)
   const outputArray = new Uint8Array(rawData.length)
 
   for (let i = 0; i < rawData.length; ++i) {

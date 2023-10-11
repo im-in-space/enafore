@@ -4,8 +4,8 @@ import fs from 'fs'
 import { promisify } from 'util'
 import { optimize } from 'svgo'
 import * as cheerio from 'cheerio'
-import sharp from 'sharp'
 import { makeIcon } from '../src/routes/_utils/makeIcon.js'
+import { Resvg } from '@resvg/resvg-js'
 const $ = cheerio.load('')
 
 const __dirname = path.dirname(new URL(import.meta.url).pathname)
@@ -29,42 +29,51 @@ async function readSvg (svg) {
   return $.xml($symbol)
 }
 
+async function render (svg, size) {
+  return new Resvg(svg, {
+    fitTo: {
+      mode: 'width',
+      value: size
+    }
+  }).render().asPng()
+}
+
 async function buildIcons () {
   await mkdir(path.resolve(__dirname, '../static/icons'), {
     recursive: true
   })
-  for (const theme of [{ name: '' }, { name: '-alt', bg: '#332e39', fg: '#eaddff' }]) {
+  for (const theme of [{ name: '' }, { name: '-alt', bg: '#3c2947', fg: '#d4bbff' }]) {
     const icon = Buffer.from(makeIcon(theme))
     const iosIcon = Buffer.from(makeIcon({ ...theme, ios: true }))
     const maskableIcon = Buffer.from(makeIcon({ ...theme, maskable: true }))
     await writeFile(
       path.resolve(__dirname, `../static/icons/icon-192${theme.name}.png`),
-      await sharp(icon).resize(192).png().toBuffer()
+      await render(icon, 192)
     )
     await writeFile(
       path.resolve(__dirname, `../static/icons/icon-512${theme.name}.png`),
-      await sharp(icon).resize(512).png().toBuffer()
+      await render(icon, 512)
     )
     await writeFile(
       path.resolve(
         __dirname,
         `../static/icons/icon-192-maskable${theme.name}.png`
       ),
-      await sharp(maskableIcon).resize(192).png().toBuffer()
+      await render(maskableIcon, 192)
     )
     await writeFile(
       path.resolve(
         __dirname,
         `../static/icons/icon-512-maskable${theme.name}.png`
       ),
-      await sharp(maskableIcon).resize(512).png().toBuffer()
+      await render(maskableIcon, 512)
     )
     await writeFile(
       path.resolve(
         __dirname,
         `../static/icons/apple-touch-icon${theme.name}.png`
       ),
-      await sharp(iosIcon).resize(180).png().toBuffer()
+      await render(iosIcon, 180)
     )
   }
 }

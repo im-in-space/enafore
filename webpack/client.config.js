@@ -53,20 +53,15 @@ export default {
         }
       },
       {
-        test: input => {
-          return (
-            input.endsWith(path.join('tesseract.js', 'dist', 'worker.min.js')) ||
-            input.endsWith(path.join('tesseract.js', 'dist', 'worker.min.js.map')) ||
-            input.endsWith(path.join('tesseract.js-core', 'tesseract-core.wasm')) ||
-            input.endsWith(path.join('tesseract.js-core', 'tesseract-core.wasm.js'))
-          )
-        },
-        use: {
-          loader: 'file-loader',
-          options: {
-            name: dev ? 'tesseract-asset.[name].[ext]' : 'tesseract-asset.[contenthash].[name].[ext]'
-          }
-        }
+        test: /katex\/dist\/katex\.min\.css$/,
+        use: [
+          'style-loader',
+          'css-loader'
+        ]
+      },
+      {
+        test: /tesseract\.js\/dist\/worker\.min\.js$/,
+        type: 'asset/resource'
       },
       {
         test: /\.js$/,

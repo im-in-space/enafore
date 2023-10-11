@@ -17,7 +17,7 @@ const locales = {
 const intl = locales[LOCALE]
 const defaultIntl = locales[DEFAULT_LOCALE]
 
-export function warningOrError (message) { // avoid crashing the whole server on `yarn dev`
+export function warningOrError (message) { // avoid crashing the whole server on `pnpm dev`
   if (process.env.NODE_ENV === 'production') {
     throw new Error(message)
   }

@@ -176,7 +176,7 @@
         const { statePopped, statePushed, id } = this.get()
         if (statePushed && !statePopped) {
           // If we weren't closed due to popstate, then pop state to ensure the correct history.
-          window.history.back()
+          history.back()
         }
         popShortcutScope(`modal-${id}`)
         if (shouldAnimate && !reduceMotion) {
@@ -258,7 +258,7 @@
           requestAnimationFrame(() => {
             window.addEventListener('popstate', this.onPopState)
             this.set({ statePushed: true })
-            window.history.pushState({ modal: id }, null, location.href)
+            history.pushState({ modal: id }, null, location.href)
             document.body.classList.toggle('modal-open', true)
             this._a11yDialog.show()
             this.set({ fadedIn: true })

@@ -2,6 +2,7 @@ import crypto from 'crypto'
 import fs from 'fs'
 import { promisify } from 'util'
 import path from 'path'
+import { cpus } from 'os'
 import { rollup } from 'rollup'
 import terser from '@rollup/plugin-terser'
 import replace from '@rollup/plugin-replace'
@@ -26,7 +27,12 @@ export async function buildInlineScript () {
       }),
       // TODO: can't disable terser at all, it causes the CSP checksum to stop working
       // because the HTML gets minified as some point so the checksums don't match.
-      terser({ ...terserOptions, mangle: !process.env.DEBUG })
+      terser(Object.defineProperties({ ...terserOptions, mangle: !process.env.DEBUG }, {
+        maxWorkers: {
+          value: cpus().length || 1,
+          enumerable: false
+        }
+      }))
     ]
   })
   const { output } = await bundle.generate({

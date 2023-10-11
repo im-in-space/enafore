@@ -21,7 +21,8 @@
 /static/icons/icon-512-maskable-alt.png
 /static/icons/apple-touch-icon-alt.png
 /src/inline-script/checksum.js
-yarn-error.log
+/src/routes/_thirdparty/lodash/objects.js
+/src/routes/_thirdparty/lodash/timers.js
 
 .now
 .vercel

@@ -2,15 +2,15 @@
 
 ## Building
 
-Enafore requires [Node.js](https://nodejs.org/en/) and [Yarn](https://yarnpkg.com).
+Enafore requires [Node.js](https://nodejs.org/en/) and [pnpm](https://pnpm.io).
 
 To build Enafore for production, first install dependencies:
 
-    yarn --production --pure-lockfile
+    pnpm install --frozen-lockfile
 
 Then build:
 
-    yarn build
+    pnpm build
 
 Then run:
 
@@ -18,20 +18,20 @@ Then run:
 
 ### Exporting
 
-Enafore is a static site. When you run `yarn build`, static files will be
+Enafore is a static site. When you run `pnpm build`, static files will be
 written to `__sapper__/export`.
 
 ## Installing
 
 To install with dev dependencies, run:
 
-    yarn
+    pnpm install
 
 ## Dev server
 
 To run a dev server with hot reloading:
 
-    yarn run dev
+    pnpm dev
 
 Now it's running at `localhost:4002`.
 
@@ -45,11 +45,11 @@ Enafore uses [JavaScript Standard Style](https://standardjs.com/).
 
 Lint:
 
-    yarn run lint
+    pnpm lint
 
 Automatically fix most linting issues:
 
-    yarn run lint-fix
+    pnpm lint-fix
 
 ## Tests
 
@@ -59,16 +59,16 @@ lol, lmao
 
 To disable minification in a production build (for debugging purposes), you can run:
 
-    DEBUG=1 yarn build
+    DEBUG=1 pnpm build
 
 ## Debugging Webpack
 
 The Webpack Bundle Analyzer `report.html` and `stats.json` are available publicly via e.g.:
 
-- https://pinafore.easrng.net/client/report.html
-- https://pinafore.easrng.net/client/stats.json
+- https://enafore.social/client/report.html
+- https://enafore.social/client/stats.json
 
-This is also available locally after `yarn run build` at `.sapper/client/report.html`.
+This is also available locally after `pnpm build` at `.sapper/client/report.html`.
 
 ## Architecture
 

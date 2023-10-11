@@ -141,11 +141,11 @@ export default {
     computed: {
       focus: ({ meta }) => meta && meta.focus,
       // width/height to show inline
-      inlineWidth: ({ smallWidth }) => {
-        return smallWidth || DEFAULT_MEDIA_WIDTH
+      inlineWidth: ({ smallWidth, originalWidth }) => {
+        return smallWidth || originalWidth || DEFAULT_MEDIA_WIDTH
       },
-      inlineHeight: ({ smallHeight }) => {
-        return smallHeight || DEFAULT_MEDIA_HEIGHT
+      inlineHeight: ({ smallHeight, originalHeight }) => {
+        return smallHeight || originalHeight || DEFAULT_MEDIA_HEIGHT
       },
       // width/height to show in a modal
       modalWidth: ({ originalWidth, smallWidth }) => originalWidth || smallWidth || 0,
@@ -157,7 +157,7 @@ export default {
       smallHeight: ({ small }) => small && small.height,
       originalWidth: ({ original }) => original && original.width,
       originalHeight: ({ original }) => original && original.height,
-      noNativeWidthHeight: ({ smallWidth, smallHeight }) => typeof smallWidth !== 'number' || typeof smallHeight !== 'number',
+      noNativeWidthHeight: ({ originalWidth, originalHeight }) => typeof originalWidth !== 'number' || typeof originalHeight !== 'number',
       elementId: ({ media, uuid }) => `media-${uuid}-${media.id}`,
       description: ({ media }) => media.description || '',
       previewUrl: ({ media }) => media.preview_url,

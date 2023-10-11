@@ -236,7 +236,11 @@
       preloadHiddenContent: false,
       enableShortcuts: null,
       isQuote: false,
-      overrideOriginalStatus: null
+      overrideOriginalStatus: null,
+      timelineType: null,
+      timelineValue: null,
+      index: null,
+      length: null
     }),
     store: () => store,
     methods: {
@@ -386,7 +390,7 @@
         status.reblog ||
         timelineType === 'pinned'
       ),
-      hasReactions: ({ originalStatus }) => Boolean(originalStatus.reactions || originalStatus.emoji_reactions),
+      hasReactions: ({ originalStatus }) => ((originalStatus.reactions || originalStatus.emoji_reactions) || []).length > 0,
       className: ({ visibility, timelineType, isStatusInOwnThread, $underlineLinks, $disableTapOnStatus, isQuote, treeMetadata }) => (classname(
         'status-article',
         'shortcut-list-item',

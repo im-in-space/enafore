@@ -9,6 +9,7 @@ function reorder (timelineName, summaries) {
     }
     const replyChildren = {}
     for (const summary of summaries) {
+      delete summary.subtree
       if (summary.replyId) {
         replyChildren[summary.replyId] = replyChildren[summary.replyId] || []
         replyChildren[summary.replyId].push(summary)

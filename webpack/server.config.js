@@ -15,7 +15,8 @@ const NOOP_MODULES = [
   'tesseract.js-core/tesseract-core.wasm.js',
   'tesseract.js/src/createWorker.js',
   'tesseract.js/src/createWorker.js.map',
-  '@easrng/image-grid/index.js'
+  '@easrng/image-grid/index.js',
+  'katex/dist/katex.min.css'
 ]
 
 const serverResolve = JSON.parse(JSON.stringify(resolve))
