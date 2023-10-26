@@ -1,20 +1,7 @@
 {#if mentions.length}
-  <div class="status-mentions {isStatusInOwnThread ? 'status-in-own-thread' : ''}">
+  <div class="status-mentions {isStatusInOwnThread ? 'status-in-own-thread' : ''} {isStatusInNotification ? 'status-in-notification' : ''}">
     <p>
-      {#each mentions as mention, i}
-        {#if i > 0}
-          <!-- empty space -->
-          &nbsp;
-          <!-- empty space -->
-        {/if}
-        <a id="status-mention-link-{uuid}-{mention.id}"
-           href="/accounts/{mention.id}"
-           rel="prefetch"
-           title="@{mention.acct}"
-        >
-          @{mention.username}
-        </a>
-      {/each}
+      {#each mentions as mention, i}<a id="status-mention-link-{uuid}-{mention.id}" href="/accounts/{mention.id}" title="@{mention.acct}">@{mention.username}</a>{' '}{/each}
     </p>
   </div>
 {/if}
@@ -23,11 +10,16 @@
     grid-area: mentions;
     margin: 10px 0 10px 5px;
     font-size: 0.9em;
+    line-height: 1.369;
   }
 
   .status-mentions.status-in-own-thread {
     font-size: 1.3em;
     margin: 20px 10px 20px 5px;
+  }
+
+  .status-mentions.status-in-notification {
+    color: var(--very-deemphasized-link-color);
   }
 
   :global(.underline-links .status-mentions a) {
@@ -38,7 +30,7 @@
 <script>
   export default {
     computed: {
-      mentions: ({ originalStatus }) => originalStatus.mentions || []
+      mentions: ({ originalStatus, originalAccountId }) => (originalStatus.mentions || []).filter(mention => mention.id !== originalAccountId)
     }
   }
 </script>

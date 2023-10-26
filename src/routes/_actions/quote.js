@@ -3,6 +3,7 @@ import { store } from '../_store/store.js'
 
 export async function quote (status) {
   const dialogPromise = importShowComposeDialog()
+  store.clearComposeData('dialog')
   store.setComposeData('dialog', {
     text: '',
     contentType: null,

@@ -11,6 +11,7 @@ import {
 import { getLastTheme, getIconColors } from './routes/_database/theme.js'
 import { getKnownInstances } from './routes/_database/knownInstances.js'
 import { basename } from './routes/_api/utils.js'
+import { canonicalStatusUrl } from './routes/_utils/canonicalStatusUrl.js'
 
 const timestamp = process.env.SAPPER_TIMESTAMP
 const ASSETS = `assets_${timestamp}`
@@ -276,7 +277,7 @@ async function showRichNotification (data, notification) {
         body,
         tag,
         data: {
-          url: `${origin}/statuses/${notification.status.id}`
+          url: origin + canonicalStatusUrl(notification.status)
         }
       })
       break
@@ -307,7 +308,7 @@ async function showRichNotification (data, notification) {
           instance: new URL(data.icon).origin,
           status_id: notification.status.id,
           access_token: data.access_token,
-          url: `${origin}/statuses/${notification.status.id}`
+          url: origin + canonicalStatusUrl(notification.status)
         },
         actions
       })

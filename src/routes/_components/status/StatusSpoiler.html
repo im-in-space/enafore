@@ -64,11 +64,11 @@
       Shortcut
     },
     computed: {
-      massagedSpoilerText: ({ spoilerText, originalStatusEmojis, $autoplayGifs, $disableDecomojiConverter, showTranslate, translateContent }) => {
-        spoilerText = escapeHtml(spoilerText)
+      massagedSpoilerText: ({ computedSpoilerText, originalStatusEmojis, $autoplayGifs, $disableDecomojiConverter, showTranslate, translateContent }) => {
+        computedSpoilerText = escapeHtml(computedSpoilerText)
         return (showTranslate && translateContent)
           ? translateContent
-          : emojifyText(spoilerText, originalStatusEmojis, $autoplayGifs, $disableDecomojiConverter)
+          : emojifyText(computedSpoilerText, originalStatusEmojis, $autoplayGifs, $disableDecomojiConverter)
       },
       elementId: ({ uuid }) => `spoiler-${uuid}`,
       translateKey: ({ $currentInstance, originalStatusId }) => $currentInstance + '-' + originalStatusId,

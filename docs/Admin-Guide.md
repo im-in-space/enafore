@@ -23,7 +23,7 @@ Then Enafore should work as expected!
 Otherwise, if the instance admin would like to whitelist only certain websites (including Enafore) to work with CORS, then they will need to make sure that the server echoes:
 
 ```
-Access-Control-Allow-Origin: https://pinafore.easrng.net
+Access-Control-Allow-Origin: https://enafore.social
 ```
 
 when Enafore tries to access it. Note that this is a bit complicated to configure (compared to the simpler `*` approach), but [there are instructions on StackOverflow](https://stackoverflow.com/q/1653308) for nginx, Apache, and other servers.

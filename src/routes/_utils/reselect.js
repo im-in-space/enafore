@@ -3,7 +3,7 @@
 // This avoids the issue where Svelte may keep re-rendering because it doesn't
 // know if an object/array has changed or not.
 
-import { isEqual } from '../_thirdparty/lodash/objects.js'
+import { isEqual } from '../_utils/lodash-lite.js'
 
 if (process.browser && process.env.NODE_ENV !== 'production') {
   window.reselectStats = {}

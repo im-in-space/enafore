@@ -53,6 +53,17 @@ export default {
         }
       },
       {
+        test: input => {
+          return input.endsWith(path.join('_workers', 'processContent.js'))
+        },
+        use: {
+          loader: 'worker-loader',
+          options: {
+            filename: dev ? '[fullhash]/processContent.[name].js' : 'processContent.[contenthash].[name].js'
+          }
+        }
+      },
+      {
         test: /katex\/dist\/katex\.min\.css$/,
         use: [
           'style-loader',

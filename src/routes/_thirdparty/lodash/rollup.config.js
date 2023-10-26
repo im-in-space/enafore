@@ -21,6 +21,5 @@ function createConfig (file) {
 }
 
 export default [
-  createConfig('timers.src.js'),
-  createConfig('objects.src.js')
+  createConfig('timers.src.js')
 ]

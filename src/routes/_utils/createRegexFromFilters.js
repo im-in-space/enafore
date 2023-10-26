@@ -1,7 +1,6 @@
 // copy-pasta'd from mastodon
 // https://github.com/tootsuite/mastodon/blob/2ff01f7/app/javascript/mastodon/selectors/index.js#L40-L63
-const escapeRegExp = string =>
-  string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') // $& means the whole matched string
+import { escapeRegExp } from './escapeRegExp.js'
 
 export const createRegexFromFilters = filters => {
   return new RegExp(filters.map(filter => {

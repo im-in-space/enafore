@@ -175,7 +175,7 @@ p {
 }
 
 .hidden {
-  opacity: 0;
+  visibility: hidden;
 }
 
 button::-moz-focus-inner {
@@ -228,7 +228,6 @@ textarea {
 /* this gets injected as raw HTML, so it's easiest to just define it in global.scss */
 .inline-custom-emoji {
   height: 1.4em;
-  margin: -0.1em 0;
   object-fit: contain;
   vertical-align: middle;
 }
@@ -272,4 +271,16 @@ textarea {
   width: 0;
   height: 0;
   position: absolute;
+}
+
+.search-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.search-button-svg {
+  fill: currentColor;
+  width: 18px;
+  height: 18px;
+  flex: 1;
 }

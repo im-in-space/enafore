@@ -30,7 +30,7 @@
       try {
         await decodeImage(node)
       } catch (e) {
-        console.error('Image decode error', node && node.src, e)
+        console.warn('Image decode error', node && node.src, e)
         this.set({ error: true })
       }
     },

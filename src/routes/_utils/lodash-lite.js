@@ -48,5 +48,25 @@ export function times (n, func) {
 export function noop () {}
 
 export function cloneDeep (obj) {
-  return JSON.parse(JSON.stringify(obj))
+  return typeof structuredClone === 'function' ? structuredClone(obj) : JSON.parse(JSON.stringify(obj))
+}
+
+export function uniqById (arr) {
+  const ids = new Set()
+  return arr.filter(obj => obj && obj.id && !ids.has(obj.id) && (ids.add(obj.id), true))
+}
+
+export function isEqual (value, other, bitmask, customizer, stack) {
+  if (value === other) {
+    return true
+  }
+  if (typeof value !== 'object' || typeof other !== 'object') {
+    return false
+  }
+  return JSON.stringify(value) === JSON.stringify(other)
+}
+
+export function difference (arr, toRemove) {
+  toRemove = new Set(toRemove)
+  return arr.filter(item => !toRemove.has(item))
 }

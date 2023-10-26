@@ -7,6 +7,9 @@
     data: () => ({ scope: 'global', key: null }),
     oncreate () {
       const { scope, key } = this.get()
+      if (!scope) {
+        return
+      }
       addToShortcutScope(scope, key, this)
     },
     ondestroy () {

@@ -1,8 +1,8 @@
 import { mark, stop } from '../_utils/marks.js'
 import { store } from '../_store/store.js'
-import { uniqBy, isEqual } from '../_thirdparty/lodash/objects.js'
 import { database } from '../_database/database.js'
 import { concat } from '../_utils/arrays.js'
+import { isEqual, uniqById } from '../_utils/lodash-lite.js'
 import { scheduleIdleTask } from '../_utils/scheduleIdleTask.js'
 import { timelineItemToSummary } from '../_utils/timelineItemToSummary.js'
 
@@ -27,13 +27,8 @@ async function insertUpdatesIntoTimeline (instanceName, timelineName, updates) {
   await database.insertTimelineItems(instanceName, timelineName, updates)
 
   const itemSummariesToAdd = store.getForTimeline(instanceName, timelineName, 'timelineItemSummariesToAdd') || []
-  console.log('itemSummariesToAdd', JSON.parse(JSON.stringify(itemSummariesToAdd)))
-  console.log('updates.map(timelineItemToSummary)', JSON.parse(JSON.stringify(updates.map(timelineItemToSummary))))
-  console.log('concat(itemSummariesToAdd, updates.map(timelineItemToSummary))',
-    JSON.parse(JSON.stringify(concat(itemSummariesToAdd, updates.map(item => timelineItemToSummary(item, instanceName))))))
-  const newItemSummariesToAdd = uniqBy(
-    concat(itemSummariesToAdd, updates.map(item => timelineItemToSummary(item, instanceName))),
-    _ => _.id
+  const newItemSummariesToAdd = uniqById(
+    concat(itemSummariesToAdd, updates.map(item => timelineItemToSummary(item, instanceName)))
   )
   if (!isEqual(itemSummariesToAdd, newItemSummariesToAdd)) {
     console.log('adding ', (newItemSummariesToAdd.length - itemSummariesToAdd.length),
@@ -76,10 +71,7 @@ async function insertUpdatesIntoThreads (instanceName, updates) {
     if (!validUpdates.length) {
       continue
     }
-    const newItemSummariesToAdd = uniqBy(
-      concat(itemSummariesToAdd, validUpdates.map(item => timelineItemToSummary(item, instanceName))),
-      _ => _.id
-    )
+    const newItemSummariesToAdd = uniqById(concat(itemSummariesToAdd, validUpdates.map(item => timelineItemToSummary(item, instanceName))))
     if (!isEqual(itemSummariesToAdd, newItemSummariesToAdd)) {
       console.log('adding ', (newItemSummariesToAdd.length - itemSummariesToAdd.length),
         'items to timelineItemSummariesToAdd for thread', timelineName)
@@ -113,11 +105,11 @@ export function addStatusOrNotification (instanceName, timelineName, newStatusOr
   addStatusesOrNotifications(instanceName, timelineName, [newStatusOrNotification])
 }
 
-export function addStatusesOrNotifications (instanceName, timelineName, newStatusesOrNotifications) {
+export async function addStatusesOrNotifications (instanceName, timelineName, newStatusesOrNotifications) {
   console.log('addStatusesOrNotifications', Date.now())
   let freshUpdates = store.getForTimeline(instanceName, timelineName, 'freshUpdates') || []
-  freshUpdates = concat(freshUpdates, newStatusesOrNotifications)
-  freshUpdates = uniqBy(freshUpdates, _ => _.id)
+  freshUpdates = concat(newStatusesOrNotifications, freshUpdates)
+  freshUpdates = uniqById(freshUpdates)
   store.setForTimeline(instanceName, timelineName, { freshUpdates })
   lazilyProcessFreshUpdates(instanceName, timelineName)
 }

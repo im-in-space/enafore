@@ -1,23 +1,40 @@
 <SettingsLayout page='settings/about' label="{intl.aboutApp}">
-  <div>
+  <div ref:node>
     <h1>{intl.aboutApp}</h1>
-
-    <h2>Version <code>{version}</code></h2>
-
     {@html intl.aboutAppDescription}
   </div>
 </SettingsLayout>
+<UISettingsStyles />
+<style>
+  :global(.donate-banner) {
+    display: flex;
+    align-items: center;
+    margin: 30px 0;
+  }
+  :global(.donate-banner h2) {
+    margin: 0 1rem 0 0 !important;
+    width: 0;
+    flex-grow: 1;
+  }
+  :global(.donate-banner .button) {
+    line-height: normal;
+  }
+</style>
 <script>
   import SettingsLayout from '../../_components/settings/SettingsLayout.html'
+  import UISettingsStyles from '../../_components/settings/UISettingsStyles.html'
 
   const version = process.env.PINAFORE_VERSION
 
   export default {
-    components: {
-      SettingsLayout
+    oncreate () {
+      for (const node of this.refs.node.querySelectorAll('.enafore-version')) {
+        node.textContent = version
+      }
     },
-    data: () => ({
-      version
-    })
+    components: {
+      SettingsLayout,
+      UISettingsStyles
+    }
   }
 </script>

@@ -1,4 +1,4 @@
-<SearchResult href="/statuses/{status.id}" className="search-result-anchor-status">
+<SearchResult {href} className="search-result-anchor-status">
   <Status {index} {length}
           timelineType="search" timelineValue="search"
           {status} />
@@ -8,11 +8,15 @@
 <script>
   import SearchResult from './SearchResult.html'
   import Status from '../status/Status.html'
+  import { canonicalStatusUrl } from '../../_utils/canonicalStatusUrl.js'
 
   export default {
     components: {
       SearchResult,
       Status
+    },
+    computed: {
+      href: ({ status }) => canonicalStatusUrl(status)
     }
   }
 </script>

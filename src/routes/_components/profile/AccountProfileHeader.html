@@ -11,6 +11,9 @@
   {#if label}
     <Label {label} className="account-profile-label" />
   {/if}
+  {#if locked}
+    <span title="{intl.locked}" class="account-profile-locked"><SvgIcon href="#fa-lock" ariaLabel="{intl.locked}" /></span>
+  {/if}
   <div class="account-profile-followed-by account-profile-followed-by-bigscreen">
     {#if relationship && relationship.blocking}
       <span class="account-profile-followed-by-span">{intl.blocked}</span>
@@ -119,6 +122,19 @@
     opacity: 0.8;
   }
 
+  .account-profile-locked {
+    width: 1em;
+    height: 1em;
+    display: inline-flex;
+    flex-shrink: 0;
+  }
+
+  :global(.account-profile-locked svg) {
+    width: 100%;
+    height: 100%;
+    fill: var(--deemphasized-text-color);
+  }
+
   :global(a.account-profile-name-link) {
     color: var(--body-text-color);
     text-decoration: none;
@@ -148,6 +164,7 @@
   import { importShowMediaDialog } from '../dialog/asyncDialogs/importShowMediaDialog.js'
   import { getImageNativeDimensions } from '../../_utils/getImageNativeDimensions.js'
   import { formatIntl } from '../../_utils/formatIntl.js'
+  import SvgIcon from '../SvgIcon.html'
 
   export default {
     store: () => store,
@@ -160,6 +177,7 @@
           : displayName
       },
       bot: ({ account }) => !!account.bot,
+      locked: ({ account }) => !!account.locked,
       label: ({ bot }) => bot ? 'bot' : '',
       avatarSize: ({ $isVeryTinyMobileSize, $isTinyMobileSize }) => (
         $isVeryTinyMobileSize ? 'small' : $isTinyMobileSize ? 'medium' : 'big'
@@ -203,7 +221,8 @@
       Avatar,
       ExternalLink,
       AccountDisplayName,
-      Label
+      Label,
+      SvgIcon
     }
   }
 </script>

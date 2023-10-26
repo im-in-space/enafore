@@ -31,17 +31,18 @@ export function translateStatus (
     )
   ) {
     statusTranslations[id].loading = true
+    statusTranslations[id].error = false
     translate(
-      massageUserText(
-        (status.spoiler_text
-          ? '<span class="spoiler_text">' +
+      (status.spoiler_text
+        ? massageUserText(
+          '<span class="spoiler_text">' +
             escapeHtml(status.spoiler_text) +
-            '\n\n</span>'
-          : '') + status.content,
-        status.emojis || [],
-        autoplayGifs,
-        disableDecomojiConverter
-      ),
+            '\n\n</span>',
+          status.emojis || [],
+          autoplayGifs,
+          disableDecomojiConverter
+        )
+        : '') + status.content,
       to,
       from
     )

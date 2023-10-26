@@ -3,7 +3,7 @@ import { store } from '../_store/store.js'
 import { search } from '../_api/search.js'
 import { SEARCH_RESULTS_LIMIT } from '../_static/autosuggest.js'
 import { concat } from '../_utils/arrays.js'
-import { uniqBy } from '../_thirdparty/lodash/objects.js'
+import { uniqById } from '../_utils/lodash-lite.js'
 import { scheduleIdleTask } from '../_utils/scheduleIdleTask.js'
 import { RequestThrottler } from '../_utils/RequestThrottler.js'
 
@@ -14,10 +14,6 @@ function byUsername (a, b) {
   const usernameB = b.acct.toLowerCase()
 
   return usernameA < usernameB ? -1 : usernameA === usernameB ? 0 : 1
-}
-
-function byAccountId (a) {
-  return a.id
 }
 
 export function doAccountSearch (searchText) {
@@ -55,7 +51,7 @@ export function doAccountSearch (searchText) {
         .sort(byUsername)
         .slice(0, SEARCH_RESULTS_LIMIT - results.length)
       results = concat(results, topRemoteResults)
-      results = uniqBy(results, byAccountId)
+      results = uniqById(results)
     }
 
     return results

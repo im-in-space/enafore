@@ -116,24 +116,6 @@
   }
 }
 
-@keyframes bounce {
-  0% {
-    transform: scaleX(0.9) scaleY(0.9);
-  }
-
-  19% {
-    transform: scaleX(1.1) scaleY(1.1);
-  }
-
-  48% {
-    transform: scaleX(0.95) scaleY(0.95);
-  }
-
-  100% {
-    transform: scaleX(1) scaleY(1);
-  }
-}
-
 @keyframes mfm-spin {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
@@ -226,4 +208,25 @@
 @keyframes mfm-rainbow {
   0% { filter: hue-rotate(0deg) contrast(150%) saturate(150%); }
   100% { filter: hue-rotate(360deg) contrast(150%) saturate(150%); }
+}
+
+@keyframes mfm-fade {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+._mfm_search_ {
+  display: grid;
+  grid-template-columns: 1fr min-content;
+  grid-gap: 10px;
+}
+
+._mfm_search_ input {
+  width: 100%;
+  font-size: inherit;
+  padding: 0.3em 0.6em;
 }

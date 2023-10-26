@@ -4,9 +4,15 @@ import {
   decode as decodeBlurhash,
   init as initBlurhash
 } from '../_utils/blurhash.js'
-import { scheduleIdleTask } from '../_utils/scheduleIdleTask.js'
-import { statusHtmlToPlainText } from '../_utils/statusHtmlToPlainText.js'
-import { computeHashtagBarForStatus } from '../_utils/hashtagBar.js'
+import { store } from '../_store/store.js'
+import ProcessContentWorker from '../_workers/processContent.js'
+import PromiseWorker from 'promise-worker'
+import { emit } from '../_utils/eventBus.js'
+
+let worker
+export function init () {
+  worker = worker || new PromiseWorker(new ProcessContentWorker())
+}
 
 function getActualStatus (statusOrNotification) {
   return (
@@ -14,9 +20,7 @@ function getActualStatus (statusOrNotification) {
     get(statusOrNotification, ['notification', 'status'])
   )
 }
-
-export function prepareToRehydrate () {
-  // start the blurhash worker a bit early to save time
+if (process.browser) {
   try {
     initBlurhash()
   } catch (err) {
@@ -24,13 +28,8 @@ export function prepareToRehydrate () {
   }
 }
 
-async function decodeAllBlurhashes (statusOrNotification) {
-  const status = getActualStatus(statusOrNotification)
-  if (!status) {
-    return
-  }
+async function decodeAllBlurhashes (status) {
   const mediaWithBlurhashes = get(status, ['media_attachments'], [])
-    .concat(get(status, ['reblog', 'media_attachments'], []))
     .filter(_ => _.blurhash)
   if (mediaWithBlurhashes.length) {
     mark(`decodeBlurhash-${status.id}`)
@@ -38,79 +37,50 @@ async function decodeAllBlurhashes (statusOrNotification) {
       mediaWithBlurhashes.map(async media => {
         try {
           media.decodedBlurhash = await decodeBlurhash(media.blurhash)
-          console.log('decoded blurhash for', media)
         } catch (err) {
           console.warn('Could not decode blurhash, ignoring', err)
         }
       })
     )
+    if (status[rehydrated]) {
+      emit('statusUpdated', status)
+    }
     stop(`decodeBlurhash-${status.id}`)
   }
 }
 
-async function calculatePlainTextContent (statusOrNotification) {
-  const status = getActualStatus(statusOrNotification)
-  if (!status) {
-    return
-  }
-  const originalStatus = status.reblog ? status.reblog : status
-  const content = originalStatus.content || ''
-  const mentions = originalStatus.mentions || []
-  // Calculating the plaintext from the HTML is a non-trivial operation, so we might
-  // as well do it in advance, while blurhash is being decoded on the worker thread.
-  await new Promise(resolve => {
-    scheduleIdleTask(() => {
-      originalStatus.plainTextContent = statusHtmlToPlainText(content, mentions)
-      resolve()
-    })
-  })
-}
-
 export const rehydrated = Symbol('rehydrated')
+export const rehydrating = Symbol('rehydrating')
 
-function markAsRehydrated (statusOrNotification) {
-  const status = getActualStatus(statusOrNotification)
-  if (!status) {
-    return
-  }
-  const originalStatus = status.reblog ? status.reblog : status
-  originalStatus[rehydrated] = true
-}
-
-function rehydrateQuote (statusOrNotification) {
-  const status = getActualStatus(statusOrNotification)
-  if (!status) {
-    return
-  }
-  const originalStatus = status.reblog ? status.reblog : status
+function rehydrateQuote (originalStatus) {
   if (originalStatus.quote) {
     return rehydrateStatusOrNotification({ status: originalStatus.quote })
   }
 }
 
-function setHashtagBar (statusOrNotification) {
-  const status = getActualStatus(statusOrNotification)
-  if (!status) {
-    return
-  }
-  const originalStatus = status.reblog ? status.reblog : status
+async function processStatusContent (originalStatus) {
   try {
-    const { statusContent, hashtagsInBar } = computeHashtagBarForStatus(originalStatus)
-    originalStatus.content = statusContent
-    originalStatus.hashtagsInBar = hashtagsInBar
+    const { autoplayGifs, disableDecomojiConverter, currentVerifyCredentials } = store.get()
+    Object.assign(originalStatus, await worker.postMessage({ originalStatus, autoplayGifs, disableDecomojiConverter, currentVerifyCredentials }))
   } catch (e) {
-    console.warn('failed to computeHashtagBarForStatus', originalStatus, e)
+    console.warn('failed to processStatusContent', originalStatus, e)
   }
 }
 
 // Do stuff that we need to do when the status or notification is fetched from the database,
 // like calculating the blurhash or calculating the plain text content
 export async function rehydrateStatusOrNotification (statusOrNotification) {
-  setHashtagBar(statusOrNotification)
+  init()
+  const status = getActualStatus(statusOrNotification)
+  if (!status) return
+  const originalStatus = status.reblog ? status.reblog : status
+  if (originalStatus[rehydrated] || originalStatus[rehydrating]) return
+  originalStatus[rehydrating] = true
+  /* no await */ decodeAllBlurhashes(originalStatus)
   await Promise.all([
-    decodeAllBlurhashes(statusOrNotification),
-    calculatePlainTextContent(statusOrNotification),
-    rehydrateQuote(statusOrNotification)
+    processStatusContent(originalStatus),
+    rehydrateQuote(originalStatus)
   ])
-  markAsRehydrated(statusOrNotification)
+  delete originalStatus[rehydrating]
+  originalStatus[rehydrated] = new Error('rehydrated at')
 }

@@ -13,6 +13,7 @@
       class={darkMode ? 'dark' : 'light'}
       on:emoji-click="onEmojiSelected(event)"
       on:keydown="onPickerKeydown(event)"
+      style="--emoji-font-family:PinaforeEmoji"
     ></emoji-picker>
   </div>
 </ModalDialog>
@@ -21,18 +22,23 @@
     --indicator-color: var(--main-theme-color);
     --outline-color: var(--focus-outline);
     --input-border-radius: var(--input-border-radius-size);
+    --num-columns: 10;
   }
 
   .emoji-container, emoji-picker {
     width: 100%;
   }
 
+  @media (max-width: 450px) {
+    emoji-picker {
+      --num-columns: 8;
+    }
+  }
+
   @media (max-width: 320px) {
     emoji-picker {
       --emoji-padding: 0.25rem;
       --input-padding: 0.125rem;
-    }
-    emoji-picker {
       --num-columns: 6;
     }
   }

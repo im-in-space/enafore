@@ -7,10 +7,11 @@ import {
 } from '../constants.js'
 import { fetchStatus } from './fetchStatus.js'
 import { fetchNotification } from './fetchNotification.js'
+import { cloneDeep } from '../../_utils/lodash-lite.js'
 
 export async function getStatus (instanceName, id) {
   if (hasInCache(statusesCache, instanceName, id)) {
-    return getInCache(statusesCache, instanceName, id)
+    return cloneDeep(getInCache(statusesCache, instanceName, id))
   }
   const db = await getDatabase(instanceName)
   const storeNames = [STATUSES_STORE, ACCOUNTS_STORE]
@@ -18,7 +19,7 @@ export async function getStatus (instanceName, id) {
     const [statusesStore, accountsStore] = stores
     fetchStatus(statusesStore, accountsStore, id, callback)
   })
-  setInCache(statusesCache, instanceName, id, result)
+  setInCache(statusesCache, instanceName, id, cloneDeep(result))
   return result
 }
 

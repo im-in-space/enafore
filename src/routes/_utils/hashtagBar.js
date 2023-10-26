@@ -45,12 +45,10 @@ function localeAwareInclude (collection, value) {
   )
 }
 
-export function computeHashtagBarForStatus (status) {
-  let statusContent = status.content
-
+export function computeHashtagBarForStatus (dom, status) {
   // this is returned if we stop the processing early, it does not change what is displayed
   const defaultResult = {
-    statusContent,
+    dom,
     hashtagsInBar: []
   }
 
@@ -61,8 +59,7 @@ export function computeHashtagBarForStatus (status) {
 
   const tagNames = status.tags.map((tag) => tag.name)
 
-  const template = document.createElement('template')
-  template.innerHTML = statusContent.trimEnd()
+  const template = dom.cloneNode(true)
 
   const normalizedTagNames = tagNames.map((tag) => tag.normalize('NFKC'))
   const isValidNode = node => {
@@ -85,12 +82,12 @@ export function computeHashtagBarForStatus (status) {
     }
   }
 
-  let lastChild = template.content.lastChild
+  let lastChild = template.lastChild
   if (isValidNode(lastChild)) {
-    const wrap = document.createElement('template')
+    const wrap = document.createElement('div')
     while (lastChild && isValidNode(lastChild)) {
       const previousSibling = lastChild.previousSibling
-      wrap.appendChild(lastChild)
+      wrap.prepend(lastChild)
       lastChild = previousSibling
     }
     if (lastChild && lastChild.tagName === 'BR') {
@@ -103,7 +100,7 @@ export function computeHashtagBarForStatus (status) {
 
   lastChild.remove()
   if (!lastChild.firstElementChild) {
-    const wrap = document.createElement('template')
+    const wrap = document.createElement('div')
     wrap.appendChild(lastChild)
     lastChild = wrap
   }
@@ -111,7 +108,7 @@ export function computeHashtagBarForStatus (status) {
 
   // First, try to parse
   const contentHashtags = Array.from(
-    contentWithoutLastLine.content.querySelectorAll('a[href]')
+    contentWithoutLastLine.querySelectorAll('a[href]')
   ).reduce((result, link) => {
     if (isNodeLinkHashtag(link)) {
       if (link.textContent) result.push(normalizeHashtag(link.textContent))
@@ -142,7 +139,7 @@ export function computeHashtagBarForStatus (status) {
     )
   })
 
-  const isOnlyOneLine = contentWithoutLastLine.content.childElementCount === 0
+  const isOnlyOneLine = contentWithoutLastLine.childElementCount === 0
   const hasMedia = status.media_attachments && status.media_attachments.length > 0
   const hasSpoiler = !!status.spoiler_text
 
@@ -150,13 +147,13 @@ export function computeHashtagBarForStatus (status) {
     // if the last line only contains hashtags, and we either:
     // - have other content in the status
     // - dont have other content, but a media and no CW. If it has a CW, then we do not remove the content to avoid having an empty content behind the CW button
-    statusContent = contentWithoutLastLine.innerHTML
+    dom = contentWithoutLastLine
     // and add the tags to the bar
     hashtagsInBar.push(...lastLineHashtags)
   }
 
   return {
-    statusContent,
+    dom,
     hashtagsInBar: uniqueHashtagsWithCaseHandling(hashtagsInBar)
   }
 }

@@ -32,7 +32,7 @@
     />
     <IconButton
       className="compose-toolbar-button"
-      label="Content Type"
+      label={contentTypeLabel}
       href={contentTypeIcon}
       on:click="onContentTypeClick()"
     />
@@ -111,7 +111,8 @@
         : (
             formatIntl('intl.postPrivacyLabel', { label: actualPostPrivacy.label })
           ),
-      contentTypeIcon: ({ contentType }) => (KNOWN_CONTENT_TYPES[contentType] || KNOWN_CONTENT_TYPES.default).icon
+      contentTypeIcon: ({ contentType }) => (KNOWN_CONTENT_TYPES[contentType] || KNOWN_CONTENT_TYPES.default).icon,
+      contentTypeLabel: ({ contentType }) => formatIntl('intl.contentTypeLabel', { label: (KNOWN_CONTENT_TYPES[contentType] || KNOWN_CONTENT_TYPES.default).label })
     },
     store: () => store,
     methods: {

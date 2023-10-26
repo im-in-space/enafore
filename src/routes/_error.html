@@ -1,11 +1,11 @@
 <svelte:head>
-  <title>{status}</title>
+  <title>{status || params.status}</title>
 </svelte:head>
 
 <div class="error-wrapper">
-  <h1>{status}</h1>
+  <h1>{status || params.status}</h1>
 
-  <p>{error.message}</p>
+  <p>{error ? error.message : params.message}</p>
 </div>
 <style>
 

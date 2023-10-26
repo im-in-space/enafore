@@ -1,6 +1,7 @@
 import { database } from '../_database/database.js'
 import { mark, stop } from '../_utils/marks.js'
-import { prepareToRehydrate, rehydrateStatusOrNotification } from './rehydrateStatusOrNotification.js'
+import { rehydrateStatusOrNotification } from './rehydrateStatusOrNotification.js'
+import { store } from '../_store/store.js'
 
 async function getNotification (instanceName, timelineType, timelineValue, itemId) {
   return {
@@ -20,15 +21,15 @@ async function getStatus (instanceName, timelineType, timelineValue, itemId) {
 
 export function createMakeProps (instanceName, timelineType, timelineValue) {
   let promiseChain = Promise.resolve()
-
-  prepareToRehydrate() // start blurhash early to save time
-
   async function fetchFromIndexedDB (itemId) {
     mark(`fetchFromIndexedDB-${itemId}`)
     try {
       const res = await (timelineType === 'notifications'
         ? getNotification(instanceName, timelineType, timelineValue, itemId)
         : getStatus(instanceName, timelineType, timelineValue, itemId))
+      const instanceDataReady = store.getInstanceData(instanceName, 'instanceDataReady')
+      await instanceDataReady
+      await rehydrateStatusOrNotification(res)
       return res
     } finally {
       stop(`fetchFromIndexedDB-${itemId}`)
@@ -37,7 +38,6 @@ export function createMakeProps (instanceName, timelineType, timelineValue) {
 
   async function getStatusOrNotification (itemId) {
     const statusOrNotification = await fetchFromIndexedDB(itemId)
-    await rehydrateStatusOrNotification(statusOrNotification)
     return statusOrNotification
   }
 

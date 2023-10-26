@@ -1,5 +1,4 @@
-import { difference } from '../../_thirdparty/lodash/objects.js'
-import { times } from '../../_utils/lodash-lite.js'
+import { times, difference, cloneDeep } from '../../_utils/lodash-lite.js'
 import { cloneForStorage } from '../helpers.js'
 import { dbPromise, getDatabase } from '../databaseLifecycle.js'
 import { accountsCache, notificationsCache, setInCache, statusesCache } from '../cache.js'
@@ -18,6 +17,7 @@ import {
   createTimelineId
 } from '../keys.js'
 import { cacheStatus } from './cacheStatus.js'
+import { rehydrated } from '../../_actions/rehydrateStatusOrNotification.js'
 
 export function putStatus (statusesStore, status) {
   statusesStore.put(cloneForStorage(status))
@@ -36,6 +36,10 @@ export function storeAccount (accountsStore, account) {
 }
 
 export function storeStatus (statusesStore, accountsStore, status) {
+  if (status[rehydrated]) {
+    console.warn(new Error('attempt to store hydrated status in db'))
+    return
+  }
   putStatus(statusesStore, status)
   putAccount(accountsStore, status.account)
   if (status.reblog) {
@@ -57,7 +61,7 @@ async function insertTimelineNotifications (instanceName, timeline, notification
     setInCache(notificationsCache, instanceName, notification.id, notification)
     setInCache(accountsCache, instanceName, notification.account.id, notification.account)
     if (notification.status) {
-      setInCache(statusesCache, instanceName, notification.status.id, notification.status)
+      setInCache(statusesCache, instanceName, notification.status.id, cloneDeep(notification.status))
     }
   }
   const db = await getDatabase(instanceName)
@@ -110,7 +114,7 @@ async function insertStatusThread (instanceName, statusId, statuses) {
 }
 
 export async function insertTimelineItems (instanceName, timeline, timelineItems) {
-  console.log('insertTimelineItems', instanceName, timeline, timelineItems)
+  console.log('insertTimelineItems', instanceName, timeline, timelineItems.length, 'items')
   /* no await */ scheduleCleanup()
   if (timeline === 'notifications' || timeline === 'notifications/mentions') {
     return insertTimelineNotifications(instanceName, timeline, timelineItems)

@@ -1,5 +1,5 @@
-<div class="status-header {isStatusInNotification ? 'status-in-notification' : ''} {notificationType === 'follow' ? 'header-is-follow' : ''}">
-  <div class="status-header-avatar {timelineType === 'pinned' || notificationType === 'poll' ? 'hidden' : ''}">
+<div class="status-header {isStatusInNotification ? 'status-in-notification' : ''} {standalone ? 'header-is-standalone' : ''}">
+  <div class="status-header-avatar {avatarHidden}">
     <a id={avatarElementId}
        href="/accounts/{accountId}"
        rel="prefetch"
@@ -19,7 +19,7 @@
       <span class="status-header-author">
         {intl.pinnedStatus}
       </span>
-    {:elseif notificationType !== 'poll'}
+    {:elseif icon !== '#fa-question' && notificationType !== 'poll'}
       <a id={authorElementId}
          href="/accounts/{accountId}"
          rel="prefetch"
@@ -30,7 +30,12 @@
       </a>
     {/if}
 
-    <span class="status-header-action">{actionText}</span>
+    {#if actionText}
+      <span class="status-header-action">{actionText}</span>
+    {/if}
+    {#if icon === '#fa-question'}
+    <a class="report-button button" target="blank" href="https://github.com/easrng/enafore/issues/new?title={encodeURIComponent(actionText)}">Report</a>
+    {/if}
   </div>
 </div>
 <style>
@@ -40,8 +45,8 @@
     display: flex;
     align-items: center;
   }
-  .status-header.header-is-follow {
-    margin-bottom: 0; /* standalone, so doesn't need a bottom margin */
+  .status-header.header-is-standalone {
+    margin-bottom: 0;
   }
 
   .status-header-avatar {
@@ -71,6 +76,7 @@
     flex: 1;
     min-width: 0;
     width: 0;
+    align-items: center;
   }
 
   .status-header-author {
@@ -82,9 +88,10 @@
   }
 
   .status-header-action {
-    margin-left: 0.5ch;
-    white-space: nowrap;
+    margin: 0 0.5ch;
     flex: 1;
+    width: 0;
+    white-space: pre-wrap;
   }
 
   .status-header-action,
@@ -99,6 +106,10 @@
   .status-in-notification .status-header-author:visited,
   .status-in-notification .status-header-author:hover {
     color: var(--body-text-color);
+  }
+
+  .report-button {
+    padding: 6px 12px;
   }
 
   @media (max-width: 767px) {
@@ -139,6 +150,8 @@
           return '#fa-thumb-tack'
         } else if ((notificationType === 'reblog') || (status && status.reblog)) {
           return '#fa-retweet'
+        } else if (notificationType === 'favourite') {
+          return '#fa-star'
         } else if (notificationType === 'follow') {
           return '#fa-user-plus'
         } else if (notificationType === 'poll') {
@@ -153,16 +166,18 @@
           return '#fa-hourglass'
         } else if (notificationType === 'admin.report') {
           return '#fa-flag'
+        } else if (notificationType === 'pleroma:emoji_reaction' || notificationType === 'reaction') {
+          return null
         }
-        return '#fa-star'
+        return '#fa-question'
       },
-      actionText: ({ notificationType, status, $currentVerifyCredentials }) => {
+      actionText: ({ notificationType, status, $currentVerifyCredentials, icon }) => {
         if (notificationType === 'reblog') {
           return 'intl.rebloggedYou'
         } else if (notificationType === 'favourite') {
           return 'intl.favoritedYou'
         } else if (notificationType === 'pleroma:emoji_reaction' || notificationType === 'reaction') {
-          return 'reacted with an emoji'
+          return 'intl.reacted'
         } else if (notificationType === 'admin.sign_up') {
           return 'intl.signedUp'
         } else if (notificationType === 'follow') {
@@ -183,9 +198,35 @@
           return 'intl.requestedFollow'
         } else if (notificationType === 'admin.report') {
           return 'intl.reported'
-        } else {
-          return ''
+        } else if (notificationType) {
+          return `Unhandled notification type "${notificationType}"`
         }
+      },
+      standalone: ({ notificationType, status }) => {
+        if (notificationType === 'reblog') {
+          return false
+        } else if (notificationType === 'favourite') {
+          return false
+        } else if (notificationType === 'pleroma:emoji_reaction' || notificationType === 'reaction') {
+          return false
+        } else if (notificationType === 'admin.sign_up') {
+          return true
+        } else if (notificationType === 'follow') {
+          return true
+        } else if (notificationType === 'status') {
+          return false
+        } else if (notificationType === 'poll') {
+          return false
+        } else if (status && status.reblog) {
+          return false
+        } else if (notificationType === 'update') {
+          return false
+        } else if (notificationType === 'follow_request') {
+          return true
+        } else if (notificationType === 'admin.report') {
+          return false
+        }
+        return true
       },
       emojiReaction: ({ notification, $autoplayGifs }) => {
         if (notification && (notification.type === 'pleroma:emoji_reaction' || notification.type === 'reaction') && notification.emoji) {
@@ -196,7 +237,8 @@
             shortcode
           }], $autoplayGifs, true)
         }
-      }
+      },
+      avatarHidden: ({ timelineType, notificationType, icon }) => icon === '#fa-question' || timelineType === 'pinned' || notificationType === 'poll' ? 'hidden' : ''
     }
   }
 </script>

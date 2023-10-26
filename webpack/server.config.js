@@ -9,6 +9,7 @@ import { mode, dev, resolve, inlineSvgs, version, isUpstream } from './shared.co
 // (because they're only used on the client side)
 const NOOP_MODULES = [
   '../_workers/blurhash.js',
+  '../_workers/processContent.js',
   'tesseract.js/dist/worker.min.js',
   'tesseract.js/dist/worker.min.js.map',
   'tesseract.js-core/tesseract-core.wasm',
@@ -16,6 +17,7 @@ const NOOP_MODULES = [
   'tesseract.js/src/createWorker.js',
   'tesseract.js/src/createWorker.js.map',
   '@easrng/image-grid/index.js',
+  '@easrng/sparkle/index.js',
   'katex/dist/katex.min.css'
 ]
 

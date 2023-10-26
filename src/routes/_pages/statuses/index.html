@@ -1,0 +1,37 @@
+{#if $isUserLoggedIn}
+  <TimelinePage timeline="status/{params.statusId}">
+    <DynamicPageBanner title="" ariaTitle="{intl.statusThreadPage}" />
+  </TimelinePage>
+{:else}
+  <HiddenFromSSR>
+    <FreeTextLayout>
+      <h1>{intl.status}</h1>
+
+      <p>{intl.statusNotLoggedIn}</p>
+    </FreeTextLayout>
+  </HiddenFromSSR>
+{/if}
+<script>
+  import FreeTextLayout from '../../_components/FreeTextLayout.html'
+  import { store } from '../../_store/store.js'
+  import HiddenFromSSR from '../../_components/HiddenFromSSR.html'
+  import DynamicPageBanner from '../../_components/DynamicPageBanner.html'
+  import TimelinePage from '../../_components/TimelinePage.html'
+
+  export default {
+    oncreate () {
+      const { isUserLoggedIn } = this.store.get()
+      const { params } = this.get()
+      if (params.fallbackUrl && !isUserLoggedIn) {
+        location.replace(params.fallbackUrl)
+      }
+    },
+    store: () => store,
+    components: {
+      FreeTextLayout,
+      HiddenFromSSR,
+      DynamicPageBanner,
+      TimelinePage
+    }
+  }
+</script>

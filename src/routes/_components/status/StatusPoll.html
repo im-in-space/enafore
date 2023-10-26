@@ -262,6 +262,7 @@
   import escapeHtml from 'escape-html'
   import { emojifyText } from '../../_utils/emojifyText.js'
   import { formatIntl } from '../../_utils/formatIntl.js'
+  import { queueMicrotask } from '../../_utils/queueMicrotask.js'
 
   const REFRESH_MIN_DELAY = 1000
 
@@ -310,8 +311,15 @@
       ),
       votersCount: ({ poll }) => poll.voters_count,
       votesCount: ({ poll }) => poll.votes_count,
-      // Misskey reports the "voters_count" as null, so just use the "votes_count"
-      votersOrVotesCount: ({ votersCount, votesCount }) => typeof votersCount === 'number' ? votersCount : votesCount,
+      votersOrVotesCount: ({ votersCount, votesCount, $currentPleromaFeatures }) => {
+        // if voters_count is there and we aren't a pleroma instance, use it
+        // pleroma doesn't fetch poll votes from the remote instance,
+        // so the percentages can get pretty out of whack.
+        if (typeof votersCount === 'number' && !$currentPleromaFeatures) {
+          return votersCount
+        }
+        return votesCount
+      },
       voted: ({ poll }) => poll.voted,
       multiple: ({ poll }) => poll.multiple,
       expired: ({ poll }) => poll.expired,
@@ -378,7 +386,7 @@
             polls[pollId] = poll
             this.store.set({ polls })
             // the height of the status changes after you vote on the poll
-            requestAnimationFrame(() => this.fire('recalculateHeight'))
+            queueMicrotask(() => this.fire('recalculateHeight'))
           }
         } finally {
           this.set({ loading: false })

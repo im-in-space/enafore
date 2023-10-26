@@ -1,0 +1,70 @@
+<Title name={parsedPage.title} />
+
+<LazyPage pageComponent={parsedPage.component} params={parsedPage.params} />
+
+<script>
+  import Title from '../_components/Title.html'
+  import LazyPage from '../_components/LazyPage.html'
+  import statusPageComponent from '../_pages/statuses/index.html'
+  import favoritesPageComponent from '../_pages/statuses/favorites.html'
+  import reblogsPageComponent from '../_pages/statuses/reblogs.html'
+  import Error from '../_error.html'
+
+  export default {
+    components: {
+      LazyPage,
+      Title
+    },
+    computed: {
+      parsedPage: ({ params }) => {
+        const { statusParams } = params
+        const statusId = statusParams[0]
+        if (statusParams.length === 1) {
+          return {
+            component: statusPageComponent,
+            params: {
+              statusId
+            },
+            title: 'intl.status'
+          }
+        } if (statusParams.length === 2) {
+          const page = statusParams[1]
+          if (page === 'favorites') {
+            return {
+              component: favoritesPageComponent,
+              params: {
+                statusId
+              },
+              title: 'intl.favorites'
+            }
+          }
+          if (page === 'reblogs') {
+            return {
+              component: reblogsPageComponent,
+              params: {
+                statusId
+              },
+              title: 'intl.reblogs'
+            }
+          }
+        } else {
+          return {
+            component: statusPageComponent,
+            params: {
+              statusId,
+              fallbackUrl: 'https://' + statusParams.slice(1).map(e => encodeURI(e)).join('/')
+            },
+            title: 'intl.status'
+          }
+        }
+        return {
+          component: Error,
+          params: {
+            status: 404,
+            message: 'Not found'
+          }
+        }
+      }
+    }
+  }
+</script>

@@ -9,7 +9,7 @@
            transition:slide="{duration: 333}">
         <div class="compose-edit-toolbar">
           <div class="compose-edit-toolbar-label">
-            Editing <a href={"/statuses/" + editId}>a post</a>
+            Editing <a href={'/statuses/' + editId}>a post</a>
           </div>
           <IconButton
             label="Don't edit"
@@ -24,7 +24,7 @@
            transition:slide="{duration: 333}">
         <div class="compose-in-reply-to-toolbar">
           <div class="compose-in-reply-to-toolbar-label">
-            Replying to <a href={"/statuses/" + inReplyToId}>a post{#if inReplyToHandle}&nbsp;by {inReplyToHandle}{/if}</a>
+            Replying to <a href={'/statuses/' + inReplyToId}>a post{#if inReplyToHandle}{' '}by {inReplyToHandle}{/if}</a>
           </div>
           {#if editId}
             <div style="height:36px"></div>
@@ -43,7 +43,7 @@
            transition:slide="{duration: 333}">
         <div class="compose-quote-toolbar">
           <div class="compose-quote-toolbar-label">
-            Quoting <a href={"/statuses/" + quoteId}>a post{#if quoteHandle}&nbsp;by {quoteHandle}{/if}</a>
+            Quoting <a href={'/statuses/' + quoteId}>a post{#if quoteHandle}{' '}by {quoteHandle}{/if}</a>
           </div>
           <IconButton
             label="Don't quote"

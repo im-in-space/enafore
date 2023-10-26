@@ -4,7 +4,7 @@ import { database } from '../_database/database.js'
 import {
   getPinnedStatuses
 } from '../_api/pinnedStatuses.js'
-import { prepareToRehydrate, rehydrateStatusOrNotification } from './rehydrateStatusOrNotification.js'
+import { rehydrateStatusOrNotification } from './rehydrateStatusOrNotification.js'
 
 // Pinned statuses aren't a "normal" timeline, so their blurhashes/plaintext need to be calculated specially
 async function rehydratePinnedStatuses (statuses) {
@@ -17,21 +17,20 @@ export async function updatePinnedStatusesForAccount (accountId) {
 
   await cacheFirstUpdateAfter(
     async () => {
-      return rehydratePinnedStatuses(await getPinnedStatuses(currentInstance, accessToken, accountId))
+      return await getPinnedStatuses(currentInstance, accessToken, accountId)
     },
     async () => {
-      prepareToRehydrate() // start blurhash early to save time
       const pinnedStatuses = await database.getPinnedStatuses(currentInstance, accountId)
       if (!pinnedStatuses || !pinnedStatuses.every(Boolean)) {
         throw new Error('missing pinned statuses in idb')
       }
-      return rehydratePinnedStatuses(pinnedStatuses)
+      return pinnedStatuses
     },
     statuses => database.insertPinnedStatuses(currentInstance, accountId, statuses),
-    statuses => {
+    async statuses => {
       const { pinnedStatuses } = store.get()
       pinnedStatuses[currentInstance] = pinnedStatuses[currentInstance] || {}
-      pinnedStatuses[currentInstance][accountId] = statuses
+      pinnedStatuses[currentInstance][accountId] = await rehydratePinnedStatuses(statuses)
       store.set({ pinnedStatuses })
     }
   )

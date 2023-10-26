@@ -75,7 +75,8 @@ const nonPersistedState = {
   statusModifications: {},
   verifyCredentials: {},
   statusTranslationContents: {},
-  statusTranslations: {}
+  statusTranslations: {},
+  instanceDataReady: {}
 }
 
 const state = Object.assign({}, persistedState, nonPersistedState)

@@ -1,10 +1,10 @@
 export default {
   // Home page, basic <title> and <description>
   appName: 'Enafore',
-  appDescription: 'A somewhat unstable fediverse client with better support for Akkoma and glitch-soc instances.',
+  appDescription: 'A somewhat unstable fediverse client with better support for Akkoma, glitch-soc, and Iceshrimp instances.',
   homeDescription: `
     <p>
-      Enafore is a somewhat unstable fediverse client forked from <a href="https://github.com/nolanlawson/pinafore">Pinafore</a> with better support for Akkoma and glitch-soc instances.
+      Enafore is a somewhat unstable fediverse client with better support for Akkoma, glitch-soc, and Iceshrimp instances.
     </p>
     <p>
       Get started by logging in to an instance:
@@ -224,7 +224,7 @@ export default {
   addMedia: 'Add media (images, video, audio)',
   addPoll: 'Add poll',
   removePoll: 'Remove poll',
-  postPrivacyLabel: 'Adjust privacy (currently {label})',
+  postPrivacyLabel: 'Change post privacy (currently {label})',
   addContentWarning: 'Add content warning',
   removeContentWarning: 'Remove content warning',
   altLabel: 'Describe for visually impaired people',
@@ -302,14 +302,13 @@ export default {
   moreOptions: 'More options',
   followersLabel: 'Followed by {count}',
   followingLabel: 'Follows {count}',
-  followLabel: `Follow {requested, select,
-    true {(follow requested)}
-    other {}
-  }`,
-  unfollowLabel: `Unfollow {requested, select,
-    true {(follow requested)}
-    other {}
-  }`,
+  followLabel: 'Follow',
+  unfollowLabel: 'Unfollow',
+  unrequestLabel: 'Cancel request',
+  unfollowingLabel: 'Unfollowing...',
+  unblockingLabel: 'Unblocking...',
+  unrequestingLabel: 'Canceling...',
+  requestingLabel: 'Requesting...',
   notify: 'Subscribe to {account}',
   denotify: 'Unsubscribe from {account}',
   subscribedAccount: 'Subscribed to account',
@@ -322,6 +321,7 @@ export default {
   domainHidden: 'Domain blocked',
   muted: 'Muted',
   followsYou: 'Follows you',
+  locked: 'This account is locked. The owner manually reviews who can follow them.',
   avatarForAccount: 'Avatar for {account}',
   fields: 'Fields',
   accountHasMoved: '{account} has moved:',
@@ -332,15 +332,13 @@ export default {
   aboutApp: 'About Enafore',
   aboutAppDescription: `
   <p>
-    Enafore is
-    <a rel="noopener" target="_blank"
-       href="https://github.com/easrng/enafore">free and open-source software</a>
-    created by
-    <a rel="noopener" target="_blank" href="https://easrng.net">easrng</a>
-    and distributed under the
-    <a rel="noopener" target="_blank"
-       href="https://github.com/easrng/enafore/blob/main/LICENSE">GNU Affero General Public License</a>.
+    Enafore is <a rel="noopener" target="_blank" href="https://github.com/easrng/enafore">open-source</a> software by <a rel="noopener" target="_blank" href="https://easrng.net">easrng</a>.
   </p>
+
+  <div class="donate-banner ui-settings">
+    <h2>Want to support Enafore development?</h2>
+    <a rel="noopener" target="_blank" href="https://github.com/easrng/enafore#donate" class="button primary">Donate</a>
+  </div>
 
   <h2 id="privacy-policy">Privacy Policy</h2>
 
@@ -364,6 +362,16 @@ export default {
   <p>
     Logo thanks to "sailboat" by Gregor Cresnar from
     <a rel="noopener" target="_blank" href="https://thenounproject.com/">the Noun Project</a>.
+  </p>
+
+  <p>
+    Enafore is licensed under the <a rel="noopener" target="_blank" href="https://github.com/easrng/enafore/blob/main/LICENSE">GNU Affero General Public License</a>.
+  </p>
+  
+  <h2>Version</h2>
+  
+  <p>
+    You are running Enafore version <code class="enafore-version"></code>.
   </p>`,
   // Settings
   settings: 'Settings',
@@ -518,6 +526,7 @@ export default {
   pinnedStatus: 'Pinned post',
   rebloggedYou: 'boosted your post',
   favoritedYou: 'favorited your post',
+  reacted: 'reacted with an emoji',
   followedYou: 'followed you',
   edited: 'edited their post',
   requestedFollow: 'requested to follow you',
@@ -698,6 +707,7 @@ export default {
   postPrivacy: 'Post privacy',
   localOnly: 'Local only',
   contentType: 'Content type',
+  contentTypeLabel: 'Change content type (currently {label})',
   homeOnInstance: 'Home on {instance}',
   statusesTimelineOnInstance: 'Statuses: {timeline} timeline on {instance}',
   statusesHashtag: 'Statuses: #{hashtag} hashtag',

@@ -6,8 +6,11 @@ settings:
 
 dependencies:
   '@easrng/image-grid':
-    specifier: ^0.0.4
-    version: 0.0.4
+    specifier: ^0.0.5
+    version: 0.0.5
+  '@easrng/sparkle':
+    specifier: ^0.0.0
+    version: 0.0.0
   '@formatjs/intl-listformat':
     specifier: ^7.1.3
     version: 7.4.2
@@ -25,16 +28,16 @@ dependencies:
     version: 2.4.1
   '@rollup/plugin-json':
     specifier: ^6.0.0
-    version: 6.0.1(rollup@4.0.2)
+    version: 6.0.1(rollup@4.1.3)
   '@rollup/plugin-node-resolve':
-    specifier: ^15.1.0
-    version: 15.2.2(rollup@4.0.2)
+    specifier: ^15.2.3
+    version: 15.2.3(rollup@4.1.3)
   '@rollup/plugin-replace':
-    specifier: ^5.0.2
-    version: 5.0.3(rollup@4.0.2)
+    specifier: ^5.0.4
+    version: 5.0.4(rollup@4.1.3)
   '@rollup/plugin-terser':
     specifier: ^0.4.4
-    version: 0.4.4(rollup@4.0.2)
+    version: 0.4.4(rollup@4.1.3)
   arrow-key-navigation:
     specifier: ^1.2.0
     version: 1.2.0
@@ -49,7 +52,7 @@ dependencies:
     version: 3.5.3
   circular-dependency-plugin:
     specifier: ^5.2.2
-    version: 5.2.2(webpack@5.88.2)
+    version: 5.2.2(webpack@5.89.0)
   country-flag-emoji-polyfill:
     specifier: ^0.1.4
     version: 0.1.4
@@ -61,16 +64,16 @@ dependencies:
     version: 0.1.1
   css-loader:
     specifier: ^6.8.1
-    version: 6.8.1(webpack@5.88.2)
+    version: 6.8.1(webpack@5.89.0)
   dompurify:
     specifier: ^3.0.5
     version: 3.0.6
   emoji-picker-element:
-    specifier: ^1.13.1
-    version: 1.18.3
+    specifier: ^1.18.4
+    version: 1.18.4
   emoji-picker-element-data:
-    specifier: ^1.3.0
-    version: 1.4.0
+    specifier: ^1.5.0
+    version: 1.5.0
   emoji-regex:
     specifier: ^10.2.1
     version: 10.2.1
@@ -110,6 +113,9 @@ dependencies:
   lingva-scraper:
     specifier: ^1.1.0
     version: 1.1.0
+  linkedom:
+    specifier: ^0.16.1
+    version: 0.16.1
   localstorage-memory:
     specifier: ^1.0.3
     version: 1.0.3
@@ -119,6 +125,9 @@ dependencies:
   lodash.noop:
     specifier: ^3.0.1
     version: 3.0.1
+  mfm-js:
+    specifier: ^0.23.3
+    version: 0.23.3
   npm-run-all:
     specifier: ^4.1.5
     version: 4.1.5
@@ -135,8 +144,8 @@ dependencies:
     specifier: ^0.3.0
     version: 0.3.0
   rollup:
-    specifier: ^4.0.2
-    version: 4.0.2
+    specifier: ^4.1.3
+    version: 4.1.3
   rtl-detect:
     specifier: ^1.0.4
     version: 1.0.4
@@ -144,17 +153,17 @@ dependencies:
     specifier: ^3.0.0
     version: 3.0.0
   sapper:
-    specifier: easrng/sapper#70f352c
-    version: github.com/easrng/sapper/70f352c
+    specifier: easrng/sapper#d9ba7b575e829ee1b017afe0f90558c41384066d
+    version: github.com/easrng/sapper/d9ba7b575e829ee1b017afe0f90558c41384066d
   sass:
-    specifier: ^1.56.1
-    version: 1.69.0
+    specifier: ^1.69.3
+    version: 1.69.3
   stringz:
     specifier: ^2.1.0
     version: 2.1.0
   style-loader:
     specifier: ^3.3.3
-    version: 3.3.3(webpack@5.88.2)
+    version: 3.3.3(webpack@5.89.0)
   svelte:
     specifier: ^2.16.1
     version: 2.16.1
@@ -172,7 +181,7 @@ dependencies:
     version: 3.0.2
   terser-webpack-plugin:
     specifier: ^5.3.6
-    version: 5.3.9(webpack@5.88.2)
+    version: 5.3.9(webpack@5.89.0)
   tesseract.js:
     specifier: ^5.0.2
     version: 5.0.2
@@ -183,14 +192,14 @@ dependencies:
     specifier: ^0.2.1
     version: 0.2.1
   webpack:
-    specifier: ^5.88.2
-    version: 5.88.2
+    specifier: ^5.89.0
+    version: 5.89.0
   webpack-bundle-analyzer:
     specifier: ^4.7.0
     version: 4.9.1
   worker-loader:
     specifier: ^3.0.8
-    version: 3.0.8(webpack@5.88.2)
+    version: 3.0.8(webpack@5.89.0)
 
 devDependencies:
   '@fastify/pre-commit':
@@ -212,8 +221,12 @@ packages:
     engines: {node: '>=10.0.0'}
     dev: false
 
-  /@easrng/image-grid@0.0.4:
-    resolution: {integrity: sha512-Lt/KZ0L+QumrId6aM9I5+Wdh5erKwZwN/M6cVnt8IfN9Mbyr4/lBTL2AJUI449TZB6vHlrhgY9khtk7+yLz1mw==}
+  /@easrng/image-grid@0.0.5:
+    resolution: {integrity: sha512-Yl7qTNXavR2i/s6nH4FSt3IQTAXFEK2+z1Gste/+UZ3XIr4uc5Y2KhKqDpOgH9DWbt3aqNguraLtsW5dqyIf2g==}
+    dev: false
+
+  /@easrng/sparkle@0.0.0:
+    resolution: {integrity: sha512-QCgQMV8cr4TkQIJUB3vXLE2itvG34kHKFE6g4U664UYvRT7u+MvvdGsh2jnX3VMWCMobc/JCJhRlhOVJNZz/Nw==}
     dev: false
 
   /@eslint-community/eslint-utils@4.4.0(eslint@8.51.0):
@@ -527,7 +540,7 @@ packages:
       '@resvg/resvg-js-win32-x64-msvc': 2.4.1
     dev: false
 
-  /@rollup/plugin-json@6.0.1(rollup@4.0.2):
+  /@rollup/plugin-json@6.0.1(rollup@4.1.3):
     resolution: {integrity: sha512-RgVfl5hWMkxN1h/uZj8FVESvPuBJ/uf6ly6GTj0GONnkfoBN5KC0MSz+PN2OLDgYXMhtG0mWpTrkiOjoxAIevw==}
     engines: {node: '>=14.0.0'}
     peerDependencies:
@@ -536,12 +549,12 @@ packages:
       rollup:
         optional: true
     dependencies:
-      '@rollup/pluginutils': 5.0.5(rollup@4.0.2)
-      rollup: 4.0.2
+      '@rollup/pluginutils': 5.0.5(rollup@4.1.3)
+      rollup: 4.1.3
     dev: false
 
-  /@rollup/plugin-node-resolve@15.2.2(rollup@4.0.2):
-    resolution: {integrity: sha512-f64bU4OKqV0yihtxFemmuf0oj37pToCFMISCA+sJbbIAl5wcpbRO9XgWNWb1tDiWQJUcPxo6V0l59hcuZOQ3kw==}
+  /@rollup/plugin-node-resolve@15.2.3(rollup@4.1.3):
+    resolution: {integrity: sha512-j/lym8nf5E21LwBT4Df1VD6hRO2L2iwUeUmP7litikRsVp1H6NWx20NEp0Y7su+7XGc476GnXXc4kFeZNGmaSQ==}
     engines: {node: '>=14.0.0'}
     peerDependencies:
       rollup: ^2.78.0||^3.0.0||^4.0.0
@@ -549,17 +562,17 @@ packages:
       rollup:
         optional: true
     dependencies:
-      '@rollup/pluginutils': 5.0.5(rollup@4.0.2)
+      '@rollup/pluginutils': 5.0.5(rollup@4.1.3)
       '@types/resolve': 1.20.2
       deepmerge: 4.3.1
       is-builtin-module: 3.2.1
       is-module: 1.0.0
       resolve: 1.22.6
-      rollup: 4.0.2
+      rollup: 4.1.3
     dev: false
 
-  /@rollup/plugin-replace@5.0.3(rollup@4.0.2):
-    resolution: {integrity: sha512-je7fu05B800IrMlWjb2wzJcdXzHYW46iTipfChnBDbIbDXhASZs27W1B58T2Yf45jZtJUONegpbce+9Ut2Ti/Q==}
+  /@rollup/plugin-replace@5.0.4(rollup@4.1.3):
+    resolution: {integrity: sha512-E2hmRnlh09K8HGT0rOnnri9OTh+BILGr7NVJGB30S4E3cLRn3J0xjdiyOZ74adPs4NiAMgrjUMGAZNJDBgsdmQ==}
     engines: {node: '>=14.0.0'}
     peerDependencies:
       rollup: ^1.20.0||^2.0.0||^3.0.0||^4.0.0
@@ -567,12 +580,12 @@ packages:
       rollup:
         optional: true
     dependencies:
-      '@rollup/pluginutils': 5.0.5(rollup@4.0.2)
-      magic-string: 0.27.0
-      rollup: 4.0.2
+      '@rollup/pluginutils': 5.0.5(rollup@4.1.3)
+      magic-string: 0.30.5
+      rollup: 4.1.3
     dev: false
 
-  /@rollup/plugin-terser@0.4.4(rollup@4.0.2):
+  /@rollup/plugin-terser@0.4.4(rollup@4.1.3):
     resolution: {integrity: sha512-XHeJC5Bgvs8LfukDwWZp7yeqin6ns8RTl2B9avbejt6tZqsqvVoWI7ZTQrcNsfKEDWBTnTxM8nMDkO2IFFbd0A==}
     engines: {node: '>=14.0.0'}
     peerDependencies:
@@ -581,13 +594,13 @@ packages:
       rollup:
         optional: true
     dependencies:
-      rollup: 4.0.2
+      rollup: 4.1.3
       serialize-javascript: 6.0.1
       smob: 1.4.1
       terser: 5.21.0
     dev: false
 
-  /@rollup/pluginutils@5.0.5(rollup@4.0.2):
+  /@rollup/pluginutils@5.0.5(rollup@4.1.3):
     resolution: {integrity: sha512-6aEYR910NyP73oHiJglti74iRyOwgFU4x3meH/H8OJx6Ry0j6cOVZ5X/wTvub7G7Ao6qaHBEaNsV3GLJkSsF+Q==}
     engines: {node: '>=14.0.0'}
     peerDependencies:
@@ -599,99 +612,99 @@ packages:
       '@types/estree': 1.0.2
       estree-walker: 2.0.2
       picomatch: 2.3.1
-      rollup: 4.0.2
+      rollup: 4.1.3
     dev: false
 
-  /@rollup/rollup-android-arm-eabi@4.0.2:
-    resolution: {integrity: sha512-xDvk1pT4vaPU2BOLy0MqHMdYZyntqpaBf8RhBiezlqG9OjY8F50TyctHo8znigYKd+QCFhCmlmXHOL/LoaOl3w==}
+  /@rollup/rollup-android-arm-eabi@4.1.3:
+    resolution: {integrity: sha512-pugxxuAygWTDj3WcyXGspor433gR35riZz66L0EdToX+shXGfh9qKgEFdTPoW9KwIrrJnxDGv9ncfl+a9bFg1w==}
     cpu: [arm]
     os: [android]
     requiresBuild: true
     dev: false
     optional: true
 
-  /@rollup/rollup-android-arm64@4.0.2:
-    resolution: {integrity: sha512-lqCglytY3E6raze27DD9VQJWohbwCxzqs9aSHcj5X/8hJpzZfNdbsr4Ja9Hqp6iPyF53+5PtPx0pKRlkSvlHZg==}
+  /@rollup/rollup-android-arm64@4.1.3:
+    resolution: {integrity: sha512-gO5j0qqT6ETdSf10gxTBeBmsKPC6yK80StTxHr4pvTYpPDfI7/mzSHy/3ez3OQyjxcBXs3i8tSF8aknwCkzv6Q==}
     cpu: [arm64]
     os: [android]
     requiresBuild: true
     dev: false
     optional: true
 
-  /@rollup/rollup-darwin-arm64@4.0.2:
-    resolution: {integrity: sha512-nkBKItS6E6CCzvRwgiKad+j+1ibmL7SIInj7oqMWmdkCjiSX6VeVZw2mLlRKIUL+JjsBgpATTfo7BiAXc1v0jA==}
+  /@rollup/rollup-darwin-arm64@4.1.3:
+    resolution: {integrity: sha512-ibOYcmg3VTXxQOb9HnrmGCshO/5hWucl/Yw8KSt6DE12oif4ssX9pxBBEodu65fprS6qKy80rSs1VvpzVFRRXA==}
     cpu: [arm64]
     os: [darwin]
     requiresBuild: true
     dev: false
     optional: true
 
-  /@rollup/rollup-darwin-x64@4.0.2:
-    resolution: {integrity: sha512-vX2C8xvWPIbpEgQht95+dY6BReKAvtDgPDGi0XN0kWJKkm4WdNmq5dnwscv/zxvi+n6jUTBhs6GtpkkWT4q8Gg==}
+  /@rollup/rollup-darwin-x64@4.1.3:
+    resolution: {integrity: sha512-wgWtqQZjtOVuWnDr3BoNqO9mRpgb/XoqSyzqHxA4xSUgj+3cksJzTe7XCTzBoRc2IPB0mWr9/W+QDUu7OWleEQ==}
     cpu: [x64]
     os: [darwin]
     requiresBuild: true
     dev: false
     optional: true
 
-  /@rollup/rollup-linux-arm-gnueabihf@4.0.2:
-    resolution: {integrity: sha512-DVFIfcHOjgmeHOAqji4xNz2wczt1Bmzy9MwBZKBa83SjBVO/i38VHDR+9ixo8QpBOiEagmNw12DucG+v55tCrg==}
+  /@rollup/rollup-linux-arm-gnueabihf@4.1.3:
+    resolution: {integrity: sha512-73mb6Fk3WnygqCbYHPk7EWAUvmfKZr2teKD+Qb3i6nLQ3wEihEJixg8psUi0pmge77qmuONjOIiJnT8+hTWqEQ==}
     cpu: [arm]
     os: [linux]
     requiresBuild: true
     dev: false
     optional: true
 
-  /@rollup/rollup-linux-arm64-gnu@4.0.2:
-    resolution: {integrity: sha512-GCK/a9ItUxPI0V5hQEJjH4JtOJO90GF2Hja7TO+EZ8rmkGvEi8/ZDMhXmcuDpQT7/PWrTT9RvnG8snMd5SrhBQ==}
+  /@rollup/rollup-linux-arm64-gnu@4.1.3:
+    resolution: {integrity: sha512-XI7zAp5ADEph8iHXjk4silYARe/QO7zDGM71R7A6jnny4vlXCYBPB6V6rZm2kZ4VfckeZQukdGOlnvvW5fWLzA==}
     cpu: [arm64]
     os: [linux]
     requiresBuild: true
     dev: false
     optional: true
 
-  /@rollup/rollup-linux-arm64-musl@4.0.2:
-    resolution: {integrity: sha512-cLuBp7rOjIB1R2j/VazjCmHC7liWUur2e9mFflLJBAWCkrZ+X0+QwHLvOQakIwDymungzAKv6W9kHZnTp/Mqrg==}
+  /@rollup/rollup-linux-arm64-musl@4.1.3:
+    resolution: {integrity: sha512-6yFpmrH6xx00b9qEoabkyeHzamKSv8c43+SgaItTcHzgaaX3HGRSK+ZZt9GokB3Cc7z4HXllK7Ts5fF5W8FddQ==}
     cpu: [arm64]
     os: [linux]
     requiresBuild: true
     dev: false
     optional: true
 
-  /@rollup/rollup-linux-x64-gnu@4.0.2:
-    resolution: {integrity: sha512-Zqw4iVnJr2naoyQus0yLy7sLtisCQcpdMKUCeXPBjkJtpiflRime/TMojbnl8O3oxUAj92mxr+t7im/RbgA20w==}
+  /@rollup/rollup-linux-x64-gnu@4.1.3:
+    resolution: {integrity: sha512-Zbb2CWJfbu2aZqd7hl9otRffh0MgYVhVsOz/sV6LSJcJ2LldBuvn2K9wVTo1gKh2xtTnJo93vusSppk1WtB4NA==}
     cpu: [x64]
     os: [linux]
     requiresBuild: true
     dev: false
     optional: true
 
-  /@rollup/rollup-linux-x64-musl@4.0.2:
-    resolution: {integrity: sha512-jJRU9TyUD/iMqjf8aLAp7XiN3pIj5v6Qcu+cdzBfVTKDD0Fvua4oUoK8eVJ9ZuKBEQKt3WdlcwJXFkpmMLk6kg==}
+  /@rollup/rollup-linux-x64-musl@4.1.3:
+    resolution: {integrity: sha512-GNATGqh1xMSIwFt3A7co3zyw8hMlUs8E+cBe9Hank0L32hpDYavoPqu7Uat74es+eDqrGn0szfm08ZjYf/ApCQ==}
     cpu: [x64]
     os: [linux]
     requiresBuild: true
     dev: false
     optional: true
 
-  /@rollup/rollup-win32-arm64-msvc@4.0.2:
-    resolution: {integrity: sha512-ZkS2NixCxHKC4zbOnw64ztEGGDVIYP6nKkGBfOAxEPW71Sji9v8z3yaHNuae/JHPwXA+14oDefnOuVfxl59SmQ==}
+  /@rollup/rollup-win32-arm64-msvc@4.1.3:
+    resolution: {integrity: sha512-rTxOCH2ZLWkbZJh621qNmS4zDjvIOnvwXdd0Zvkm8twvVoyWATbn6q/bI3bXjQeV7mEASXU1atUWzdeovTcrrw==}
     cpu: [arm64]
     os: [win32]
     requiresBuild: true
     dev: false
     optional: true
 
-  /@rollup/rollup-win32-ia32-msvc@4.0.2:
-    resolution: {integrity: sha512-3SKjj+tvnZ0oZq2BKB+fI+DqYI83VrRzk7eed8tJkxeZ4zxJZcLSE8YDQLYGq1tZAnAX+H076RHHB4gTZXsQzw==}
+  /@rollup/rollup-win32-ia32-msvc@4.1.3:
+    resolution: {integrity: sha512-JcnmTz5d2kcxKTjcPPt0p86IzhViYOj8f8qFWwyzgDpCHFLXAKv9C4uxnwTornHvWq31km7zZ8IBZui8LjX52w==}
     cpu: [ia32]
     os: [win32]
     requiresBuild: true
     dev: false
     optional: true
 
-  /@rollup/rollup-win32-x64-msvc@4.0.2:
-    resolution: {integrity: sha512-MBdJIOxRauKkry7t2q+rTHa3aWjVez2eioWg+etRVS3dE4tChhmt5oqZYr48R6bPmcwEhxQr96gVRfeQrLbqng==}
+  /@rollup/rollup-win32-x64-msvc@4.1.3:
+    resolution: {integrity: sha512-B9oi0JSMvSOsjB0Rve1WLFFEv+8uRvok+N3XWtxzSi/jjiVeM6wbfFgnHzZ2LA7FG9tJs0V7aHLD+73Q8VUIvg==}
     cpu: [x64]
     os: [win32]
     requiresBuild: true
@@ -1228,13 +1241,13 @@ packages:
     engines: {node: '>=6.0'}
     dev: false
 
-  /circular-dependency-plugin@5.2.2(webpack@5.88.2):
+  /circular-dependency-plugin@5.2.2(webpack@5.89.0):
     resolution: {integrity: sha512-g38K9Cm5WRwlaH6g03B9OEz/0qRizI+2I7n+Gz+L5DxXJAPAiWQvwlYNm1V1jkdpUv95bOe/ASm2vfi/G560jQ==}
     engines: {node: '>=6.0.0'}
     peerDependencies:
       webpack: '>=4.0.1'
     dependencies:
-      webpack: 5.88.2
+      webpack: 5.89.0
     dev: false
 
   /clean-css@4.2.4:
@@ -1359,7 +1372,7 @@ packages:
       obj-to-css: 1.0.1
     dev: false
 
-  /css-loader@6.8.1(webpack@5.88.2):
+  /css-loader@6.8.1(webpack@5.89.0):
     resolution: {integrity: sha512-xDAXtEVGlD0gJ07iclwWVkLoZOpEvAWaSyf6W18S2pOC//K8+qUDIx8IIT3D+HjnmkJPQeesOPv5aiUaJsCM2g==}
     engines: {node: '>= 12.13.0'}
     peerDependencies:
@@ -1373,7 +1386,7 @@ packages:
       postcss-modules-values: 4.0.0(postcss@8.4.31)
       postcss-value-parser: 4.2.0
       semver: 7.5.4
-      webpack: 5.88.2
+      webpack: 5.89.0
     dev: false
 
   /css-select@5.1.0:
@@ -1427,6 +1440,10 @@ packages:
     engines: {node: ^10 || ^12.20.0 || ^14.13.0 || >=15.0.0, npm: '>=7.0.0'}
     dependencies:
       css-tree: 2.2.1
+    dev: false
+
+  /cssom@0.5.0:
+    resolution: {integrity: sha512-iKuQcq+NdHqlAcwUY0o/HL69XQrUaQdMjmStJ8JFmUaiiQErlhrmuigkg/CU4E2J0IyUKUrMAgl36TvN67MqTw==}
     dev: false
 
   /debug@2.6.9:
@@ -1594,12 +1611,12 @@ packages:
     resolution: {integrity: sha512-54z7squS1FyFRSUqq/knOFSptjjogLZXbKcYk3B0qkE1KZzvqASwRZnY2KzZQJqIYLVD38XZeoiMRflYSwyO4w==}
     dev: false
 
-  /emoji-picker-element-data@1.4.0:
-    resolution: {integrity: sha512-1SSP0Tat3zswRus82/D8tSpQWY/raP/FDSmlZmSH4Ek+R24DnO2ihn3Y77RuHjmnMWtZBAzSEM4+an/b91RYyg==}
+  /emoji-picker-element-data@1.5.0:
+    resolution: {integrity: sha512-2lqImCs/lscLT5+ydNdiV9vLq2/lpTOqQ8ZldwxnVcqSAi4AY0HKNU+gf2RxgFQS7n0V9yhyl+J81ltmAVOeaw==}
     dev: false
 
-  /emoji-picker-element@1.18.3:
-    resolution: {integrity: sha512-tCRwVJOJU18OEcUlqyzWysJn6UEhei4/LBE9RNOJGuXva4uQFisrOGPhLoYn1osHrW5B9/bTgFRSQrPiraoGLA==}
+  /emoji-picker-element@1.18.4:
+    resolution: {integrity: sha512-Jo+HyHIPSqrHTyLnw+SJn0KWCd1WhA38Iqcz6wKxfqkevK9V8ECJELgFyxXUCRmgQkVmPrTVGLpB1mqIb8/iSQ==}
     dev: false
 
   /emoji-regex@10.2.1:
@@ -2381,6 +2398,10 @@ packages:
     resolution: {integrity: sha512-mxIDAb9Lsm6DoOJ7xH+5+X4y1LU/4Hi50L9C5sIswK3JzULS4bwk1FvjdBgvYR4bzT4tuUQiC15FE2f5HbLvYw==}
     dev: false
 
+  /html-escaper@3.0.3:
+    resolution: {integrity: sha512-RuMffC89BOWQoY0WKGpIhn5gX3iI54O6nRA0yC124NYVtzjmFWBIiFd8M0x+ZdX0P9R4lADg1mgP8C7PxGOWuQ==}
+    dev: false
+
   /html-minifier@3.5.21:
     resolution: {integrity: sha512-LKUKwuJDhxNa3uf/LPR/KVjm/l3rBqtYeCOAekvG8F1vItxMUpueGd94i/asDDr8/1u7InxzFA5EeGjhhG5mMA==}
     engines: {node: '>=4'}
@@ -2397,6 +2418,15 @@ packages:
 
   /htmlparser2@8.0.2:
     resolution: {integrity: sha512-GYdjWKDkbRLkZ5geuHs5NY1puJ+PXwP7+fHPRz06Eirsb9ugf6d8kkXav6ADhcODhFFPMIXyxkxSuMf3D6NCFA==}
+    dependencies:
+      domelementtype: 2.3.0
+      domhandler: 5.0.3
+      domutils: 3.1.0
+      entities: 4.5.0
+    dev: false
+
+  /htmlparser2@9.0.0:
+    resolution: {integrity: sha512-uxbSI98wmFT/G4P2zXx4OVx04qWUmyFPrD2/CNepa2Zo3GPNaCaaxElDgwUrwYWkK1nr9fft0Ya8dws8coDLLQ==}
     dependencies:
       domelementtype: 2.3.0
       domhandler: 5.0.3
@@ -2772,6 +2802,16 @@ packages:
       - debug
     dev: false
 
+  /linkedom@0.16.1:
+    resolution: {integrity: sha512-kbK4txFSjGstS8aHkYo3sRSD7viQbE1TAlYRqiqU13oihzzQFp23D1OwW3VdAQJuzqzBB+1qo9Qvp0xOeoVKig==}
+    dependencies:
+      css-select: 5.1.0
+      cssom: 0.5.0
+      html-escaper: 3.0.3
+      htmlparser2: 9.0.0
+      uhyphen: 0.2.0
+    dev: false
+
   /load-json-file@4.0.0:
     resolution: {integrity: sha512-Kx8hMakjX03tiGTLAIdJ+lL0htKnXjEZN6hk/tozf/WOuYGdZBJrZ+rCJRbVCugsjB3jMLn9746NsQIf5VjBMw==}
     engines: {node: '>=4'}
@@ -2896,8 +2936,8 @@ packages:
     dependencies:
       yallist: 4.0.0
 
-  /magic-string@0.27.0:
-    resolution: {integrity: sha512-8UnnX2PeRAPZuN12svgR9j7M1uWMovg/CEnIwIG0LFkXSJJe4PdfUGiTGl8V9bsBHFUtfVINcSyYxd7q+kx9fA==}
+  /magic-string@0.30.5:
+    resolution: {integrity: sha512-7xlpfBaQaP/T6Vh8MO/EqXSW5En6INHEvEXQiuff7Gku0PWjU3uf6w/j9o7O+SpB5fOAkrI5HeoNgwjEO0pFsA==}
     engines: {node: '>=12'}
     dependencies:
       '@jridgewell/sourcemap-codec': 1.4.15
@@ -2932,6 +2972,12 @@ packages:
   /methods@1.1.2:
     resolution: {integrity: sha512-iclAHeNqNm68zFtnZ0e+1L2yUIdvzNoauKU4WBA3VvH/vPFieF7qfRlwUZU+DA9P9bPXIS90ulxoUoCH23sV2w==}
     engines: {node: '>= 0.6'}
+    dev: false
+
+  /mfm-js@0.23.3:
+    resolution: {integrity: sha512-o8scYmbey6rMUmWAlT3k3ntt6khaCLdxlmHhAWV5wTTMj2OK1atQvZfRUq0SIVm1Jig08qlZg/ps71xUqrScNA==}
+    dependencies:
+      twemoji-parser: 14.0.0
     dev: false
 
   /mime-db@1.52.0:
@@ -3537,23 +3583,23 @@ packages:
       glob: 7.2.3
     dev: true
 
-  /rollup@4.0.2:
-    resolution: {integrity: sha512-MCScu4usMPCeVFaiLcgMDaBQeYi1z6vpWxz0r0hq0Hv77Y2YuOTZldkuNJ54BdYBH3e+nkrk6j0Rre/NLDBYzg==}
+  /rollup@4.1.3:
+    resolution: {integrity: sha512-ytWlDll2r0Q7iQGX+aZ8ptfZIE55vLApNuMnMYlaMO40wk3o/nN6sjuEvwQjhnAcqQ+NSX4vPgXE/eIO609HMA==}
     engines: {node: '>=18.0.0', npm: '>=8.0.0'}
     hasBin: true
     optionalDependencies:
-      '@rollup/rollup-android-arm-eabi': 4.0.2
-      '@rollup/rollup-android-arm64': 4.0.2
-      '@rollup/rollup-darwin-arm64': 4.0.2
-      '@rollup/rollup-darwin-x64': 4.0.2
-      '@rollup/rollup-linux-arm-gnueabihf': 4.0.2
-      '@rollup/rollup-linux-arm64-gnu': 4.0.2
-      '@rollup/rollup-linux-arm64-musl': 4.0.2
-      '@rollup/rollup-linux-x64-gnu': 4.0.2
-      '@rollup/rollup-linux-x64-musl': 4.0.2
-      '@rollup/rollup-win32-arm64-msvc': 4.0.2
-      '@rollup/rollup-win32-ia32-msvc': 4.0.2
-      '@rollup/rollup-win32-x64-msvc': 4.0.2
+      '@rollup/rollup-android-arm-eabi': 4.1.3
+      '@rollup/rollup-android-arm64': 4.1.3
+      '@rollup/rollup-darwin-arm64': 4.1.3
+      '@rollup/rollup-darwin-x64': 4.1.3
+      '@rollup/rollup-linux-arm-gnueabihf': 4.1.3
+      '@rollup/rollup-linux-arm64-gnu': 4.1.3
+      '@rollup/rollup-linux-arm64-musl': 4.1.3
+      '@rollup/rollup-linux-x64-gnu': 4.1.3
+      '@rollup/rollup-linux-x64-musl': 4.1.3
+      '@rollup/rollup-win32-arm64-msvc': 4.1.3
+      '@rollup/rollup-win32-ia32-msvc': 4.1.3
+      '@rollup/rollup-win32-x64-msvc': 4.1.3
       fsevents: 2.3.3
     dev: false
 
@@ -3595,8 +3641,8 @@ packages:
     resolution: {integrity: sha512-YZo3K82SD7Riyi0E1EQPojLz7kpepnSQI9IyPbHHg1XXXevb5dJI7tpyN2ADxGcQbHG7vcyRHk0cbwqcQriUtg==}
     dev: false
 
-  /sass@1.69.0:
-    resolution: {integrity: sha512-l3bbFpfTOGgQZCLU/gvm1lbsQ5mC/WnLz3djL2v4WCJBDrWm58PO+jgngcGRNnKUh6wSsdm50YaovTqskZ0xDQ==}
+  /sass@1.69.3:
+    resolution: {integrity: sha512-X99+a2iGdXkdWn1akFPs0ZmelUzyAQfvqYc2P/MPTrJRuIRoTffGzT9W9nFqG00S+c8hXzVmgxhUuHFdrwxkhQ==}
     engines: {node: '>=14.0.0'}
     hasBin: true
     dependencies:
@@ -3899,13 +3945,13 @@ packages:
     engines: {node: '>=8'}
     dev: true
 
-  /style-loader@3.3.3(webpack@5.88.2):
+  /style-loader@3.3.3(webpack@5.89.0):
     resolution: {integrity: sha512-53BiGLXAcll9maCYtZi2RCQZKa8NQQai5C4horqKyRmHj9H7QmcUyucrH+4KW/gBQbXM2AsB0axoEcFZPlfPcw==}
     engines: {node: '>= 12.13.0'}
     peerDependencies:
       webpack: ^5.0.0
     dependencies:
-      webpack: 5.88.2
+      webpack: 5.89.0
     dev: false
 
   /supports-color@5.5.0:
@@ -4009,7 +4055,7 @@ packages:
     engines: {node: '>=6'}
     dev: false
 
-  /terser-webpack-plugin@5.3.9(webpack@5.88.2):
+  /terser-webpack-plugin@5.3.9(webpack@5.89.0):
     resolution: {integrity: sha512-ZuXsqE07EcggTWQjXUj+Aot/OMcD0bMKGgF63f7UxYcu5/AJF53aIpK1YoP5xR9l6s/Hy2b+t1AM0bLNPRuhwA==}
     engines: {node: '>= 10.13.0'}
     peerDependencies:
@@ -4030,7 +4076,7 @@ packages:
       schema-utils: 3.3.0
       serialize-javascript: 6.0.1
       terser: 5.21.0
-      webpack: 5.88.2
+      webpack: 5.89.0
     dev: false
 
   /terser@5.21.0:
@@ -4112,6 +4158,10 @@ packages:
     resolution: {integrity: sha512-AEYxH93jGFPn/a2iVAwW87VuUIkR1FVUKB77NwMF7nBTDkDrrT/Hpt/IrCJ0QXhW27jTBDcf5ZY7w6RiqTMw2Q==}
     dev: false
 
+  /twemoji-parser@14.0.0:
+    resolution: {integrity: sha512-9DUOTGLOWs0pFWnh1p6NF+C3CkQ96PWmEFwhOVmT3WbecRC+68AIqpsnJXygfkFcp4aXbOp8Dwbhh/HQgvoRxA==}
+    dev: false
+
   /type-check@0.4.0:
     resolution: {integrity: sha512-XleUoc9uwGXqjWwXaUTZAmzMcFZ5858QA2vvx1Ur5xIcixXIP+8LnFDgRplU30us6teqdlskFfu+ae4K79Ooew==}
     engines: {node: '>= 0.8.0'}
@@ -4186,6 +4236,10 @@ packages:
     dependencies:
       commander: 2.19.0
       source-map: 0.6.1
+    dev: false
+
+  /uhyphen@0.2.0:
+    resolution: {integrity: sha512-qz3o9CHXmJJPGBdqzab7qAYuW8kQGKNEuoHFYrBwV6hWIMcpAmxDLXojcHfFr9US1Pe6zUswEIJIbLI610fuqA==}
     dev: false
 
   /unbox-primitive@1.0.2:
@@ -4317,8 +4371,8 @@ packages:
     engines: {node: '>=10.13.0'}
     dev: false
 
-  /webpack@5.88.2:
-    resolution: {integrity: sha512-JmcgNZ1iKj+aiR0OvTYtWQqJwq37Pf683dY9bVORwVbUrDhLhdn/PlO2sHsFHPkj7sHNQF3JwaAkp49V+Sq1tQ==}
+  /webpack@5.89.0:
+    resolution: {integrity: sha512-qyfIC10pOr70V+jkmud8tMfajraGCZMBWJtrmuBymQKCrLTRejBI8STDp1MCyZu/QTdZSeacCQYpYNQVOzX5kw==}
     engines: {node: '>=10.13.0'}
     hasBin: true
     peerDependencies:
@@ -4348,7 +4402,7 @@ packages:
       neo-async: 2.6.2
       schema-utils: 3.3.0
       tapable: 2.2.1
-      terser-webpack-plugin: 5.3.9(webpack@5.88.2)
+      terser-webpack-plugin: 5.3.9(webpack@5.89.0)
       watchpack: 2.4.0
       webpack-sources: 3.2.3
     transitivePeerDependencies:
@@ -4424,7 +4478,7 @@ packages:
     dependencies:
       isexe: 2.0.0
 
-  /worker-loader@3.0.8(webpack@5.88.2):
+  /worker-loader@3.0.8(webpack@5.89.0):
     resolution: {integrity: sha512-XQyQkIFeRVC7f7uRhFdNMe/iJOdO6zxAaR3EWbDp45v3mDhrTi+++oswKNxShUNjPC/1xUp5DB29YKLhFo129g==}
     engines: {node: '>= 10.13.0'}
     peerDependencies:
@@ -4432,7 +4486,7 @@ packages:
     dependencies:
       loader-utils: 2.0.4
       schema-utils: 3.3.0
-      webpack: 5.88.2
+      webpack: 5.89.0
     dev: false
 
   /wrappy@1.0.2:
@@ -4469,8 +4523,8 @@ packages:
     resolution: {integrity: sha512-+J9RrgTKOmlxFSDHo0pI1xM6BLVUv+o0ZT9ANtCxGkjIVCCUdx9alUF8Gm+dGLKbkkkidWIHFDZHDMpfITt4+w==}
     dev: false
 
-  github.com/easrng/sapper/70f352c:
-    resolution: {tarball: https://codeload.github.com/easrng/sapper/tar.gz/70f352c}
+  github.com/easrng/sapper/d9ba7b575e829ee1b017afe0f90558c41384066d:
+    resolution: {tarball: https://codeload.github.com/easrng/sapper/tar.gz/d9ba7b575e829ee1b017afe0f90558c41384066d}
     name: sapper
     version: 0.27.12
     hasBin: true

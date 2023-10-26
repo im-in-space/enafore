@@ -5,10 +5,10 @@ import { addStatusOrNotification } from './addStatusOrNotification.js'
 import { database } from '../_database/database.js'
 import { emit } from '../_utils/eventBus.js'
 import { putMediaMetadata } from '../_api/media.js'
-import { uniqBy } from '../_thirdparty/lodash/objects.js'
 import { scheduleIdleTask } from '../_utils/scheduleIdleTask.js'
+import { uniqById } from '../_utils/lodash-lite.js'
 import { formatIntl } from '../_utils/formatIntl.js'
-import { prepareToRehydrate, rehydrateStatusOrNotification } from './rehydrateStatusOrNotification.js'
+import { rehydrateStatusOrNotification } from './rehydrateStatusOrNotification.js'
 
 export async function insertHandleForReply (statusId) {
   const { currentInstance } = store.get()
@@ -18,7 +18,7 @@ export async function insertHandleForReply (statusId) {
   let accounts = [originalStatus.account].concat(originalStatus.mentions || [])
     .filter(account => account.id !== currentVerifyCredentials.id)
   // Pleroma includes account in mentions as well, so make uniq
-  accounts = uniqBy(accounts, _ => _.id)
+  accounts = uniqById(accounts)
   if (!store.getComposeData(statusId, 'text') && accounts.length) {
     store.setComposeData(statusId, {
       text: accounts.map(account => `@${account.acct} `).join('')
@@ -57,7 +57,6 @@ export async function postStatus (realm, text, inReplyToId, mediaIds,
       }
     }))
     if (editId) {
-      prepareToRehydrate()
       const status = await putStatusToServer(currentInstance, accessToken, editId, text,
         inReplyToId, mediaIds, sensitive, spoilerText, visibility, poll, contentType, quoteId, localOnly)
       await database.insertStatus(currentInstance, status)

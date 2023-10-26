@@ -5,7 +5,7 @@ import {
 import { database } from '../_database/database.js'
 import { getCustomEmoji } from '../_api/emoji.js'
 import { store } from '../_store/store.js'
-import { isEqual } from '../_thirdparty/lodash/objects.js'
+import { isEqual } from '../_utils/lodash-lite.js'
 
 async function syncEmojiForInstance (instanceName, syncMethod) {
   await syncMethod(

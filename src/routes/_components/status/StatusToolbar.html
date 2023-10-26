@@ -215,8 +215,8 @@
       reblogKey: ({ uuid }) => `reblog-${uuid}`,
       replyKey: ({ uuid }) => `reply-${uuid}`,
       optionsKey: ({ uuid }) => `options-${uuid}`,
-      hasReactions: ({ status }) => Boolean(status.reactions || status.emoji_reactions),
-      hasQuote: ({ status }) => 'quote' in status
+      hasReactions: ({ originalStatus }) => Boolean(originalStatus.reactions || originalStatus.emoji_reactions),
+      hasQuote: ({ originalStatus }) => 'quote' in originalStatus
     }
   }
 </script>

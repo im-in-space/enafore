@@ -16,8 +16,8 @@ export async function deleteAndRedraft (status) {
   }
   store.clearComposeData('dialog')
   store.setComposeData('dialog', {
-    text: deletedStatus.text || statusHtmlToPlainText(status.content, status.mentions),
-    contentType: deletedStatus.content_type || 'text/plain',
+    text: (deletedStatus.akkoma && deletedStatus.akkoma.source && deletedStatus.akkoma.source.content) || deletedStatus.text || statusHtmlToPlainText(status.content, status.mentions),
+    contentType: (deletedStatus.akkoma && deletedStatus.akkoma.source && deletedStatus.akkoma.source.mediaType) || deletedStatus.content_type || 'text/plain',
     contentWarningShown: !!status.spoiler_text,
     contentWarning: status.spoiler_text || '',
     postPrivacy: status.visibility,

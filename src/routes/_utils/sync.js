@@ -11,8 +11,8 @@ export async function cacheFirstUpdateAfter (networkFetcher, dbFetcher, dbUpdate
     if (dbResponse) {
       stateSetter(dbResponse)
     }
-    const fetchAndUpdatePromise = networkPromise.then(networkResponse => {
-      /* no await */ dbUpdater(networkResponse)
+    const fetchAndUpdatePromise = networkPromise.then(async networkResponse => {
+      await dbUpdater(networkResponse)
       stateSetter(networkResponse)
     })
     if (!dbResponse) { // no cached result available, await the network

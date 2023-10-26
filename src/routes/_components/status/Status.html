@@ -7,7 +7,8 @@
          on:recalculateHeight
          ref:article
          on:load|capture="recalculateHeight()"
-         style={"--status-level:" + Math.min(8, (treeMetadata && treeMetadata.level) || 0)}
+         on:error|capture="recalculateHeight()"
+         style={style}
 >
   {#if showHeader}
     <StatusHeader {...params} />
@@ -18,7 +19,7 @@
     <StatusRelativeDate {...params} {...timestampParams} />
   {/if}
   <StatusSidebar {...params} />
-  {#if spoilerText}
+  {#if computedSpoilerText}
     <StatusSpoiler {...params} {spoilerShown} on:recalculateHeight />
   {/if}
   {#if !showContent}
@@ -124,8 +125,7 @@
     border: 1px solid var(--main-border);
     border-radius: 6px;
   }
-  .status-article {
-    padding-left: calc(10px * var(--status-level) + var(--status-pad-h)) !important;
+  .status-article {    padding-left: calc(10px * var(--status-depth) + var(--status-pad-h)) !important;
   }
   .status-article::before {
     content: "";
@@ -133,7 +133,7 @@
     top: 0;
     left: 0;
     background-image: repeating-linear-gradient(90deg, currentColor 0, currentColor 5px, transparent 5px, transparent 10px);
-    width: calc(10px * var(--status-level));
+    width: calc(10px * var(--status-depth));
     height: 100%;
     z-index: -1;
     color: var(--body-bg);
@@ -181,6 +181,8 @@
   import { tryToFocusElement } from '../../_utils/tryToFocusElement.js'
   import { on } from '../../_utils/eventBus.js'
   import { rehydrated } from '../../_actions/rehydrateStatusOrNotification.js'
+  import { canonicalStatusUrl } from '../../_utils/canonicalStatusUrl.js'
+  import '@easrng/sparkle/index.js'
 
   const INPUT_TAGS = new Set(['a', 'button', 'input', 'textarea', 'label'])
   const isUserInputElement = node => INPUT_TAGS.has(node.localName)
@@ -189,7 +191,10 @@
 
   export default {
     oncreate () {
-      const { elementId, isStatusInOwnThread, showContent, originalStatusId } = this.get()
+      const { elementId, isStatusInOwnThread, showContent, originalStatusId, originalStatusCanonicalUrl } = this.get()
+      if (isStatusInOwnThread) {
+        history.replaceState(history.state, '', originalStatusCanonicalUrl)
+      }
       on('statusUpdated', this, status => {
         if (status.id === originalStatusId) {
           this.set({
@@ -266,8 +271,8 @@
         return true
       },
       open () {
-        const { originalStatusId } = this.get()
-        goto(`/statuses/${originalStatusId}`)
+        const { originalStatusCanonicalUrl } = this.get()
+        goto(originalStatusCanonicalUrl)
       },
       openAuthorProfile () {
         const { accountForShortcut } = this.get()
@@ -294,6 +299,7 @@
         return originalStatus
       },
       originalStatusId: ({ originalStatus }) => originalStatus.id,
+      originalStatusCanonicalUrl: ({ originalStatus }) => canonicalStatusUrl(originalStatus),
       statusId: ({ status }) => status.id,
       notificationId: ({ notification }) => notification && notification.id,
       account: ({ notification, status }) => (
@@ -313,8 +319,9 @@
         // to show a "long post" content warning.
         plainTextContent.length > LONG_POST_LENGTH && measureText(plainTextContent) > LONG_POST_LENGTH
       ),
-      spoilerText: ({ originalStatus, plainTextContentOverLength }) => (
-        originalStatus.spoiler_text || (plainTextContentOverLength && LONG_POST_TEXT)
+      spoilerText: ({ originalStatus, plainTextContentOverLength }) => originalStatus.spoiler_text,
+      computedSpoilerText: ({ spoilerText, plainTextContentOverLength }) => (
+        spoilerText || (plainTextContentOverLength && LONG_POST_TEXT)
       ),
       inReplyToId: ({ originalStatus }) => originalStatus.in_reply_to_id,
       uuid: ({ $currentInstance, timelineType, timelineValue, notificationId, statusId }) => (
@@ -348,7 +355,7 @@
         originalStatus.media_attachments.length
       ),
       originalQuote: ({ originalStatus }) => originalStatus.quote,
-      showQuote: ({ originalQuote, isStatusInNotification }) => originalQuote && !isStatusInNotification,
+      showQuote: ({ isQuote, originalQuote, isStatusInNotification }) => isQuote ? false : (originalQuote && !isStatusInNotification),
       mediaAttachments: ({ originalStatus }) => (
         originalStatus.media_attachments
       ),
@@ -375,12 +382,12 @@
       ),
       reblog: ({ status }) => status.reblog,
       ariaLabel: ({
-        originalAccount, account, plainTextContent, shortInlineFormattedDate, spoilerText,
+        originalAccount, account, plainTextContent, shortInlineFormattedDate, computedSpoilerText,
         showContent, reblog, notification, visibility, $omitEmojiInDisplayNames, $disableLongAriaLabels,
         showMedia, sensitive, sensitiveShown, mediaAttachments, showPoll
       }) => (
         getAccessibleLabelForStatus(originalAccount, account, plainTextContent,
-          shortInlineFormattedDate, spoilerText, showContent,
+          shortInlineFormattedDate, computedSpoilerText, showContent,
           reblog, notification, visibility, $omitEmojiInDisplayNames, $disableLongAriaLabels,
           showMedia, sensitive, sensitiveShown, mediaAttachments, showPoll
         )
@@ -390,7 +397,7 @@
         status.reblog ||
         timelineType === 'pinned'
       ),
-      hasReactions: ({ originalStatus }) => ((originalStatus.reactions || originalStatus.emoji_reactions) || []).length > 0,
+      hasReactions: ({ isQuote, originalStatus }) => isQuote ? false : ((originalStatus.reactions || originalStatus.emoji_reactions) || []).length > 0,
       className: ({ visibility, timelineType, isStatusInOwnThread, $underlineLinks, $disableTapOnStatus, isQuote, treeMetadata }) => (classname(
         'status-article',
         'shortcut-list-item',
@@ -400,13 +407,13 @@
         isStatusInOwnThread && 'status-in-own-thread',
         $underlineLinks && 'underline-links',
         !$disableTapOnStatus && !isStatusInOwnThread && 'tap-on-status',
-        isQuote && 'status-quoted',
-        (treeMetadata && treeMetadata.subtree && treeMetadata.subtree.start) && 'status-subtree-start',
-        (treeMetadata && treeMetadata.subtree && treeMetadata.subtree.end) && 'status-subtree-end'
+        (treeMetadata && treeMetadata.start) && 'status-subtree-start',
+        (treeMetadata && treeMetadata.end) && 'status-subtree-end',
+        isQuote && 'status-quoted'
       )),
       content: ({ originalStatus }) => originalStatus.content || '',
       localOnly: ({ originalStatus }) => originalStatus.local_only || false,
-      showContent: ({ spoilerText, spoilerShown }) => !spoilerText || spoilerShown,
+      showContent: ({ computedSpoilerText, spoilerShown }) => !computedSpoilerText || spoilerShown,
       // These timestamp params may change every 10 seconds due to now() polling, so keep them
       // separate from the generic `params` list to avoid costly recomputes.
       timestampParams: ({ createdAtDate, createdAtDateTS, editedAtDate, editedAtDateTS, shortInlineFormattedDate, absoluteFormattedCreatedDate, absoluteFormattedEditedDate }) => ({
@@ -420,14 +427,16 @@
       }),
       treeMetadata: ({ statusId, $currentInstance, $currentTimeline }) => {
         const summaries = store.getForTimeline($currentInstance, $currentTimeline, 'timelineItemSummaries')
-        if (!summaries) return null
-        const summary = summaries.find(e => e.id === statusId)
-        if (!summary || typeof summary.level !== 'number') return null
+        if (!(summaries && summaries.byId)) return null
+        const summary = summaries.byId.get(statusId)
+        if (!summary) return null
         return {
-          level: summary.level,
-          subtree: summary.subtree
+          depth: summary.depth,
+          start: summary.start,
+          end: summary.end
         }
       },
+      style: ({ treeMetadata }) => `--status-depth:${treeMetadata ? Math.min(8, treeMetadata.depth || 0) : 0}`,
       hashtagsInBar: ({ originalStatus }) => originalStatus.hashtagsInBar || [],
       showHashtagsInBar: ({ hashtagsInBar, showContent }) => showContent && (hashtagsInBar.length > 0),
       // This params list deliberately does *not* include `spoilersShown` or `replyShown`, because these
@@ -437,8 +446,8 @@
         notification, notificationId, status, statusId, timelineType,
         account, accountId, uuid, isStatusInNotification, isStatusInOwnThread,
         originalAccount, originalAccountId, visibility,
-        replyVisibility, spoilerText, originalStatus, originalStatusId, inReplyToId,
-        enableShortcuts, shortcutScope, originalStatusEmojis, localOnly
+        replyVisibility, spoilerText, computedSpoilerText, originalStatus, originalStatusId, inReplyToId,
+        enableShortcuts, shortcutScope, originalStatusEmojis, localOnly, originalStatusCanonicalUrl
       }) => ({
         notification,
         notificationId,
@@ -455,13 +464,15 @@
         visibility,
         replyVisibility,
         spoilerText,
+        computedSpoilerText,
         originalStatus,
         originalStatusId,
         inReplyToId,
         enableShortcuts,
         shortcutScope,
         originalStatusEmojis,
-        localOnly
+        localOnly,
+        originalStatusCanonicalUrl
       })
     }
   }
