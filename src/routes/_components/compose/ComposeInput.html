@@ -61,10 +61,7 @@
   import { scheduleIdleTask } from '../../_utils/scheduleIdleTask.js'
   import { mark, stop } from '../../_utils/marks.js'
   import { selectionChange } from '../../_utils/events.js'
-  import {
-    clickSelectedAutosuggestionUsername,
-    clickSelectedAutosuggestionEmoji, clickSelectedAutosuggestionHashtag
-  } from '../../_actions/autosuggest.js'
+  import { clickSelectedAutosuggestion } from '../../_actions/autosuggest.js'
   import { observe } from 'svelte-extras'
   import { get } from '../../_utils/lodash-lite.js'
   import { on } from '../../_utils/eventBus.js'
@@ -217,13 +214,7 @@
           const { realm } = this.get()
           /* autosuggestSelecting prevents a flash of searched content */
           this.store.setForCurrentAutosuggest({ autosuggestSelecting: true })
-          if (autosuggestType === 'account') {
-            await clickSelectedAutosuggestionUsername(realm)
-          } else if (autosuggestType === 'hashtag') {
-            await clickSelectedAutosuggestionHashtag(realm)
-          } else { // emoji
-            await clickSelectedAutosuggestionEmoji(realm)
-          }
+          await clickSelectedAutosuggestion(realm, autosuggestType)
           this.store.setForCurrentAutosuggest({ autosuggestSelecting: false })
         }
 

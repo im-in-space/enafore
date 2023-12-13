@@ -29,7 +29,7 @@ export function statusHtmlToPlainText (html, mentions) {
     return ''
   }
   mark('statusHtmlToPlainText')
-  const doc = document.createElement('template')
+  const doc = document.createElement('div')
   doc.innerHTML = html
   if (mentions) massageMentions(doc, mentions)
   const res = innerTextRetainingNewlines(doc)

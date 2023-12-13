@@ -7,6 +7,8 @@ export function createAutosuggestAccessibleLabel (
   let label
   if (autosuggestType === 'emoji') {
     label = selected.name || [selected.unicode].concat(selected.shortcodes).join(', ')
+  } else if (autosuggestType === 'mfm') {
+    label = selected.name
   } else if (autosuggestType === 'hashtag') {
     label = `#${selected.name}`
   } else { // account

@@ -274,7 +274,7 @@
       contentWarningShown: ({ composeData }) => composeData.contentWarningShown,
       contentWarning: ({ composeData }) => composeData.contentWarning || '',
       sensitive: ({ composeData }) => !!composeData.sensitive,
-      contentType: ({ composeData }) => composeData.contentType,
+      contentType: ({ composeData, $lastContentType }) => typeof composeData.contentType === 'undefined' ? $lastContentType : composeData.contentType,
       inReplyToHandle: ({ composeData }) => composeData.inReplyToHandle,
       quoteId: ({ composeData }) => composeData.quoteId,
       quoteHandle: ({ composeData }) => composeData.quoteHandle,

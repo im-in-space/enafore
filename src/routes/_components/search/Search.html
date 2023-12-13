@@ -67,6 +67,13 @@
         this.focusSearchInput()
       }
       this.store.set({ currentTimeline: 'search' })
+      const params = new URLSearchParams(location.search)
+      const query = params.get('q')
+      if (query) {
+        history.replaceState(history.state, '', '')
+        this.store.set({ queryInSearch: query })
+        /* no await */ doSearch()
+      }
     },
     store: () => store,
     components: {

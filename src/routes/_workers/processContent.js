@@ -42,7 +42,8 @@ registerPromiseWorker(async ({ originalStatus, autoplayGifs, disableDecomojiConv
     })
   } else {
     dom = renderPostHTML({
-      originalStatus,
+      content: originalStatus.content,
+      tags: originalStatus.tags,
       autoplayGifs,
       disableDecomojiConverter,
       emojis,

@@ -2,6 +2,7 @@
 <ul id="compose-autosuggest-list-{realm}"
     class="compose-autosuggest-list"
     role="listbox"
+    ref:node
 >
   {#each items as item, i (item.shortcodes ? `emoji-${item.unicode || item.name}` : item.id ? `account-${item.id}` : `hashtag-${item.name}`)}
   <li id="compose-autosuggest-active-item-{realm}-{i}"
@@ -26,16 +27,25 @@
           <span class="compose-autosuggest-list-username">
               {'@' + item.acct}
           </span>
-        {:elseif type === 'hashtag'}
-          <SvgIcon
-              href="#fa-hashtag"
-              ariaHidden={true}
-              className="compose-autosuggest-list-item-icon"
-          />
-          <span class="compose-autosuggest-list-display-name compose-autosuggest-list-display-name-single">
-            {item.name}
-          </span>
-        {:else} <!-- emoji -->
+          {:elseif type === 'hashtag'}
+            <SvgIcon
+                href="#fa-hashtag"
+                ariaHidden={true}
+                className="compose-autosuggest-list-item-icon"
+            />
+            <span class="compose-autosuggest-list-display-name compose-autosuggest-list-display-name-single">
+              {item.name}
+            </span>
+          {:elseif type === 'mfm'}
+            <SvgIcon
+                href="#misskey-logo"
+                ariaHidden={true}
+                className="compose-autosuggest-list-item-icon"
+            />
+            <span class="compose-autosuggest-list-display-name compose-autosuggest-list-display-name-single">
+              {item.name}
+            </span>
+          {:else} <!-- emoji -->
           {#if item.url}
             <!-- custom emoji -->
             <img src={item.url}
@@ -64,6 +74,8 @@
     border-radius: 2px;
     box-sizing: border-box;
     border: 1px solid var(--compose-autosuggest-outline);
+    max-height: 250px;
+    overflow-y: auto;
   }
   .compose-autosuggest-list-item {
     border-bottom: 1px solid var(--compose-autosuggest-outline);
@@ -158,6 +170,19 @@
 
   export default {
     store: () => store,
+    onupdate ({ changed, current, previous }) {
+      if (changed.selected && this.refs.node && this.refs.node.children.length > current.selected) {
+        const container = this.refs.node
+        const item = this.refs.node.children[current.selected]
+        const containerRect = container.getBoundingClientRect()
+        const itemRect = item.getBoundingClientRect()
+        if (itemRect.top < containerRect.top) {
+          container.scrollTop -= containerRect.top - itemRect.top
+        } else if (itemRect.bottom > containerRect.bottom) {
+          container.scrollTop += itemRect.bottom - containerRect.bottom
+        }
+      }
+    },
     computed: {
       ariaLabels: ({ items, type, $omitEmojiInDisplayNames }) => {
         return items.map((item, i) => {

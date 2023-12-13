@@ -101,6 +101,7 @@ input,
 textarea {
   background: inherit;
   color: inherit;
+  border: 1px solid var(--input-border);
   border-radius: var(--input-border-radius-size);
   padding: 5px 8px;
 }
@@ -227,9 +228,9 @@ textarea {
 
 /* this gets injected as raw HTML, so it's easiest to just define it in global.scss */
 .inline-custom-emoji {
-  height: 1.4em;
-  object-fit: contain;
+  height: 2em;
   vertical-align: middle;
+  transition: transform .2s ease;
 }
 
 .inline-emoji {

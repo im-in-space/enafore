@@ -1,7 +1,7 @@
 import { importGoogleTranslate } from '../_utils/asyncModules/importGoogleTranslate.js'
 import { store } from '../_store/store.js'
-import { massageUserText } from '../_utils/massageUserText.js'
 import escapeHtml from 'escape-html'
+import { renderPostHTML } from '../_utils/renderPostHTML.js'
 async function translate (html, to, from) {
   const { languageNames, translate } = await importGoogleTranslate()
   return { content: await translate(html, to, from), languageNames }
@@ -32,16 +32,24 @@ export function translateStatus (
   ) {
     statusTranslations[id].loading = true
     statusTranslations[id].error = false
+    const emojis = new Map()
+    if (status.emojis) {
+      for (const emoji of status.emojis) {
+        emojis.set(emoji.shortcode, emoji)
+      }
+    }
     translate(
       (status.spoiler_text
-        ? massageUserText(
-          '<span class="spoiler_text">' +
+        ? renderPostHTML({
+          content: '<span class="spoiler_text">' +
             escapeHtml(status.spoiler_text) +
             '\n\n</span>',
-          status.emojis || [],
+          tags: status.tags,
           autoplayGifs,
-          disableDecomojiConverter
-        )
+          disableDecomojiConverter,
+          emojis,
+          mentionsByURL: new Map()
+        }).innerHTML
         : '') + status.content,
       to,
       from

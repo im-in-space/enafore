@@ -101,7 +101,7 @@ export function renderMfm ({
               ? 'alternate-reverse'
               : 'alternate'
             const speed = validTime(token.props.args.speed) || '1.5s'
-            style = `animation: mfm-fade ${speed} linear infinite;animation-direction:${direction}`
+            style = useAnim ? `animation: mfm-fade ${speed} linear infinite;animation-direction:${direction}` : ''
             break
           }
           case 'flip': {
@@ -115,19 +115,19 @@ export function renderMfm ({
           }
           case 'x2': {
             const ele = document.createElement('span')
-            ele.setAttribute('class', '_mfm_x2_')
+            ele.setAttribute('class', 'mfm-x2')
             ele.append(...genEl(token.children, scale * 2))
             return ele
           }
           case 'x3': {
             const ele = document.createElement('span')
-            ele.setAttribute('class', '_mfm_x3_')
+            ele.setAttribute('class', 'mfm-x3')
             ele.append(...genEl(token.children, scale * 3))
             return ele
           }
           case 'x4': {
             const ele = document.createElement('span')
-            ele.setAttribute('class', '_mfm_x4_')
+            ele.setAttribute('class', 'mfm-x4')
             ele.append(...genEl(token.children, scale * 4))
             return ele
           }
@@ -246,8 +246,12 @@ export function renderMfm ({
         const computedFqn = `${token.props.username}@${token.props.host || defaultHost || userHost}`
         const mention = mentionsByHandle.get(computedFqn)
         if (!mention) {
+          let fallback = '@' + token.props.username
+          if (token.props.host) {
+            fallback += '@' + token.props.host
+          }
           console.warn('failed to get mention for fqn', computedFqn)
-          return token.props.acct
+          return Object.assign(document.createElement('a'), { className: 'mention', href: '/search?q=' + encodeURIComponent(fallback), title: fallback, textContent: '@' + token.props.username })
         }
         mention.included = true
         return Object.assign(document.createElement('a'), { className: 'mention', href: '/accounts/' + mention.id, title: '@' + mention.acct, textContent: '@' + mention.username })
@@ -271,13 +275,14 @@ export function renderMfm ({
         if (!emoji) return `:${token.props.name}:`
         const urlToUse = autoplayGifs ? emoji.url : emoji.static_url
         const shortcodeWithColons = `:${emoji.shortcode}:`
-        return Object.assign(document.createElement('img'), {
+        const img = Object.assign(document.createElement('img'), {
           className: 'inline-custom-emoji',
-          draggable: false,
           src: urlToUse,
           alt: shortcodeWithColons,
           title: shortcodeWithColons
         })
+        img.setAttribute('draggable', 'false')
+        return img
       }
       case 'unicodeEmoji': {
         return Object.assign(document.createElement('span'), {
@@ -295,7 +300,7 @@ export function renderMfm ({
         const form = document.createElement('form')
         form.setAttribute('target', '_blank')
         form.setAttribute('action', 'https://duckduckgo.com')
-        form.className = '_mfm_search_'
+        form.setAttribute('class', '_mfm_search_')
         const button = document.createElement('button')
         button.setAttribute('class', 'search-button')
         button.setAttribute('aria-label', 'Search')
@@ -307,7 +312,12 @@ export function renderMfm ({
         use.setAttribute('xlink:href', '#fa-search')
         svg.appendChild(use)
         button.appendChild(svg)
-        form.append(Object.assign(document.createElement('input'), { type: 'text', readOnly: true, name: 'q', defaultValue: token.props.query }), button)
+        const input = document.createElement('input')
+        input.setAttribute('type', 'text')
+        input.setAttribute('readonly', '')
+        input.setAttribute('name', 'q')
+        input.setAttribute('value', token.props.query)
+        form.append(input, button)
         return form
       }
       case 'plain': {

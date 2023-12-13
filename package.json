@@ -43,7 +43,7 @@
     "dompurify": "^3.0.5",
     "emoji-picker-element": "^1.18.4",
     "emoji-picker-element-data": "^1.5.0",
-    "emoji-regex": "^10.2.1",
+    "emojibase-regex": "^15.2.0",
     "escape-html": "^1.0.3",
     "eslint-plugin-html": "^7.1.0",
     "events-light": "^1.0.5",

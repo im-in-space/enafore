@@ -54,6 +54,7 @@ export default {
   bookmarks: 'Bookmarks',
   directMessages: 'Direct messages',
   favorites: 'Favorites',
+  reactions: 'Reactions',
   federated: 'Federated',
   bubble: 'Bubble',
   home: 'Home',
@@ -413,7 +414,7 @@ export default {
   metrics: 'Metrics',
   hideFollowerCount: 'Hide follower counts (capped at 10)',
   hideReblogCount: 'Hide boost counts',
-  hideFavoriteCount: 'Hide favorite counts',
+  hideFavoriteCount: 'Hide favorite and reaction counts',
   hideUnread: 'Hide unread notifications count (i.e. the red dot)',
   // The quality that makes something seem important or interesting because it seems to be happening now
   immediacy: 'Immediacy',
@@ -515,11 +516,16 @@ export default {
   accountReported: '{name} filed a report, {account}',
   reblogCountsHidden: 'Boost counts hidden',
   favoriteCountsHidden: 'Favorite counts hidden',
+  reactionCountsHidden: 'Reaction counts hidden',
   rebloggedTimes: `Boosted {count, plural,
     one {1 time}
     other {{count} times}
   }`,
   favoritedTimes: `Favorited {count, plural,
+    one {1 time}
+    other {{count} times}
+  }`,
+  reactedTimes: `Reacted to {count, plural,
     one {1 time}
     other {{count} times}
   }`,

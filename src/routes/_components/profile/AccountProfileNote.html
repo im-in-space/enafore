@@ -23,14 +23,29 @@
 </style>
 <script>
   import { store } from '../../_store/store.js'
-  import { massageUserText } from '../../_utils/massageUserText.js'
+  import { renderPostHTML } from '../../_utils/renderPostHTML.js'
 
   export default {
     store: () => store,
     computed: {
       note: ({ account }) => account.note,
       emojis: ({ account }) => account.emojis || [],
-      massagedNote: ({ note, emojis, $autoplayGifs, $disableDecomojiConverter }) => massageUserText(note, emojis, $autoplayGifs, $disableDecomojiConverter)
+      massagedNote: ({ note, emojis, $autoplayGifs, $disableDecomojiConverter }) => {
+        const emojisMap = new Map()
+        if (emojis) {
+          for (const emoji of emojis) {
+            emojisMap.set(emoji.shortcode, emoji)
+          }
+        }
+        return renderPostHTML({
+          content: note,
+          tags: [],
+          autoplayGifs: $autoplayGifs,
+          disableDecomojiConverter: $disableDecomojiConverter,
+          emojis: emojisMap,
+          mentionsByURL: new Map()
+        }).innerHTML
+      }
     }
   }
 </script>

@@ -31,15 +31,17 @@
       close,
       onClick (item) {
         const { realm } = this.get()
-        this.store.setComposeData(realm, { contentType: item.key === 'default' ? null : item.key })
+        const contentType = item.key === 'default' ? null : item.key
+        this.store.set({
+          lastContentType: contentType
+        })
+        this.store.setComposeData(realm, { contentType })
         this.close()
       }
     },
     computed: {
       composeData: ({ $currentComposeData, realm }) => $currentComposeData[realm] || {},
-      contentType: ({ composeData }) => {
-        return composeData.contentType
-      },
+      contentType: ({ composeData, $lastContentType }) => typeof composeData.contentType === 'undefined' ? $lastContentType : composeData.contentType,
       allowedContentTypes: ({ contentTypes, $currentPostTypes }) => {
         return Object.keys(contentTypes).filter(e => e === 'default' || $currentPostTypes.includes(e))
       },

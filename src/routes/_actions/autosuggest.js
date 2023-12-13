@@ -1,8 +1,11 @@
 import { store } from '../_store/store.js'
 
-const emojiMapper = emoji => emoji.unicode ? emoji.unicode : `:${emoji.shortcodes[0]}:`
-const hashtagMapper = hashtag => `#${hashtag.name}`
-const accountMapper = account => `@${account.acct}`
+const mappers = {
+  emoji: emoji => emoji.unicode ? emoji.unicode : `:${emoji.shortcodes[0]}:`,
+  hashtag: hashtag => `#${hashtag.name}`,
+  account: account => `@${account.acct}`,
+  mfm: tag => `$[${tag.name}`
+}
 
 async function insertTextAtPosition (realm, text, startIndex, endIndex) {
   const { currentInstance } = store.get()
@@ -12,18 +15,6 @@ async function insertTextAtPosition (realm, text, startIndex, endIndex) {
   const newText = `${pre}${text} ${post}`
   store.setComposeData(realm, { text: newText })
   store.setForAutosuggest(currentInstance, realm, { autosuggestSearchResults: [] })
-}
-
-export async function insertUsername (realm, account, startIndex, endIndex) {
-  await insertTextAtPosition(realm, accountMapper(account), startIndex, endIndex)
-}
-
-export async function insertHashtag (realm, hashtag, startIndex, endIndex) {
-  await insertTextAtPosition(realm, hashtagMapper(hashtag), startIndex, endIndex)
-}
-
-export async function insertEmojiAtPosition (realm, emoji, startIndex, endIndex) {
-  await insertTextAtPosition(realm, emojiMapper(emoji), startIndex, endIndex)
 }
 
 async function clickSelectedItem (realm, resultMapper) {
@@ -39,19 +30,11 @@ async function clickSelectedItem (realm, resultMapper) {
   await insertTextAtPosition(realm, resultMapper(result), startIndex, endIndex)
 }
 
-export async function clickSelectedAutosuggestionUsername (realm) {
-  return clickSelectedItem(realm, accountMapper)
+export async function clickSelectedAutosuggestion (realm, type) {
+  return clickSelectedItem(realm, mappers[type])
 }
 
-export async function clickSelectedAutosuggestionHashtag (realm) {
-  return clickSelectedItem(realm, hashtagMapper)
-}
-
-export async function clickSelectedAutosuggestionEmoji (realm) {
-  return clickSelectedItem(realm, emojiMapper)
-}
-
-export function selectAutosuggestItem (item) {
+export function selectAutosuggestItem (item, type) {
   const {
     currentComposeRealm,
     composeSelectionStart,
@@ -59,11 +42,5 @@ export function selectAutosuggestItem (item) {
   } = store.get()
   const startIndex = composeSelectionStart - autosuggestSearchText.length
   const endIndex = composeSelectionStart
-  if (item.acct) {
-    /* no await */ insertUsername(currentComposeRealm, item, startIndex, endIndex)
-  } else if (item.shortcodes) {
-    /* no await */ insertEmojiAtPosition(currentComposeRealm, item, startIndex, endIndex)
-  } else { // hashtag
-    /* no await */ insertHashtag(currentComposeRealm, item, startIndex, endIndex)
-  }
+  /* no await */ insertTextAtPosition(currentComposeRealm, mappers[type](item), startIndex, endIndex)
 }

@@ -5,7 +5,7 @@
     on:click="onClick(event, reaction)"
   >
     {@html reaction.html}
-    <span class="status-reaction-count">{reaction.count}</span>
+    {#if !$disableFavCounts}<span class="status-reaction-count">{reaction.count}</span>{/if}
   </button>
   {/each}
 </div>
@@ -105,13 +105,15 @@
             ...e,
             html: emojifyText(
               e.url ? ':' + shortcode + ':' : e.name,
-              [
-                {
-                  url: e.url,
-                  static_url: e.static_url || e.url,
-                  shortcode
-                }
-              ],
+              e.url
+                ? [
+                    {
+                      url: e.url,
+                      static_url: e.static_url || e.url,
+                      shortcode
+                    }
+                  ]
+                : [],
               $autoplayGifs,
               true
             )

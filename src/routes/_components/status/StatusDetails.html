@@ -51,6 +51,14 @@
     <SvgIcon className="status-favs-reblogs-svg" href="#fa-star" />
     <span>{numFavs}</span>
   </a>
+  {#if hasReactions}
+  <span class="status-favs-reblogs status-reactions"
+     rel="prefetch"
+     aria-label={reactionsLabel}>
+    <SvgIcon className="status-favs-reblogs-svg" href="#fa-smile" />
+    <span>{numReactions}</span>
+  </span>
+  {/if}
 </div>
 <style>
   .status-details {
@@ -155,32 +163,29 @@
 
   export default {
     store: () => store,
-    data: () => ({
-      overrideNumReblogs: undefined,
-      overrideNumFavs: undefined
-    }),
     computed: {
       originalStatusId: ({ originalStatus }) => originalStatus.id,
       application: ({ originalStatus }) => originalStatus.application,
       applicationName: ({ application }) => (application && application.name),
       applicationWebsite: ({ application }) => (application && application.website),
-      numReblogs: ({ $disableReblogCounts, overrideNumReblogs, originalStatus }) => {
+      numReblogs: ({ $disableReblogCounts, originalStatus }) => {
         if ($disableReblogCounts) {
           return 0
         }
-        if (typeof overrideNumReblogs === 'number') {
-          return overrideNumReblogs
-        }
         return originalStatus.reblogs_count || 0
       },
-      numFavs: ({ $disableFavCounts, overrideNumFavs, originalStatus }) => {
+      numFavs: ({ $disableFavCounts, originalStatus }) => {
         if ($disableFavCounts) {
           return 0
         }
-        if (typeof overrideNumFavs === 'number') {
-          return overrideNumFavs
-        }
         return originalStatus.favourites_count || 0
+      },
+      hasReactions: ({ originalStatus }) => (('reactions' in originalStatus) || ('emoji_reactions' in originalStatus)),
+      numReactions: ({ $disableFavCounts, originalStatus }) => {
+        if ($disableFavCounts) {
+          return 0
+        }
+        return (originalStatus.reactions || originalStatus.emoji_reactions || []).reduce((a, b) => a + b.count, 0)
       },
       displayAbsoluteFormattedCreatedDate: ({ createdAtDateTS, editedAtDateTS, $isMobileSize }) => (
         ((editedAtDateTS || $isMobileSize) ? shortAbsoluteDateFormatter : absoluteDateFormatter)().format(createdAtDateTS)
@@ -199,6 +204,12 @@
           return 'intl.favoriteCountsHidden'
         }
         return formatIntl('intl.favoritedTimes', { count: numFavs })
+      },
+      reactionsLabel: ({ $disableFavCounts, numReactions }) => {
+        if ($disableFavCounts) {
+          return 'intl.reactionCountsHidden'
+        }
+        return formatIntl('intl.reactedTimes', { count: numReactions })
       },
       externalLinkLabel: ({ absoluteFormattedCreatedDate }) => (
         formatIntl('intl.opensInNewWindow', { label: absoluteFormattedCreatedDate })

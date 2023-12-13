@@ -24,11 +24,16 @@ export async function setGenericEntityWithId (store, cache, instanceName, entity
   })
 }
 
+const preserve = new Set(['reactions', 'emoji_reactions', 'quote'])
 export function cloneForStorage (obj) {
   const res = {}
   const keys = Object.keys(obj)
   for (const key of keys) {
     const value = obj[key]
+    if (preserve.has(key)) {
+      res[key] = value
+      continue
+    }
     // save storage space by skipping nulls, 0s, falses, empty strings, and empty arrays
     if (!value || (Array.isArray(value) && value.length === 0)) {
       continue

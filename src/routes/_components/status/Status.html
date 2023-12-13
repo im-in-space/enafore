@@ -40,7 +40,7 @@
     <StatusPoll {...params} shown={showContent} on:recalculateHeight />
   {/if}
   {#if showQuote && showContent}
-    <svelte:self status={originalQuote} isQuote={true} on:recalculateHeight />
+    <svelte:self status={originalQuote} isQuote={true} parentElementId={elementId} on:recalculateHeight />
   {/if}
   {#if showHashtagsInBar}
     <StatusTags {hashtagsInBar} {isStatusInNotification} />
@@ -125,7 +125,8 @@
     border: 1px solid var(--main-border);
     border-radius: 6px;
   }
-  .status-article {    padding-left: calc(10px * var(--status-depth) + var(--status-pad-h)) !important;
+  .status-article {
+    padding-left: calc(10px * var(--status-depth) + var(--status-pad-h)) !important;
   }
   .status-article::before {
     content: "";
@@ -245,7 +246,8 @@
       timelineType: null,
       timelineValue: null,
       index: null,
-      length: null
+      length: null,
+      parentElementId: null
     }),
     store: () => store,
     methods: {
@@ -327,7 +329,7 @@
       uuid: ({ $currentInstance, timelineType, timelineValue, notificationId, statusId }) => (
         createStatusOrNotificationUuid($currentInstance, timelineType, timelineValue, notificationId, statusId)
       ),
-      elementId: ({ uuid }) => uuid,
+      elementId: ({ uuid, parentElementId }) => (parentElementId ? parentElementId + '-' : '') + uuid,
       shortcutScope: ({ elementId }) => elementId,
       isStatusInOwnThread: ({ timelineType, timelineValue, originalStatusId }) => (
         (timelineType === 'status' || timelineType === 'reply') && timelineValue === originalStatusId
@@ -425,10 +427,9 @@
         absoluteFormattedCreatedDate,
         absoluteFormattedEditedDate
       }),
-      treeMetadata: ({ statusId, $currentInstance, $currentTimeline }) => {
-        const summaries = store.getForTimeline($currentInstance, $currentTimeline, 'timelineItemSummaries')
-        if (!(summaries && summaries.byId)) return null
-        const summary = summaries.byId.get(statusId)
+      treeMetadata: ({ statusId, $timelineItemSummaries, isQuote }) => {
+        if (isQuote || !($timelineItemSummaries && $timelineItemSummaries.byId)) return null
+        const summary = $timelineItemSummaries.byId.get(statusId)
         if (!summary) return null
         return {
           depth: summary.depth,

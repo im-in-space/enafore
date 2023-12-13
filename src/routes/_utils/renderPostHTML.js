@@ -26,17 +26,18 @@ function consumeBalanced (string, open, close) {
 }
 
 export function renderPostHTML ({
-  originalStatus,
+  content,
+  tags,
   autoplayGifs,
   disableDecomojiConverter,
   emojis,
   mentionsByURL
 }) {
   const dom = document.createElement('div')
-  if (!originalStatus.content) {
+  if (!content) {
     return dom
   }
-  dom.innerHTML = originalStatus.content
+  dom.innerHTML = content
   for (const quoteInline of dom.querySelectorAll('quote-inline')) {
     quoteInline.remove()
   }
@@ -112,8 +113,8 @@ export function renderPostHTML ({
   const anchors = Array.from(dom.getElementsByTagName('A'))
   for (const anchor of anchors) {
     block: { // eslint-disable-line no-labels
-      if (originalStatus.tags && anchor.classList.contains('hashtag')) {
-        for (const tag of originalStatus.tags) {
+      if (tags && anchor.classList.contains('hashtag')) {
+        for (const tag of tags) {
           if (anchor.getAttribute('href').toLowerCase().endsWith(`/${tag.name.toLowerCase()}`)) {
             anchor.setAttribute('href', `/tags/${tag.name}`)
             anchor.removeAttribute('target')

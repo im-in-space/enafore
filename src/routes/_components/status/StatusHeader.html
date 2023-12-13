@@ -53,18 +53,16 @@
     margin-left: 19px; /* offset for avatar, 48px - 24px - 5px */
   }
 
-  :global(.status-header-svg), .status-header-emoji {
+  :global(.status-header-svg) {
     min-width: 18px;
-    margin-left: 20px;
     width: 18px;
     height: 18px;
     fill: var(--deemphasized-text-color);
     font-size: 13px;
   }
 
-  .status-header-emoji .inline-emoji {
-    font-size: 18px;
-    line-height: 1;
+  :global(.status-header-svg), .status-header-emoji {
+    margin-left: 20px;
   }
 
   :global(.status-header.status-in-notification .status-header-svg) {
@@ -113,7 +111,7 @@
   }
 
   @media (max-width: 767px) {
-    :global(.status-header-svg) {
+    :global(.status-header-svg), .status-header-emoji {
       margin-left: 10px;
     }
   }
@@ -231,11 +229,13 @@
       emojiReaction: ({ notification, $autoplayGifs }) => {
         if (notification && (notification.type === 'pleroma:emoji_reaction' || notification.type === 'reaction') && notification.emoji) {
           const shortcode = notification.emoji_url && notification.emoji.replace(/:/g, '')
-          return emojifyText(notification.emoji_url ? ':' + shortcode + ':' : notification.emoji, [{
-            url: notification.emoji_url,
-            static_url: notification.emoji_url,
-            shortcode
-          }], $autoplayGifs, true)
+          return emojifyText(notification.emoji_url ? ':' + shortcode + ':' : notification.emoji, notification.emoji_url
+            ? [{
+                url: notification.emoji_url,
+                static_url: notification.emoji_url,
+                shortcode
+              }]
+            : [], $autoplayGifs, true)
         }
       },
       avatarHidden: ({ timelineType, notificationType, icon }) => icon === '#fa-question' || timelineType === 'pinned' || notificationType === 'poll' ? 'hidden' : ''

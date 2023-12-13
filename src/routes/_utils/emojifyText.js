@@ -1,7 +1,6 @@
-import { replaceAll } from './strings.js'
-import { replaceEmoji } from './replaceEmoji.js'
+import { renderPostHTML } from './renderPostHTML.js'
 
-const decomojiMap = {
+/* const decomojiMap = {
   a: 'あ',
   i: 'い',
   u: 'う',
@@ -91,7 +90,7 @@ const decomojiMap = {
 const decomojiRegex = new RegExp(
   String.raw`(?::_(?:${Object.keys(decomojiMap).join('|')}):[\s\u200b]*)+`,
   'g'
-)
+) */
 
 export function emojifyText (
   text,
@@ -99,34 +98,18 @@ export function emojifyText (
   autoplayGifs,
   disableDecomojiConverter
 ) {
-  // replace native emoji with wrapped spans so we can give them the proper font-family
-  // as well as show tooltips
-  text = replaceEmoji(text, substring => {
-    return `<span class="inline-emoji">${substring}</span>`
-  })
-
-  // replace custom emoji
+  const emojisMap = new Map()
   if (emojis) {
-    if (!disableDecomojiConverter) {
-      text = text.replace(decomojiRegex, s => {
-        for (const k in decomojiMap) {
-          const shortcodeWithColons = `:_${k}:`
-          s = replaceAll(s, shortcodeWithColons, decomojiMap[k])
-        }
-        return `<span class="decomoji">${s}</span>`
-      })
-    }
     for (const emoji of emojis) {
-      const urlToUse = autoplayGifs ? emoji.url : emoji.static_url
-      const shortcodeWithColons = `:${emoji.shortcode}:`
-      text = replaceAll(
-        text,
-        shortcodeWithColons,
-        `<img class="inline-custom-emoji" draggable="false" src="${urlToUse}"
-                    alt="${shortcodeWithColons}" title="${shortcodeWithColons}" />`
-      )
+      emojisMap.set(emoji.shortcode, emoji)
     }
   }
-
-  return text
+  return renderPostHTML({
+    content: text,
+    tags: [],
+    autoplayGifs,
+    disableDecomojiConverter,
+    emojis: emojisMap,
+    mentionsByURL: new Map()
+  }).innerHTML
 }

@@ -99,7 +99,7 @@ export default {
     muteConversationIcon: ({ mutingConversation }) => mutingConversation ? '#fa-volume-up' : '#fa-volume-off',
     isPublicOrUnlisted: ({ visibility }) => visibility === 'public' || visibility === 'unlisted',
     bookmarkLabel: ({ status }) => status.bookmarked ? 'intl.unbookmarkStatus' : 'intl.bookmarkStatus',
-    hasReactions: ({ status }) => Boolean(status.reactions || status.emoji_reactions),
+    hasReactions: ({ status }) => ('reactions' in status) || ('emoji_reactions' in status),
     hasQuote: ({ status }) => 'quote' in status,
     items: ({
       blockLabel, blocking, blockIcon, muteLabel, muteIcon, followLabel, followIcon,

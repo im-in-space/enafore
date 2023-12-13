@@ -138,7 +138,7 @@
     },
     onupdate ({ changed }) {
       if (changed.massagedContent || changed.translateState) {
-        this.katexify()
+        if (this.refs.node) this.katexify()
         this.fire('recalculateHeight')
       }
     },

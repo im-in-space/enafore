@@ -5,9 +5,9 @@ const MIN_PREFIX_LENGTH = 2
 // Technically mastodon accounts allow dots, but it would be weird to do an autosuggest search if it ends with a dot.
 // Also this is rare. https://github.com/tootsuite/mastodon/pull/6844
 // However for emoji search we allow some extra things (e.g. :+1:, :white_heart:)
-const VALID_CHARS = '[\\w\\+_\\-:]'
-const PREFIXES = '(?:@|:|#)'
-const REGEX = new RegExp(`(?:\\s|^)(${PREFIXES}${VALID_CHARS}{${MIN_PREFIX_LENGTH},})$`)
+const VALID_CHARS = String.raw`[\w\+_\-:]`
+const PREFIXES = String.raw`(?:@|:|#|\$\[)`
+const REGEX = new RegExp(`(?:\\s|^)(${PREFIXES}${VALID_CHARS}*)$`)
 
 function computeForAutosuggest (store, key, defaultValue) {
   store.compute(key,
@@ -45,7 +45,7 @@ export function autosuggestComputations (store) {
 
       const textUpToCursor = currentComposeText.substring(0, selectionStart)
       const match = textUpToCursor.match(REGEX)
-      return (match && match[1]) || ''
+      return (match && match[1] && match[1].length >= MIN_PREFIX_LENGTH) ? match[1] : ''
     }
   )
 

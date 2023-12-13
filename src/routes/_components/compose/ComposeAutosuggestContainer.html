@@ -85,7 +85,8 @@
         /* autosuggestSelecting prevents a flash of searched content */
         this.store.setForCurrentAutosuggest({ autosuggestSelecting: true })
         this.fire('autosuggestItemSelected')
-        selectAutosuggestItem(item)
+        const { autosuggestType } = this.get()
+        selectAutosuggestItem(item, autosuggestType)
       }
     },
     computed: {
