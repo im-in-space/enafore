@@ -1,7 +1,7 @@
-<h2 class="sr-only">{intl.nameAndFollowing}</h2>
+<h2 class="sr-only">{'intl.nameAndFollowing'}</h2>
 <div class="account-profile-avatar">
   <button class="account-profile-avatar-button"
-          aria-label="{intl.clickToSeeAvatar}"
+          aria-label="{'intl.clickToSeeAvatar'}"
           on:click="onAvatarClick()" >
     <Avatar {account} size={avatarSize} />
   </button>
@@ -12,20 +12,20 @@
     <Label {label} className="account-profile-label" />
   {/if}
   {#if locked}
-    <span title="{intl.locked}" class="account-profile-locked"><SvgIcon href="#fa-lock" ariaLabel="{intl.locked}" /></span>
+    <span title="{'intl.locked'}" class="account-profile-locked"><SvgIcon href="#fa-lock" ariaLabel="{'intl.locked'}" /></span>
   {/if}
   <div class="account-profile-followed-by account-profile-followed-by-bigscreen">
     {#if relationship && relationship.blocking}
-      <span class="account-profile-followed-by-span">{intl.blocked}</span>
+      <span class="account-profile-followed-by-span">{'intl.blocked'}</span>
     {/if}
     {#if relationship && relationship.domain_blocking}
-      <span class="account-profile-followed-by-span">{intl.domainHidden}</span>
+      <span class="account-profile-followed-by-span">{'intl.domainHidden'}</span>
     {/if}
     {#if relationship && relationship.muting}
-      <span class="account-profile-followed-by-span">{intl.muted}</span>
+      <span class="account-profile-followed-by-span">{'intl.muted'}</span>
     {/if}
     {#if relationship && relationship.followed_by}
-      <span class="account-profile-followed-by-span">{intl.followsYou}</span>
+      <span class="account-profile-followed-by-span">{'intl.followsYou'}</span>
     {/if}
   </div>
 </div>
@@ -36,16 +36,16 @@
 </div>
 <div class="account-profile-followed-by account-profile-followed-by-smallscreen">
   {#if relationship && relationship.blocking}
-    <span class="account-profile-followed-by-span">{intl.blocked}</span>
+    <span class="account-profile-followed-by-span">{'intl.blocked'}</span>
   {/if}
   {#if relationship && relationship.domain_blocking}
-    <span class="account-profile-followed-by-span">{intl.domainHidden}</span>
+    <span class="account-profile-followed-by-span">{'intl.domainHidden'}</span>
   {/if}
   {#if relationship && relationship.muting}
-    <span class="account-profile-followed-by-span">{intl.muted}</span>
+    <span class="account-profile-followed-by-span">{'intl.muted'}</span>
   {/if}
   {#if relationship && relationship.followed_by}
-    <span class="account-profile-followed-by-span">{intl.followsYou}</span>
+    <span class="account-profile-followed-by-span">{'intl.followsYou'}</span>
   {/if}
 </div>
 <style>

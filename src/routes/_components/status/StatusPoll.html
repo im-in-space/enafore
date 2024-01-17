@@ -1,10 +1,10 @@
 <div class={computedClass} aria-busy={loading} >
   {#if voted || expired }
-    <ul class="poll-choices" aria-label="{intl.pollResults}">
+    <ul class="poll-choices" aria-label="{'intl.pollResults'}">
       {#each options as option}
         <li class="poll-choice option">
           <div class="option-text">
-            {#if option.ownVote}<span class="sr-only">{intl.youVotedFor}</span> {/if}<strong>{option.share}%</strong> <span>{@html cleanTitle(option.title)}</span>{#if option.ownVote} <SvgIcon className="poll-own-vote" href="#fa-check" />{/if}
+            {#if option.ownVote}<span class="sr-only">{'intl.youVotedFor'}</span> {/if}<strong>{option.share}%</strong> <span>{@html cleanTitle(option.title)}</span>{#if option.ownVote} <SvgIcon className="poll-own-vote" href="#fa-check" />{/if}
           </div>
           <svg aria-hidden="true">
             <line x1="0" y1="0" x2="{option.share}%" y2="0" />
@@ -13,8 +13,8 @@
       {/each}
     </ul>
   {:else}
-    <form class="poll-form" aria-label="{intl.voteOnPoll}" on:submit="onSubmit(event)" ref:form>
-      <ul class="poll-choices" aria-label="{intl.pollChoices}">
+    <form class="poll-form" aria-label="{'intl.voteOnPoll'}" on:submit="onSubmit(event)" ref:form>
+      <ul class="poll-choices" aria-label="{'intl.pollChoices'}">
         {#each options as option, i}
           <li class="poll-choice poll-form-option">
             <label>
@@ -28,10 +28,10 @@
           </li>
         {/each}
       </ul>
-      <button disabled={formDisabled} type="submit">{intl.vote}</button>
+      <button disabled={formDisabled} type="submit">{'intl.vote'}</button>
     </form>
   {/if}
-  <ul class="poll-details" aria-label="{intl.pollDetails}">
+  <ul class="poll-details" aria-label="{'intl.pollDetails'}">
     <li class="poll-stat {notification ? 'is-notification' : ''}">
       <SvgIcon className="poll-icon" href="#fa-bar-chart" />
       <span class="poll-stat-text">{votesText}</span>
@@ -48,10 +48,10 @@
     <li class="poll-stat {notification ? 'is-notification' : ''} {expired ? 'poll-expired' : ''}">
       <button id={refreshElementId}
               class="focus-fix"
-              aria-label="{intl.refresh}">
+              aria-label="{'intl.refresh'}">
         <SvgIcon className="poll-icon" href="#fa-refresh" />
         <span class="poll-stat-text poll-stat-text-refresh" aria-hidden="true">
-          {intl.refresh}
+          {'intl.refresh'}
         </span>
       </button>
     </li>
@@ -302,9 +302,9 @@
     computed: {
       pollId: ({ originalStatus }) => originalStatus.poll.id,
       poll: ({ originalStatus, $polls, pollId }) => $polls[pollId] || originalStatus.poll,
-      options: ({ poll, originalStatusEmojis, $autoplayGifs, votersOrVotesCount, $disableDecomojiConverter }) => (
+      options: ({ poll, originalStatusEmojis, $autoplayGifs, votersOrVotesCount }) => (
         poll.options.map(({ title, votes_count: optionsVotesCount }, index) => ({
-          title: emojifyText(escapeHtml(title), originalStatusEmojis, $autoplayGifs, $disableDecomojiConverter),
+          title: emojifyText(escapeHtml(title), originalStatusEmojis, $autoplayGifs),
           share: votersOrVotesCount ? Math.round(optionsVotesCount / votersOrVotesCount * 100) : 0,
           ownVote: poll.own_votes.includes(index)
         }))

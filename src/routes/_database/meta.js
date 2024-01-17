@@ -65,7 +65,9 @@ export async function setFollowRequestCount (instanceName, value) {
 }
 
 export async function getFilters (instanceName) {
-  return getMetaProperty(instanceName, 'filters')
+  const filters = await getMetaProperty(instanceName, 'filters')
+  // work around gotosocial bug
+  return Array.isArray(filters) ? filters : null
 }
 
 export async function setFilters (instanceName, value) {

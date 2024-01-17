@@ -21,6 +21,7 @@ export function instanceComputations (store) {
   computeForInstance(store, 'currentComposeData', 'composeData', {})
   computeForInstance(store, 'currentPushSubscription', 'pushSubscriptions', null)
   computeForInstance(store, 'currentInstanceDataReady', 'instanceDataReady', null)
+  computeForInstance(store, 'currentLastContentType', 'lastContentTypes', null)
 
   store.compute(
     'isUserLoggedIn',

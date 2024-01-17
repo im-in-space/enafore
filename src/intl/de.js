@@ -15,11 +15,11 @@ export default {
   footer: `
     <p>
       Enafore ist
-      <a rel="noopener" target="_blank" href="https://github.com/easrng/enafore">quelloffene Software</a>,
+      <a rel="noopener" target="_blank" href="https://github.com/enafore/enafore">quelloffene Software</a>,
       erstellt von <a rel="noopener" target="_blank" href="https://nolanlawson.com">Nolan Lawson</a>
       und verteilt unter der
       <a rel="noopener" target="_blank"
-         href="https://github.com/easrng/enafore/blob/main/LICENSE">AGPL Lizenz</a>.
+         href="https://github.com/enafore/enafore/blob/main/LICENSE">AGPL Lizenz</a>.
       Hier ist die <a href="/settings/about#privacy-policy" rel="prefetch">Datenschutzerklärung</a>.
       Es ist eine Fortsetzung des Enafore-Projekts von <a rel="noopener" target="_blank" href="https://nolanlawson.com">Nolan Lawson</a>.
     </p>
@@ -319,12 +319,12 @@ export default {
   <p>
     Enafore ist
     <a rel="noopener" target="_blank"
-       href="https://github.com/easrng/enafore">freie und quelloffene Software</a>
+       href="https://github.com/enafore/enafore">freie und quelloffene Software</a>
     erstellt von
     <a rel="noopener" target="_blank" href="https://nolanlawson.com">Nolan Lawson</a>
     und verteilt unter der
     <a rel="noopener" target="_blank"
-       href="https://github.com/easrng/enafore/blob/main/LICENSE">GNU Affero General Public License</a>.
+       href="https://github.com/enafore/enafore/blob/main/LICENSE">GNU Affero General Public License</a>.
   </p>
 
   <h2 id="privacy-policy">Datenschutzerklärung</h2>

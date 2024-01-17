@@ -1,32 +1,32 @@
-<SettingsLayout page='settings/general' label="{intl.general}">
-  <h1>{intl.generalSettings}</h1>
+<SettingsLayout page='settings/general' label="{'intl.general'}">
+  <h1>{'intl.generalSettings'}</h1>
 
-  <h2>{intl.media}</h2>
+  <h2>{'intl.media'}</h2>
   <form class="ui-settings">
     <label class="setting-group">
       <input type="checkbox" id="choice-never-mark-media-sensitive"
              bind:checked="$neverMarkMediaAsSensitive" on:change="onChange(event)">
-      {intl.showSensitive}
+      {'intl.showSensitive'}
     </label>
     <label class="setting-group">
       <input type="checkbox" id="choice-show-all-spoilers"
              bind:checked="$showAllSpoilers" on:change="onChange(event)">
-      {intl.showAllSpoilers}
+      {'intl.showAllSpoilers'}
     </label>
     <label class="setting-group">
       <input type="checkbox" id="choice-use-blurhash"
               bind:checked="$ignoreBlurhash" on:change="onChange(event)">
-      {intl.showPlain}
+      {'intl.showPlain'}
     </label>
     <label class="setting-group">
       <input type="checkbox" id="choice-mark-media-sensitive"
              bind:checked="$markMediaAsSensitive" on:change="onChange(event)">
-      {intl.allSensitive}
+      {'intl.allSensitive'}
     </label>
     <label class="setting-group">
       <input type="checkbox" id="choice-autoplay-gif"
              bind:checked="$autoplayGifs" on:change="onChange(event)">
-      {intl.autoplayGifs}
+      {'intl.autoplayGifs'}
     </label>
   </form>
 
@@ -35,91 +35,81 @@
     <label class="setting-group">
       <input type="checkbox" id="choice-disable-custom-scrollbars"
              bind:checked="$disableCustomScrollbars" on:change="onChange(event)">
-      {intl.disableCustomScrollbars}
+      {'intl.disableCustomScrollbars'}
     </label>
     <label class="setting-group">
       <input type="checkbox" id="choice-disable-infinite-scroll"
              bind:checked="$disableInfiniteScroll" on:change="onChange(event)">
-      {intl.disableInfiniteScrollPre}
+      {'intl.disableInfiniteScrollPre'}
         <Tooltip
-          text="{intl.disableInfiniteScrollText}"
-          tooltipText="{intl.disableInfiniteScrollDescription}"
+          text="{'intl.disableInfiniteScrollText'}"
+          tooltipText="{'intl.disableInfiniteScrollDescription'}"
         />
-      {intl.disableInfiniteScrollPost}
+      {'intl.disableInfiniteScrollPost'}
     </label>
     <label class="setting-group">
       <input type="checkbox" id="choice-hide-cards"
              bind:checked="$hideCards" on:change="onChange(event)">
-      {intl.hideCards}
+      {'intl.hideCards'}
     </label>
     <label class="setting-group">
       <input type="checkbox" id="choice-underline-links"
              bind:checked="$underlineLinks" on:change="onChange(event)">
-      {intl.underlineLinks}
+      {'intl.underlineLinks'}
     </label>
     <label class="setting-group">
       <input type="checkbox" id="choice-center-nav"
              bind:checked="$centerNav" on:change="onChange(event)">
-      {intl.centerNav}
+      {'intl.centerNav'}
     </label>
     <label class="setting-group">
       <input type="checkbox" id="choice-bottom-nav"
              bind:checked="$bottomNav" on:change="onChange(event)">
-      {intl.bottomNav}
-    </label>
-    <label class="setting-group">
-      <input type="checkbox" id="choice-disable-follow-request-count"
-             bind:checked="$disableFollowRequestCount" on:change="onChange(event)">
-      {intl.disableFollowRequestCount}
+      {'intl.bottomNav'}
     </label>
     <label class="setting-group">
       <input type="checkbox" id="choice-hide-long-posts"
              bind:checked="$hideLongPosts" on:change="onChange(event)">
-      {intl.hideLongPosts}
-    </label>
-    <label class="setting-group">
-      <input type="checkbox" id="choice-disable-decomoji-converter"
-             bind:checked="$disableDecomojiConverter" on:change="onChange(event)">
-      {intl.disableDecomojiConverter}
+      {'intl.hideLongPosts'}
     </label>
   </form>
 
-  <h2>{intl.accessibility}</h2>
+  <h2>{'intl.accessibility'}</h2>
   <form class="ui-settings">
     <label class="setting-group">
       <input type="checkbox" id="choice-reduce-motion"
              bind:checked="$reduceMotion" on:change="onChange(event)">
-      {intl.reduceMotion}
+      {'intl.reduceMotion'}
     </label>
     <label class="setting-group">
       <input type="checkbox" id="choice-always-show-focus-ring"
              bind:checked="$alwaysShowFocusRing" on:change="onChange(event)">
-      {intl.showRingPre}
+      {'intl.showRingPre'}
       <Tooltip
-        text="{intl.showRingText}"
-        tooltipText="{intl.showRingDescription}"
+        text="{'intl.showRingText'}"
+        tooltipText="{'intl.showRingDescription'}"
       />
-      {intl.showRingPost}
+      {'intl.showRingPost'}
     </label>
     <label class="setting-group">
       <input type="checkbox" id="choice-disable-tap-on-status"
              bind:checked="$disableTapOnStatus" on:change="onChange(event)">
-      {intl.disableTappable}
+      {'intl.disableTappable'}
     </label>
     <label class="setting-group">
       <input type="checkbox" id="choice-omit-emoji-in-display-names"
              bind:checked="$omitEmojiInDisplayNames" on:change="onChange(event)">
-      {intl.removeEmoji}
+      {'intl.removeEmoji'}
     </label>
     <label class="setting-group">
       <input type="checkbox" id="choice-disable-long-aria-labels"
              bind:checked="$disableLongAriaLabels" on:change="onChange(event)">
-      {intl.shortAria}
+      {'intl.shortAria'}
     </label>
     <label class="setting-group">
       <input type="checkbox" id="choice-grayscale"
              bind:checked="$enableGrayscale" on:change="onChange(event)">
-      {intl.grayscaleMode}
+      {'intl.grayscaleMode'}
     </label>
   </form>
 

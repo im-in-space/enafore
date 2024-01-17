@@ -18,8 +18,8 @@ export const resolve = {
   }
 }
 
-const commitCount = parseInt(execSync('git rev-list --count HEAD').toString().trim()) - 2701
+const commitCount = parseInt(execSync('git rev-list --count HEAD').toString().trim()) - 2710
 const commitHash = execSync('git rev-parse --short HEAD').toString().trim()
 export const version = 'v' + commitCount + '-' + commitHash
 export const inlineThemeColors = Object.fromEntries(themes.map(_ => ([_.name, _.color])))
-export const isUpstream = process.env.GITHUB_REPOSITORY === 'easrng/enafore'
+export const isUpstream = process.env.GITHUB_REPOSITORY === 'enafore/enafore'

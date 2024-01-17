@@ -72,9 +72,9 @@ This is also available locally after `pnpm build` at `.sapper/client/report.html
 
 ## Architecture
 
-See [Architecture.md](https://github.com/easrng/enafore/blob/main/docs/Architecture.md).
+See [Architecture.md](https://github.com/enafore/enafore/blob/main/docs/Architecture.md).
 
 ## Internationalization
 
-See [Internationalization.md](https://github.com/easrng/enafore/blob/main/docs/Internationalization.md).
+See [Internationalization.md](https://github.com/enafore/enafore/blob/main/docs/Internationalization.md).
 

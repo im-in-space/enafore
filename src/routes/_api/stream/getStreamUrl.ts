@@ -1,6 +1,6 @@
 import { paramsString } from '../../_utils/ajax.js'
 
-function getStreamName (timeline) {
+function getStreamName(timeline: string): string {
   switch (timeline) {
     case 'local':
       return 'public:local'
@@ -19,13 +19,19 @@ function getStreamName (timeline) {
   if (timeline.startsWith('list/')) {
     return 'list'
   }
+  throw new Error('unknown stream ' + timeline)
 }
 
-export function getStreamUrl (streamingApi, accessToken, timeline) {
+export function getStreamUrl(streamingApi: string, accessToken: string, timeline: string) {
   const url = `${streamingApi}/api/v1/streaming`
   const streamName = getStreamName(timeline)
 
-  const params = {
+  const params: {
+    stream: string
+    tag?: string
+    list?: string
+    access_token?: string
+  } = {
     stream: streamName
   }
 

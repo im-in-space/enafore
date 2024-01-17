@@ -1,13 +1,13 @@
 <div class="status-toolbar {isStatusInOwnThread ? 'status-in-own-thread' : ''}" ref:node>
-  <IconButton className="status-toolbar-reply-button" label={replyLabel} pressedLabel="{intl.closeReply}"
+  <IconButton className="status-toolbar-reply-button" label={replyLabel} pressedLabel="{'intl.closeReply'}"
     pressable={true} pressed={replyShown} href={replyIcon} clickListener={false} elementId={replyKey} />
   <IconButton label={reblogLabel} pressedLabel="Unboost" pressable={!reblogDisabled} pressed={reblogged}
     checked={reblogged} disabled={reblogDisabled} href={reblogIcon} clickListener={false} elementId={reblogKey}
     ref:reblogIcon rightClickListener={hasQuote} on:rightClick="openQuoteDialog()" />
-  <IconButton label="{intl.favorite}" pressedLabel="{intl.unfavorite}" pressable={true} pressed={favorited}
+  <IconButton label="{'intl.favorite'}" pressedLabel="{'intl.unfavorite'}" pressable={true} pressed={favorited}
     checked={favorited} href="#fa-star" clickListener={false} elementId={favoriteKey} ref:favoriteIcon
     rightClickListener={hasReactions} on:rightClick="pickEmojiReaction()" />
-  <IconButton label="{intl.moreOptions}" href="#fa-ellipsis-h" clickListener={false} elementId={optionsKey} />
+  <IconButton label="{'intl.moreOptions'}" href="#fa-ellipsis-h" clickListener={false} elementId={optionsKey} />
 </div>
 {#if enableShortcuts}
 <Shortcut scope={shortcutScope} key="f" on:pressed="toggleFavorite(true)" />

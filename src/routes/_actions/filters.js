@@ -46,7 +46,7 @@ export async function createOrUpdateFilter (instanceName, filter) {
     }
     emit('wordFiltersChanged', instanceName)
   } catch (err) {
-    /* no await */ toast.say(formatIntl('intl.failedToModifyFilter', err.message || ''))
+    /* no await */ toast.say(formatIntl('intl.failedToModifyFilter', { error: err.message || '' }))
   }
 }
 
@@ -58,6 +58,6 @@ export async function deleteFilter (instanceName, id) {
     /* no await */ toast.say('intl.deletedFilter')
     emit('wordFiltersChanged', instanceName)
   } catch (err) {
-    /* no await */ toast.say(formatIntl('intl.failedToModifyFilter', err.message || ''))
+    /* no await */ toast.say(formatIntl('intl.failedToModifyFilter', { error: err.message || '' }))
   }
 }

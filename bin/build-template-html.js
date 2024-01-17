@@ -26,7 +26,10 @@ const builders = [
   },
   {
     watch: 'src/inline-script/inline-script.js',
-    comment: '<!-- inline JS -->',
+    comment: String.raw`<!--( CSP )--
+</head>
+<body>
+  --( inline JS )-->`,
     rebuild: buildInlineScript
   },
   {

@@ -32,9 +32,9 @@
       </div>
       <div class="report-info">
         <p>{reportingLabel}</p>
-        <label class="sr-only" id="comments-label">{intl.additionalComments}</label>
+        <label class="sr-only" id="comments-label">{'intl.additionalComments'}</label>
         <textarea bind:value="comment"
-                  placeholder="{intl.additionalComments}"
+                  placeholder="{'intl.additionalComments'}"
                   aria-labelledby="comments-label"
                   maxlength="1000"></textarea>
         {#if remoteInstance}
@@ -160,7 +160,7 @@
   import { close } from '../helpers/closeDialog.js'
   import { oncreate as onCreateDialog } from '../helpers/onCreateDialog.js'
   import { getRecentStatusesForAccount } from '../../../_actions/getRecentStatusesForAccount.js'
-  import { statusHtmlToPlainText } from '../../../_utils/statusHtmlToPlainText.js'
+  import { statusHtmlToPlainText } from '../../../_utils/statusHtmlToPlainText.ts'
   import { toast } from '../../toast/toast.js'
   import { store } from '../../../_store/store.js'
   import { reportStatuses } from '../../../_actions/reportStatuses.js'

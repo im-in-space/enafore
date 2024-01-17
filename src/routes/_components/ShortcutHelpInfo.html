@@ -1,23 +1,23 @@
 <div class="shortcut-help-info {inDialog ? 'in-dialog' : ''}"
      tabindex="{inDialog ? '0' : '-1'}"
 >
-  <h2>{intl.global}</h2>
+  <h2>{'intl.global'}</h2>
   <div class="hotkey-group">
     <ul>
       {@html globalHotkeysText}
     </ul>
   </div>
-  <h2>{intl.timeline}</h2>
+  <h2>{'intl.timeline'}</h2>
   <div class="hotkey-group">
     <ul>
-      {@html intl.timelineHotkeys}
+      {@html 'intl.timelineHotkeys'}
     </ul>
   </div>
   {#if !$leftRightChangesFocus}
-    <h2>{intl.media}</h2>
+    <h2>{'intl.media'}</h2>
     <div class="hotkey-group">
       <ul>
-        {@html intl.mediaHotkeys}
+        {@html 'intl.mediaHotkeys'}
       </ul>
     </div>
   {/if}

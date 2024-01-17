@@ -39,13 +39,13 @@
         <!-- Roughly based on https://www.w3.org/WAI/tutorials/carousels/functionality/
              Since this toolbar contains a mix of left/right/first/second/third/fourth buttons,
              just list them and explicitly label the current one as "current." -->
-        <ul class="media-controls" aria-label="{intl.navigateMedia}">
+        <ul class="media-controls" aria-label="{'intl.navigateMedia'}">
             <li class="media-control">
               <IconButton
                 className="media-control-button"
                 svgClassName="media-control-button-svg"
                 disabled={scrolledItem === 0}
-                label="{intl.showPreviousMedia}"
+                label="{'intl.showPreviousMedia'}"
                 href="#fa-angle-left"
                 on:click="prev()"
               />
@@ -70,7 +70,7 @@
                 className="media-control-button"
                 svgClassName="media-control-button-svg"
                 disabled={scrolledItem === length - 1}
-                label="{intl.showNextMedia}"
+                label="{'intl.showNextMedia'}"
                 href="#fa-angle-right"
                 on:click="next()"
               />
@@ -83,8 +83,8 @@
           svgClassName="media-control-button-svg"
           pressable={true}
           pressed={pinchZoomMode}
-          label="{intl.enterPinchZoom}"
-          pressedLabel="{intl.exitPinchZoom}"
+          label="{'intl.enterPinchZoom'}"
+          pressedLabel="{'intl.exitPinchZoom'}"
           href="#fa-search"
           on:click="togglePinchZoomMode()"
         />

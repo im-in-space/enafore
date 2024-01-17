@@ -58,7 +58,7 @@
   .not-loaded {
     visibility: hidden;
   }
-  .loaded {
+  .loaded:not(:global(.compose-box-fade-in.hidden) .loaded) {
     visibility: visible;
   }
 

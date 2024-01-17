@@ -17,7 +17,7 @@
   <div class="status-header-content">
     {#if timelineType === 'pinned'}
       <span class="status-header-author">
-        {intl.pinnedStatus}
+        {'intl.pinnedStatus'}
       </span>
     {:elseif icon !== '#fa-question' && notificationType !== 'poll'}
       <a id={authorElementId}
@@ -34,7 +34,7 @@
       <span class="status-header-action">{actionText}</span>
     {/if}
     {#if icon === '#fa-question'}
-    <a class="report-button button" target="blank" href="https://github.com/easrng/enafore/issues/new?title={encodeURIComponent(actionText)}">Report</a>
+    <a class="report-button button" target="blank" href="https://github.com/enafore/enafore/issues/new?title={encodeURIComponent(actionText)}">Report</a>
     {/if}
   </div>
 </div>
@@ -164,7 +164,7 @@
           return '#fa-hourglass'
         } else if (notificationType === 'admin.report') {
           return '#fa-flag'
-        } else if (notificationType === 'pleroma:emoji_reaction' || notificationType === 'reaction') {
+        } else if (notificationType === 'pleroma:emoji_reaction' || notificationType === 'reaction' || notificationType === 'emoji_reaction') {
           return null
         }
         return '#fa-question'
@@ -174,7 +174,7 @@
           return 'intl.rebloggedYou'
         } else if (notificationType === 'favourite') {
           return 'intl.favoritedYou'
-        } else if (notificationType === 'pleroma:emoji_reaction' || notificationType === 'reaction') {
+        } else if (notificationType === 'pleroma:emoji_reaction' || notificationType === 'reaction' || notificationType === 'emoji_reaction') {
           return 'intl.reacted'
         } else if (notificationType === 'admin.sign_up') {
           return 'intl.signedUp'
@@ -205,7 +205,7 @@
           return false
         } else if (notificationType === 'favourite') {
           return false
-        } else if (notificationType === 'pleroma:emoji_reaction' || notificationType === 'reaction') {
+        } else if (notificationType === 'pleroma:emoji_reaction' || notificationType === 'reaction' || notificationType === 'emoji_reaction') {
           return false
         } else if (notificationType === 'admin.sign_up') {
           return true
@@ -227,15 +227,17 @@
         return true
       },
       emojiReaction: ({ notification, $autoplayGifs }) => {
-        if (notification && (notification.type === 'pleroma:emoji_reaction' || notification.type === 'reaction') && notification.emoji) {
-          const shortcode = notification.emoji_url && notification.emoji.replace(/:/g, '')
-          return emojifyText(notification.emoji_url ? ':' + shortcode + ':' : notification.emoji, notification.emoji_url
-            ? [{
-                url: notification.emoji_url,
-                static_url: notification.emoji_url,
-                shortcode
-              }]
-            : [], $autoplayGifs, true)
+        if (notification && (notification.type === 'pleroma:emoji_reaction' || notification.type === 'reaction' || notification.type === 'emoji_reaction') && (notification.emoji || notification.emoji_reaction)) {
+          const shortcode = notification.emoji_reaction ? notification.emoji_reaction.name : (notification.emoji_url && notification.emoji.replace(/:/g, ''))
+          const customEmoji = (notification.emoji_reaction ? notification.emoji_reaction.url : notification.emoji_url)
+          return emojifyText(customEmoji ? ':' + shortcode + ':' : (notification.emoji_reaction ? notification.emoji_reaction.name : notification.emoji),
+            customEmoji
+              ? [{
+                  url: notification.emoji_reaction ? notification.emoji_reaction.url : notification.emoji_url,
+                  static_url: notification.emoji_reaction ? notification.emoji_reaction.static_url : notification.emoji_url,
+                  shortcode
+                }]
+              : [], $autoplayGifs, true)
         }
       },
       avatarHidden: ({ timelineType, notificationType, icon }) => icon === '#fa-question' || timelineType === 'pinned' || notificationType === 'poll' ? 'hidden' : ''

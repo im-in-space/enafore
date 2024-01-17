@@ -1,10 +1,10 @@
 import { importGoogleTranslate } from '../_utils/asyncModules/importGoogleTranslate.js'
 import { store } from '../_store/store.js'
 import escapeHtml from 'escape-html'
-import { renderPostHTML } from '../_utils/renderPostHTML.js'
+import { renderPostHTML } from '../_utils/renderPostHTML.ts'
 async function translate (html, to, from) {
-  const { languageNames, translate } = await importGoogleTranslate()
-  return { content: await translate(html, to, from), languageNames }
+  const { sourceLanguageNames, translate } = await importGoogleTranslate()
+  return { content: await translate(html, to, from), sourceLanguageNames }
 }
 const defaultLanguage = process.env.LOCALE.split('-')[0]
 export function translateStatus (
@@ -17,8 +17,7 @@ export function translateStatus (
   const {
     statusTranslations,
     statusTranslationContents,
-    autoplayGifs,
-    disableDecomojiConverter
+    autoplayGifs
   } = store.get()
   statusTranslations[id] = statusTranslations[id] || {}
   statusTranslations[id].show = true
@@ -26,12 +25,14 @@ export function translateStatus (
     !(
       statusTranslations[id].loading ||
       (statusTranslationContents[id] &&
-        statusTranslationContents[id].to === to &&
-        statusTranslationContents[id].from === from)
+        statusTranslations[id].to === to &&
+        statusTranslations[id].from === from)
     )
   ) {
     statusTranslations[id].loading = true
     statusTranslations[id].error = false
+    statusTranslations[id].to = to
+    statusTranslations[id].from = from
     const emojis = new Map()
     if (status.emojis) {
       for (const emoji of status.emojis) {
@@ -46,18 +47,17 @@ export function translateStatus (
             '\n\n</span>',
           tags: status.tags,
           autoplayGifs,
-          disableDecomojiConverter,
           emojis,
           mentionsByURL: new Map()
-        }).innerHTML
+        })
         : '') + status.content,
       to,
       from
     )
-      .then(({ content, languageNames }) => {
+      .then(({ content, sourceLanguageNames }) => {
         const { statusTranslations, statusTranslationContents } = store.get()
         statusTranslations[id].loading = false
-        statusTranslations[id].languageNames = languageNames
+        statusTranslations[id].sourceLanguageNames = sourceLanguageNames
         statusTranslationContents[id] = content
         store.set({ statusTranslations, statusTranslationContents })
       })

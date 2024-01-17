@@ -1,0 +1,71 @@
+<div class="status-translate-toolbar">
+  <div class="status-translate-toolbar-label">
+    {#if translating}
+      {'intl.translating'}
+    {:else}
+      {#if translateError}
+        {'intl.translateError'}
+      {:else}
+      {translatedFrom}
+      {/if}
+    {/if}
+  </div>
+  <IconButton label="{'intl.hideTranslation'}" href="#fa-times" on:click="onHideTranslateClick()" />
+</div>
+<style>
+  .status-translate-toolbar {
+    font-size: 1.17em;
+    margin: 10px 10px 10px 5px;
+    border-radius: 3px;
+    padding: 0.25rem 1rem;
+    padding-right: 1rem;
+    background: var(--toast-bg);
+    color: var(--toast-text);
+    border: 1px solid var(--toast-border);
+    display: flex;
+    align-items: center;
+    padding-right: 0;
+    grid-area: translate;
+  }
+
+  .status-translate-toolbar-label {
+    flex-grow: 1;
+    word-wrap: break-word;
+    width: 0;
+  }
+</style>
+<script>
+  import { store } from '../../_store/store.js'
+  import IconButton from '../IconButton.html'
+  import { formatIntl } from '../../_utils/formatIntl.js'
+
+  export default {
+    components: {
+      IconButton
+    },
+    store: () => store,
+    computed: {
+      translating: ({ translateState }) => !!(translateState && translateState.loading),
+      translateError: ({ translateState }) => !!(translateState && translateState.error),
+      translatedFrom: ({ translateContent, translateState }) => {
+        if (!(translateState && translateContent)) return
+        const detected = translateState.from === 'auto' && translateContent.detected
+        return formatIntl('intl.translated', {
+          detected: !!detected,
+          from: translateState.sourceLanguageNames[detected || translateState.from]
+        })
+      }
+    },
+    methods: {
+      onHideTranslateClick () {
+        let { translateKey, translateState } = this.get()
+        translateState = translateState || {}
+        const { statusTranslations, statusTranslationContents } = this.store.get()
+        translateState.show = false
+        statusTranslations[translateKey] = translateState
+        delete statusTranslationContents[translateKey]
+        this.store.set({ statusTranslations, statusTranslationContents })
+      }
+    }
+  }
+</script>

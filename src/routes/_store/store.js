@@ -27,10 +27,16 @@ const persistedState = {
   disableInfiniteScroll: false,
   disableLongAriaLabels: false,
   disableNotificationBadge: false,
+  disableNotificationSound: (() => {
+    try {
+      return localStorage.getItem('store_disableNotificationBadge') === 'true'
+    } catch (e) {
+      return false
+    }
+  })(),
   disableReblogCounts: false,
   disableRelativeTimestamps: false,
   disableTapOnStatus: false,
-  disableDecomojiConverter: false,
   enableGrayscale: false,
   hideCards: false,
   leftRightChangesFocus: isKaiOS(),
@@ -51,7 +57,7 @@ const persistedState = {
     !process.browser || matchMedia('(prefers-reduced-motion: reduce)').matches,
   underlineLinks: false,
   iconColors: '',
-  lastContentType: null
+  lastContentTypes: {}
 }
 
 const nonPersistedState = {

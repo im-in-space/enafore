@@ -31,17 +31,16 @@
       close,
       onClick (item) {
         const { realm } = this.get()
+        const { currentInstance } = this.store.get()
         const contentType = item.key === 'default' ? null : item.key
-        this.store.set({
-          lastContentType: contentType
-        })
+        this.store.setInstanceData(currentInstance, 'lastContentTypes', contentType)
         this.store.setComposeData(realm, { contentType })
         this.close()
       }
     },
     computed: {
       composeData: ({ $currentComposeData, realm }) => $currentComposeData[realm] || {},
-      contentType: ({ composeData, $lastContentType }) => typeof composeData.contentType === 'undefined' ? $lastContentType : composeData.contentType,
+      contentType: ({ composeData, $currentLastContentType }) => typeof composeData.contentType === 'undefined' ? $currentLastContentType : composeData.contentType,
       allowedContentTypes: ({ contentTypes, $currentPostTypes }) => {
         return Object.keys(contentTypes).filter(e => e === 'default' || $currentPostTypes.includes(e))
       },

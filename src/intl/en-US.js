@@ -12,10 +12,9 @@ export default {
   logIn: 'Log in',
   footer: `
     <p>
-      Enafore is <a rel="noopener" target="_blank" href="https://github.com/easrng/enafore">open-source software</a> by 
-      <a rel="noopener" target="_blank" href="https://easrng.net">easrng</a>, and distributed under the
+      Enafore is <a rel="noopener" target="_blank" href="https://github.com/enafore/enafore">open-source software</a> distributed under the
       <a rel="noopener" target="_blank"
-         href="https://github.com/easrng/enafore/blob/main/LICENSE">AGPL License</a>.
+         href="https://github.com/enafore/enafore/blob/main/LICENSE">AGPL License</a>.
       Here is the <a href="/settings/about#privacy-policy" rel="prefetch">privacy policy</a>.
     </p>
   `,
@@ -290,6 +289,13 @@ export default {
   deleteAndRedraft: 'Delete and redraft',
   reportStatus: 'Report post',
   translateStatus: 'Translate post',
+  translated: `Translated post from {from}{detected, select,
+    true { - Detected}
+    other {}
+  }`,
+  translateError: 'There was an error translating this post',
+  translating: 'Translating...',
+  hideTranslation: 'Hide translation',
   reactToStatus: 'React to post',
   quoteStatus: 'Quote post',
   shareStatus: 'Share post',
@@ -333,12 +339,12 @@ export default {
   aboutApp: 'About Enafore',
   aboutAppDescription: `
   <p>
-    Enafore is <a rel="noopener" target="_blank" href="https://github.com/easrng/enafore">open-source</a> software by <a rel="noopener" target="_blank" href="https://easrng.net">easrng</a>.
+    Enafore is <a rel="noopener" target="_blank" href="https://github.com/enafore/enafore">open-source</a> software.
   </p>
 
   <div class="donate-banner ui-settings">
     <h2>Want to support Enafore development?</h2>
-    <a rel="noopener" target="_blank" href="https://github.com/easrng/enafore#donate" class="button primary">Donate</a>
+    <a rel="noopener" target="_blank" href="https://github.com/enafore/enafore#donate" class="button primary">Donate</a>
   </div>
 
   <h2 id="privacy-policy">Privacy Policy</h2>
@@ -354,6 +360,14 @@ export default {
     instance(s) you connect to.
   </p>
 
+  <p>
+    Approximately once per day Enafore will send a request proxied through your instance so I can collect some general statistics. No personal information is sent, only your instance domain is visible.
+  </p>
+
+  <p>
+    Post translation is powered by Google Translate via <a href="https://simplytranslate.org">SimplyTranslate.org</a>.
+  </p>
+
   <h2>Credits</h2>
 
   <p>
@@ -366,7 +380,7 @@ export default {
   </p>
 
   <p>
-    Enafore is licensed under the <a rel="noopener" target="_blank" href="https://github.com/easrng/enafore/blob/main/LICENSE">GNU Affero General Public License</a>.
+    Enafore is licensed under the <a rel="noopener" target="_blank" href="https://github.com/enafore/enafore/blob/main/LICENSE">GNU Affero General Public License</a>.
   </p>
   
   <h2>Version</h2>
@@ -404,7 +418,6 @@ export default {
   reload: 'Reload',
   disableFollowRequestCount: 'Hide follow request count',
   hideLongPosts: 'Collapse long posts without content warnings',
-  disableDecomojiConverter: 'Disable conversion of <span class="decomoji">でこもじ</span> emojis to text',
   // Wellness settings
   wellness: 'Wellness',
   wellnessSettings: 'Wellness settings',
@@ -416,6 +429,7 @@ export default {
   hideReblogCount: 'Hide boost counts',
   hideFavoriteCount: 'Hide favorite and reaction counts',
   hideUnread: 'Hide unread notifications count (i.e. the red dot)',
+  disableNotificationSound: 'Disable notification sounds',
   // The quality that makes something seem important or interesting because it seems to be happening now
   immediacy: 'Immediacy',
   showAbsoluteTimestamps: 'Show absolute timestamps (e.g. "March 3rd") instead of relative timestamps (e.g. "5 minutes ago")',

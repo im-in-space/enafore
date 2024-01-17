@@ -2,22 +2,22 @@
   <div class="compose-box-toolbar-items">
     <IconButton
       className="compose-toolbar-button"
-      label="{intl.addEmoji}"
+      label="{'intl.addEmoji'}"
       href="#fa-smile"
       on:click="onEmojiClick()"
     />
     <IconButton
       className="compose-toolbar-button"
       svgClassName={$uploadingMedia ? 'spin' : ''}
-      label="{intl.addMedia}"
+      label="{'intl.addMedia'}"
       href={$uploadingMedia ? '#fa-spinner' : '#fa-camera'}
       on:click="onMediaClick()"
       disabled={$uploadingMedia || (media.length === $maxStatusMediaAttachments)}
     />
     <IconButton
       className="compose-toolbar-button"
-      label="{intl.addPoll}"
-      pressedLabel="{intl.removePoll}"
+      label="{'intl.addPoll'}"
+      pressedLabel="{'intl.removePoll'}"
       href="#fa-bar-chart"
       on:click="onPollClick()"
       pressable={true}
@@ -38,8 +38,8 @@
     />
     <IconButton
       className="compose-toolbar-button"
-      label="{intl.addContentWarning}"
-      pressedLabel="{intl.removeContentWarning}"
+      label="{'intl.addContentWarning'}"
+      pressedLabel="{'intl.removeContentWarning'}"
       href="#fa-exclamation-triangle"
       on:click="onContentWarningClick()"
       pressable={true}

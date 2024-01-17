@@ -2,22 +2,22 @@
   {#if $bubbleTimelineEnabled}
     <TimelinePage timeline="bubble">
       {#if $pinnedPage !== '/bubble'}
-        <DynamicPageBanner title="{intl.bubbleTimeline}" icon="#fa-circle"/>
+        <DynamicPageBanner title="{'intl.bubbleTimeline'}" icon="#fa-circle"/>
       {/if}
     </TimelinePage>
   {:else}
     <FreeTextLayout>
-      <h1>{intl.bubble}</h1>
+      <h1>{'intl.bubble'}</h1>
 
-      <p>{intl.bubbleTimelineNotSupported}</p>
+      <p>{'intl.bubbleTimelineNotSupported'}</p>
     </FreeTextLayout>
   {/if}
 {:else}
   <HiddenFromSSR>
     <FreeTextLayout>
-      <h1>{intl.bubble}</h1>
+      <h1>{'intl.bubble'}</h1>
 
-      <p>{intl.bubbleTimelineNotLoggedIn}</p>
+      <p>{'intl.bubbleTimelineNotLoggedIn'}</p>
     </FreeTextLayout>
   </HiddenFromSSR>
 {/if}

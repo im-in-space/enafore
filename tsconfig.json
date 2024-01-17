@@ -1,0 +1,14 @@
+{
+    "compilerOptions": {
+        "noImplicitAny": true,
+        "module": "ESNext",
+        "target": "ESNext",
+        "moduleResolution": "Bundler",
+        "allowJs": true,
+        "outDir": "dist",
+        "strictNullChecks": true
+    },
+    "include": [
+        "src/**/*.ts"
+    ]
+}

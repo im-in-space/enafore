@@ -2,26 +2,6 @@
   <div class={computedClass} ref:node>
     {@html massagedContent}
   </div>
-  {#if showTranslate}
-    <div class="status-translate-toolbar">
-      <div class="status-translate-toolbar-label">
-        {#if translating}
-          Translating...
-        {:else}
-          {#if translateError}
-            There was an error translating this post
-          {:else}
-            Translated post from {translatedFrom}
-          {/if}
-        {/if}
-      </div>
-      <IconButton
-        label="Hide tranlation"
-        href="#fa-times"
-        on:click="onHideTranslateClick()"
-      />
-    </div>
-  {/if}
 </div>
 <style>
   .status-content {
@@ -46,26 +26,6 @@
 
   .status-content.shown {
     display: block;
-  }
-
-  .status-translate-toolbar {
-    font-size: 1.17em;
-    margin: 10px 10px 10px 5px;
-    border-radius: 3px;
-    padding: 0.25rem 1rem;
-    padding-right: 1rem;
-    background: var(--toast-bg);
-    color: var(--toast-text);
-    border: 1px solid var(--toast-border);
-    display: flex;
-    align-items: center;
-    padding-right: 0;
-  }
-
-  .status-translate-toolbar-label {
-    flex-grow: 1;
-    word-wrap: break-word;
-    width: 0;
   }
 
   :global(
@@ -130,59 +90,30 @@
   import { store } from '../../_store/store.js'
   import { classname } from '../../_utils/classname.js'
   import { katexify } from '../../_utils/katexify.js'
-  import IconButton from '../IconButton.html'
 
   export default {
-    components: {
-      IconButton
-    },
     onupdate ({ changed }) {
-      if (changed.massagedContent || changed.translateState) {
+      if (changed.massagedContent) {
         if (this.refs.node) this.katexify()
         this.fire('recalculateHeight')
       }
     },
     store: () => store,
     computed: {
-      computedClass: ({ isStatusInOwnThread, isStatusInNotification, shown, translating }) => {
+      computedClass: ({ isStatusInOwnThread, isStatusInNotification, shown }) => {
         return classname(
           'status-content',
           isStatusInOwnThread && 'status-in-own-thread',
           isStatusInNotification && 'status-in-notification',
-          shown && 'shown',
-          translating && 'translating'
+          shown && 'shown'
         )
       },
       content: ({ originalStatus }) => (originalStatus.content || ''),
       mentions: ({ originalStatus }) => originalStatus.mentions,
       massagedContent: ({ content, translateContent, showTranslate }) =>
         (showTranslate && translateContent)
-          ? translateContent
-          : content,
-      computedTranslateClass: ({ isStatusInOwnThread, isStatusInNotification, shown }) => {
-        return classname(
-          'status-translate',
-          isStatusInOwnThread && 'status-in-own-thread',
-          isStatusInNotification && 'status-in-notification',
-          shown && 'shown'
-        )
-      },
-      translateKey: ({ $currentInstance, originalStatusId }) => $currentInstance + '-' + originalStatusId,
-      translateState: ({ translateKey, $statusTranslations }) => {
-        if (!$statusTranslations || !$statusTranslations[translateKey]) return null
-        return $statusTranslations[translateKey]
-      },
-      showTranslate: ({ translateState }) => !!(translateState && translateState.show),
-      translating: ({ translateState }) => !!(translateState && translateState.loading),
-      translateError: ({ translateState }) => !!(translateState && translateState.error),
-      translateContent_: ({ $statusTranslationContents, translateKey }) => {
-        const tc = $statusTranslationContents[translateKey]
-        if (!tc) return {}
-        if (typeof tc === 'string') return { html: tc, detected: 'unknown' }
-        return tc
-      },
-      translateContent: ({ translateContent_ }) => translateContent_.html,
-      translatedFrom: ({ translateContent_, translateState }) => translateState && translateState.languageNames && (translateState.languageNames[translateContent_.detected] ? translateState.languageNames[translateContent_.detected] + ' (Detected)' : (translateState.languageNames[translateContent_.from] || translateContent_.detected))
+          ? translateContent.html
+          : content
     },
     methods: {
       katexify () {

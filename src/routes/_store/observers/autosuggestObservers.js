@@ -22,7 +22,7 @@ export function autosuggestObservers () {
     }
     // autosuggestSelecting indicates that the user has pressed Enter or clicked on an item
     // and the results are being processed. Returning early avoids a flash of searched content.
-    const { composeFocused, currentComposeData, currentComposeRealm, lastContentType } = store.get()
+    const { composeFocused, currentComposeData, currentComposeRealm, currentLastContentType } = store.get()
     const composeData = currentComposeData[currentComposeRealm] || {}
     const autosuggestSelecting = store.getForCurrentAutosuggest('autosuggestSelecting')
     if (!composeFocused || !autosuggestSearchText || autosuggestSelecting) {
@@ -31,7 +31,7 @@ export function autosuggestObservers () {
     }
 
     if (autosuggestSearchText.startsWith('$[')) { // mfm
-      if ((typeof composeData.contentType === 'undefined' ? lastContentType : composeData.contentType) === 'text/x.misskeymarkdown') {
+      if ((typeof composeData.contentType === 'undefined' ? currentLastContentType : composeData.contentType) === 'text/x.misskeymarkdown') {
         lastSearch = doMfmSearch(autosuggestSearchText)
       } else {
         resetAutosuggest()

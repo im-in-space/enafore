@@ -3,8 +3,8 @@
     <table class="word-filters-table">
       <thead>
         <tr>
-          <th>{intl.wordOrPhrase}</th>
-          <th>{intl.contexts}</th>
+          <th>{'intl.wordOrPhrase'}</th>
+          <th>{'intl.contexts'}</th>
           <th></th>
           <th></th>
         </tr>
@@ -15,19 +15,19 @@
             <td class="word-filters-break">{filter.phrase}</td>
             <td class="word-filters-break">{filter.formattedContexts}</td>
             <td>
-              <IconButton label="{intl.edit}" href="#fa-pencil" on:click="edit(filter)" clickListener={true} />
+              <IconButton label="{'intl.edit'}" href="#fa-pencil" on:click="edit(filter)" clickListener={true} />
             </td>
             <td>
-              <IconButton label="{intl.delete}" href="#fa-trash" on:click="del(filter)" clickListener={true} />
+              <IconButton label="{'intl.delete'}" href="#fa-trash" on:click="del(filter)" clickListener={true} />
             </td>
           </tr>
         {/each}
       </tbody>
     </table>
   {:else}
-    <p class="word-filters-p">{intl.noFilters}</p>
+    <p class="word-filters-p">{'intl.noFilters'}</p>
   {/if}
-  <button type="button" on:click="add()">{intl.addFilter}</button>
+  <button type="button" on:click="add()">{'intl.addFilter'}</button>
 </div>
 <GenericInstanceSettingsStyle />
 <style>

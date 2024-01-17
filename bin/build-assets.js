@@ -2,7 +2,7 @@ import path from 'path'
 import fs from 'fs'
 import { promisify } from 'util'
 import { LOCALE } from '../src/routes/_static/intl.js'
-import { getIntl, trimWhitespace } from './getIntl.js'
+import applyIntl from '../webpack/svelte-intl-loader.js'
 
 const __dirname = path.dirname(new URL(import.meta.url).pathname)
 const readFile = promisify(fs.readFile)
@@ -53,9 +53,8 @@ async function buildEmojiI18nFile () {
 
 async function buildManifestJson () {
   const template = await readFile(path.resolve(__dirname, '../src/build/manifest.json'), 'utf8')
-  // replace {@intl.foo}
-  const output = template
-    .replace(/{intl\.([^}]+)}/g, (match, p1) => trimWhitespace(getIntl(p1)))
+  // replace "intl.foo":
+  const output = applyIntl(template)
 
   await writeFile(
     path.resolve(__dirname, '../static/manifest.json'),

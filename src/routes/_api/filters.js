@@ -1,9 +1,11 @@
 import { get, DEFAULT_TIMEOUT, post, WRITE_TIMEOUT, put, del } from '../_utils/ajax.js'
 import { auth, basename } from './utils.js'
 
-export function getFilters (instanceName, accessToken) {
+export async function getFilters (instanceName, accessToken) {
   const url = `${basename(instanceName)}/api/v1/filters`
-  return get(url, auth(accessToken), { timeout: DEFAULT_TIMEOUT })
+  const filters = await get(url, auth(accessToken), { timeout: DEFAULT_TIMEOUT })
+  // work around gotosocial bug
+  return Array.isArray(filters) ? filters : []
 }
 
 export function createFilter (instanceName, accessToken, filter) {

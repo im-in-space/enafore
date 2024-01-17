@@ -5,7 +5,16 @@ import config from 'sapper/config/webpack.js'
 import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer'
 import terser from './terser.config.js'
 import CircularDependencyPlugin from 'circular-dependency-plugin'
-import { mode, dev, resolve, inlineSvgs, version, isUpstream } from './shared.config.js'
+import {
+  dev,
+  inlineSvgs,
+  isUpstream,
+  mode,
+  resolve,
+  version
+} from './shared.config.js'
+import VirtualModulesPlugin from 'webpack-virtual-modules'
+import MiniCssExtractPlugin from 'mini-css-extract-plugin'
 
 import urlRegex from '../src/routes/_utils/urlRegexSource.js'
 // TODO: make it so we don't have to list these out explicitly
@@ -27,9 +36,13 @@ if (output.publicPath[0] !== '/') {
   output.publicPath = '/' + output.publicPath
 }
 
-process.on('unhandledRejection', err => {
+process.on('unhandledRejection', (err) => {
   // TODO: seems to be a Webpack Bundle Analyzer error we can safely ignore
-  if (!err.message.includes('Error: No such label \'done hook\' for WebpackLogger.timeEnd()')) {
+  if (
+    !err.message.includes(
+      "Error: No such label 'done hook' for WebpackLogger.timeEnd()"
+    )
+  ) {
     console.error(err)
   }
 })
@@ -42,32 +55,11 @@ export default {
   module: {
     rules: [
       {
-        test: input => {
-          return input.endsWith(path.join('_workers', 'blurhash.js'))
-        },
-        use: {
-          loader: 'worker-loader',
-          options: {
-            filename: dev ? '[fullhash]/blurhash.[name].js' : 'blurhash.[contenthash].[name].js'
-          }
-        }
-      },
-      {
-        test: input => {
-          return input.endsWith(path.join('_workers', 'processContent.js'))
-        },
-        use: {
-          loader: 'worker-loader',
-          options: {
-            filename: dev ? '[fullhash]/processContent.[name].js' : 'processContent.[contenthash].[name].js'
-          }
-        }
-      },
-      {
-        test: /katex\/dist\/katex\.min\.css$/,
+        test: /\.css$/,
         use: [
-          'style-loader',
-          'css-loader'
+          MiniCssExtractPlugin.loader,
+          'css-loader',
+          path.join(__dirname, './csso-loader.cjs')
         ]
       },
       {
@@ -75,11 +67,16 @@ export default {
         type: 'asset/resource'
       },
       {
-        test: /\.js$/,
+        test: /\.[tj]s$/,
         exclude: /node_modules/,
         use: {
           loader: path.join(__dirname, './svelte-intl-loader.cjs')
         }
+      },
+      {
+        test: /\.ts$/,
+        use: 'ts-loader',
+        exclude: /node_modules/
       },
       {
         test: /\.html$/,
@@ -90,7 +87,8 @@ export default {
               dev,
               hydratable: true,
               store: true,
-              hotReload: dev
+              hotReload: dev,
+              emitCss: true
             }
           },
           {
@@ -114,25 +112,25 @@ export default {
           chunks: 'async',
           minSize: 5000,
           maxAsyncRequests: Infinity,
-          maxInitialRequests: Infinity,
-          cacheGroups: {
-            katex: {
-              test: /[\\/]node_modules[\\/](katex)[\\/]/,
-              name: 'katex',
-              chunks: 'async',
-              enforce: true
-            }
-          }
+          maxInitialRequests: Infinity
         }
       },
   plugins: [
+    new MiniCssExtractPlugin({
+      ignoreOrder: true,
+      filename: dev ? '[fullhash]/[id].css' : '[id].[contenthash].[name].css',
+      chunkFilename: dev ? '[fullhash]/[id].css' : '[id].[contenthash].[name].css'
+    }),
+    new VirtualModulesPlugin(),
     new webpack.DefinePlugin({
       'process.browser': true,
       'process.env.NODE_ENV': JSON.stringify(mode),
       'process.env.INLINE_SVGS': JSON.stringify(inlineSvgs),
       'process.env.URL_REGEX': urlRegex().toString(),
       'process.env.LOCALE': JSON.stringify(LOCALE),
-      'process.env.EMOJI_PICKER_I18N': emojiPickerI18n ? JSON.stringify(emojiPickerI18n) : 'undefined',
+      'process.env.EMOJI_PICKER_I18N': emojiPickerI18n
+        ? JSON.stringify(emojiPickerI18n)
+        : 'undefined',
       'process.env.PINAFORE_VERSION': JSON.stringify(version),
       'process.env.IS_SERVICE_WORKER': 'false',
       'process.env.THEME_COLORS': 'null',
@@ -153,11 +151,11 @@ export default {
       generateStatsFile: true
     })
   ].filter(Boolean),
-  devtool: dev ? 'inline-source-map' : 'source-map',
+  devtool: 'source-map',
   performance: {
     hints: dev ? false : (process.env.DEBUG ? 'warning' : 'error'),
-    assetFilter: assetFilename => {
-      return !(/\.map$/.test(assetFilename)) && !/tesseract-asset/.test(assetFilename) && !/katex/.test(assetFilename)
+    assetFilter: (assetFilename) => {
+      return !/\.map$|tesseract-asset|\$(polyfill|katex)\$/.test(assetFilename)
     }
   }
 }

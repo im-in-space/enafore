@@ -64,25 +64,13 @@
       Shortcut
     },
     computed: {
-      massagedSpoilerText: ({ computedSpoilerText, originalStatusEmojis, $autoplayGifs, $disableDecomojiConverter, showTranslate, translateContent }) => {
+      massagedSpoilerText: ({ computedSpoilerText, originalStatusEmojis, $autoplayGifs, showTranslate, translateContent }) => {
         computedSpoilerText = escapeHtml(computedSpoilerText)
         return (showTranslate && translateContent)
-          ? translateContent
-          : emojifyText(computedSpoilerText, originalStatusEmojis, $autoplayGifs, $disableDecomojiConverter)
+          ? translateContent.spoiler
+          : emojifyText(computedSpoilerText, originalStatusEmojis, $autoplayGifs)
       },
-      elementId: ({ uuid }) => `spoiler-${uuid}`,
-      translateKey: ({ $currentInstance, originalStatusId }) => $currentInstance + '-' + originalStatusId,
-      translateState: ({ translateKey, $statusTranslations }) => {
-        if (!$statusTranslations || !$statusTranslations[translateKey]) return null
-        return $statusTranslations[translateKey]
-      },
-      showTranslate: ({ translateState }) => !!(translateState && translateState.show),
-      translateContent: ({ $statusTranslationContents, translateKey }) => {
-        const tc = $statusTranslationContents[translateKey]
-        if (!tc) return null
-        if (typeof tc === 'string') return null
-        return tc.spoiler
-      }
+      elementId: ({ uuid }) => `spoiler-${uuid}`
     },
     methods: {
       toggleSpoilers (shown) {

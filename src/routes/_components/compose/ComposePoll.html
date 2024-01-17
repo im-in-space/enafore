@@ -1,4 +1,4 @@
-<section class="compose-poll" aria-label="{intl.createPoll}">
+<section class="compose-poll" aria-label="{'intl.createPoll'}">
     {#each poll.options as option, i}
       <input id="poll-option-{realm}-{i}"
              type="text"
@@ -21,13 +21,13 @@
     >
     <label class="multiple-choice-label"
            for="poll-option-multiple-{realm}">
-      {intl.multipleChoice}
+      {'intl.multipleChoice'}
     </label>
     <Select className="poll-expiry-select"
             options={pollExpiryOptions}
             defaultValue={pollExpiryDefaultValue}
             on:change="onExpiryChange(event)"
-            label="{intl.pollDuration}"
+            label="{'intl.pollDuration'}"
     />
   </div>
   <IconButton

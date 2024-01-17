@@ -1,15 +1,15 @@
 {#if $isUserLoggedIn}
   <TimelinePage timeline="favorites">
     {#if $pinnedPage !== '/favorites'}
-      <DynamicPageBanner title="{intl.favorites}" icon="#fa-star"/>
+      <DynamicPageBanner title="{'intl.favorites'}" icon="#fa-star"/>
     {/if}
   </TimelinePage>
 {:else}
   <HiddenFromSSR>
     <FreeTextLayout>
-      <h1>{intl.favorites}</h1>
+      <h1>{'intl.favorites'}</h1>
 
-      <p>{intl.favoritesNotLoggedIn}</p>
+      <p>{'intl.favoritesNotLoggedIn'}</p>
     </FreeTextLayout>
   </HiddenFromSSR>
 {/if}

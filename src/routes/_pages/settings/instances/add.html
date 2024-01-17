@@ -6,42 +6,42 @@
 
       {#if !hasIndexedDB || !hasLocalStorage}
         <div class="form-error form-error-user-error" role="alert">
-          {intl.storageError}
+          {'intl.storageError'}
         </div>
       {/if}
 
       {#if $logInToInstanceError && $logInToInstanceErrorForText === $instanceNameInSearch}
         <div class="form-error form-error-user-error" role="alert">
-          {intl.errorShort} {@html $logInToInstanceError}
+          {'intl.errorShort'} {@html $logInToInstanceError}
         </div>
       {/if}
 
       <noscript>
         <div class="form-error" role="alert">
-          {intl.javaScriptError}
+          {'intl.javaScriptError'}
         </div>
       </noscript>
 
-      <label for="instanceInput">{intl.instanceColon}</label>
+      <label for="instanceInput">{'intl.instanceColon'}</label>
       <input type="text" inputmode="url" autocapitalize="none" spellcheck="false" id="instanceInput"
-             bind:value='$instanceNameInSearch' placeholder="{intl.enterInstanceName}" required
+             bind:value='$instanceNameInSearch' placeholder="{'intl.enterInstanceName'}" required
       >
       <button class="primary" type="submit" id="submitButton"
               disabled={!$instanceNameInSearch || $logInToInstanceLoading}>
-        {intl.logIn}
+        {'intl.logIn'}
       </button>
     </form>
   </div>
 
   {#if !$isUserLoggedIn}
     <p>
-      {intl.getAnInstancePre}
+      {'intl.getAnInstancePre'}
       <Tooltip
-        text="{intl.getAnInstanceText}"
-        tooltipText="{intl.getAnInstanceDescription}"
+        text="{'intl.getAnInstanceText'}"
+        tooltipText="{'intl.getAnInstanceDescription'}"
       />
-      {intl.getAnInstancePost}
-      <a rel="noopener" target="_blank" href="https://joinmastodon.org">{intl.joinMastodon}</a>
+      {'intl.getAnInstancePost'}
+      <a rel="noopener" target="_blank" href="https://joinmastodon.org">{'intl.joinMastodon'}</a>
     </p>
   {/if}
 </SettingsLayout>

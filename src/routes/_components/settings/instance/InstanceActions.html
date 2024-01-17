@@ -1,11 +1,11 @@
-<form class="instance-actions" aria-label="{intl.switchOrLogOut}">
+<form class="instance-actions" aria-label="{'intl.switchOrLogOut'}">
   {#if $loggedInInstancesInOrder.length > 1 && $currentInstance !== instanceName}
     <button class="primary"
             on:click="onSwitchToThisInstance(event)">
-      {intl.switchTo}
+      {'intl.switchTo'}
     </button>
   {/if}
-  <button on:click="onLogOut(event)">{intl.logOut}</button>
+  <button on:click="onLogOut(event)">{'intl.logOut'}</button>
 </form>
 <style>
   .instance-actions {

@@ -11,7 +11,7 @@ export default {
   output: config.serviceworker.output(),
   resolve,
   mode,
-  devtool: dev ? 'inline-source-map' : 'source-map',
+  devtool: 'source-map',
   optimization: dev
     ? {}
     : {
@@ -23,11 +23,16 @@ export default {
   module: {
     rules: [
       {
-        test: /\.js$/,
+        test: /\.[tj]s$/,
         exclude: /node_modules/,
         use: {
           loader: path.join(__dirname, './svelte-intl-loader.cjs')
         }
+      },
+      {
+        test: /\.ts$/,
+        use: 'ts-loader',
+        exclude: /node_modules/
       }
     ]
   },

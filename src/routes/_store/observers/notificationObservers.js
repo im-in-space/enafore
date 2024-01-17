@@ -17,4 +17,13 @@ export function notificationObservers () {
       currentFaviconHasNotifications = !currentFaviconHasNotifications
     })
   })
+  let previousNumberOfNotifications = 0
+  let audio
+  store.observe('numberOfNotifications', (numberOfNotifications) => {
+    const { disableNotificationSound } = store.get()
+    if (!disableNotificationSound && numberOfNotifications > previousNumberOfNotifications) {
+      (audio || (audio = new Audio('/boop.mp3'))).play()
+    }
+    previousNumberOfNotifications = numberOfNotifications
+  })
 }

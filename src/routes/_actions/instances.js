@@ -41,10 +41,16 @@ export async function logOutOfInstance (instanceName, message) {
     customEmoji,
     instanceInfos,
     instanceLists,
+    instanceFilters,
     instanceThemes,
     loggedInInstances,
     loggedInInstancesInOrder,
-    verifyCredentials
+    verifyCredentials,
+    pinnedPages,
+    statusModifications,
+    pushSubscriptions,
+    instanceDataReady,
+    lastContentTypes
   } = store.get()
   loggedInInstancesInOrder.splice(loggedInInstancesInOrder.indexOf(instanceName), 1)
   const newInstance = instanceName === currentInstance ? loggedInInstancesInOrder[0] : currentInstance
@@ -53,9 +59,15 @@ export async function logOutOfInstance (instanceName, message) {
     customEmoji,
     instanceInfos,
     instanceLists,
+    instanceFilters,
     instanceThemes,
     loggedInInstances,
-    verifyCredentials
+    verifyCredentials,
+    pinnedPages,
+    statusModifications,
+    pushSubscriptions,
+    instanceDataReady,
+    lastContentTypes
   ]
   for (const obj of objectsToClear) {
     delete obj[instanceName]
@@ -66,14 +78,20 @@ export async function logOutOfInstance (instanceName, message) {
     customEmoji,
     instanceInfos,
     instanceLists,
+    instanceFilters,
     instanceThemes,
+    pinnedPages,
     loggedInInstances,
     loggedInInstancesInOrder,
     queryInSearch: '',
     searchResults: null,
     timelineInitialized: false,
     timelinePreinitialized: false,
-    verifyCredentials
+    verifyCredentials,
+    statusModifications,
+    pushSubscriptions,
+    instanceDataReady,
+    lastContentTypes
   })
   store.clearTimelineDataForInstance(instanceName)
   store.clearAutosuggestDataForInstance(instanceName)

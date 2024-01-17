@@ -1,8 +1,8 @@
 {
   "theme_color": "#4169e1",
-  "name": "{intl.appName}",
-  "short_name": "{intl.appName}",
-  "description": "{intl.appDescription}",
+  "name": "intl.appName",
+  "short_name": "intl.appName",
+  "description": "intl.appDescription",
   "categories": [
     "social"
   ],
@@ -57,7 +57,7 @@
   ],
   "shortcuts": [
     {
-      "name": "{intl.newStatus}",
+      "name": "intl.newStatus",
       "url": "/?pwa=true&compose=true",
       "icons": [
         {
@@ -67,7 +67,7 @@
       ]
     },
     {
-      "name": "{intl.notifications}",
+      "name": "intl.notifications",
       "url": "/notifications?pwa=true",
       "icons": [
         {

@@ -20,13 +20,16 @@
   {/if}
   <StatusSidebar {...params} />
   {#if computedSpoilerText}
-    <StatusSpoiler {...params} {spoilerShown} on:recalculateHeight />
+    <StatusSpoiler {...params} {spoilerShown} {translateContent} {showTranslate} on:recalculateHeight />
   {/if}
   {#if !showContent}
     <StatusMentions {...params} />
   {/if}
   {#if content && (showContent || preloadHiddenContent)}
-    <StatusContent {...params} shown={showContent} {plainTextContent} on:recalculateHeight />
+    <StatusContent {...params} shown={showContent} {plainTextContent} {translateContent} {showTranslate} on:recalculateHeight />
+  {/if}
+  {#if showTranslate}
+    <StatusTranslateToolbar {translateContent} {translateState}/>
   {/if}
   <!-- Apparently it's possible for spoilered content to sometimes have embeds, but I can't figure out how.
        Don't bother optimizing this with the preloadHiddenContent. -->
@@ -75,6 +78,7 @@
         "sidebar spoiler-btn  spoiler-btn   spoiler-btn"
         "sidebar mentions     mentions      mentions"
         "sidebar content      content       content"
+        "sidebar translate    translate     translate"
         "sidebar card         card          card"
         "sidebar media        media         media"
         "sidebar poll         poll          poll"
@@ -107,6 +111,7 @@
       "spoiler-btn spoiler-btn"
       "mentions    mentions"
       "content     content"
+      "translate   translate"
       "card        card"
       "media       media"
       "poll        poll"
@@ -163,6 +168,7 @@
   import StatusReactions from './StatusReactions.html'
   import StatusTags from './StatusTags.html'
   import StatusPoll from './StatusPoll.html'
+  import StatusTranslateToolbar from './StatusTranslateToolbar.html'
   import Shortcut from '../shortcut/Shortcut.html'
   import { store } from '../../_store/store.js'
   import { goto } from '../../../../__sapper__/client.js'
@@ -234,6 +240,7 @@
       StatusMentions,
       StatusReactions,
       StatusTags,
+      StatusTranslateToolbar,
       Shortcut
     },
     data: () => ({
@@ -395,7 +402,7 @@
         )
       ),
       showHeader: ({ notification, status, timelineType }) => (
-        (notification && ['reblog', 'favourite', 'poll', 'status', 'update', 'pleroma:emoji_reaction', 'reaction'].includes(notification.type)) ||
+        (notification && ['reblog', 'favourite', 'poll', 'status', 'update', 'pleroma:emoji_reaction', 'reaction', 'emoji_reaction'].includes(notification.type)) ||
         status.reblog ||
         timelineType === 'pinned'
       ),
@@ -440,6 +447,17 @@
       style: ({ treeMetadata }) => `--status-depth:${treeMetadata ? Math.min(8, treeMetadata.depth || 0) : 0}`,
       hashtagsInBar: ({ originalStatus }) => originalStatus.hashtagsInBar || [],
       showHashtagsInBar: ({ hashtagsInBar, showContent }) => showContent && (hashtagsInBar.length > 0),
+      translateKey: ({ $currentInstance, originalStatusId }) => $currentInstance + '-' + originalStatusId,
+      translateState: ({ translateKey, $statusTranslations }) => {
+        if (!$statusTranslations || !$statusTranslations[translateKey]) return null
+        return $statusTranslations[translateKey]
+      },
+      showTranslate: ({ translateState }) => !!(translateState && translateState.show),
+      translateContent: ({ $statusTranslationContents, translateKey }) => {
+        const tc = $statusTranslationContents[translateKey]
+        if (!tc) return null
+        return tc
+      },
       // This params list deliberately does *not* include `spoilersShown` or `replyShown`, because these
       // change frequently and would therefore cause costly recomputes if included here.
       // The main goal here is to avoid typing by passing as many params as possible to child components.

@@ -1,5 +1,5 @@
 {#if realm === 'home'}
-  <h2 class="sr-only">{intl.composeStatus}</h2>
+  <h2 class="sr-only">{'intl.composeStatus'}</h2>
 {/if}
 <ComposeFileDrop {realm} >
   <div class="{computedClassName} {hideAndFadeIn}">
@@ -274,7 +274,7 @@
       contentWarningShown: ({ composeData }) => composeData.contentWarningShown,
       contentWarning: ({ composeData }) => composeData.contentWarning || '',
       sensitive: ({ composeData }) => !!composeData.sensitive,
-      contentType: ({ composeData, $lastContentType }) => typeof composeData.contentType === 'undefined' ? $lastContentType : composeData.contentType,
+      contentType: ({ composeData, $currentLastContentType }) => typeof composeData.contentType === 'undefined' ? $currentLastContentType : composeData.contentType,
       inReplyToHandle: ({ composeData }) => composeData.inReplyToHandle,
       quoteId: ({ composeData }) => composeData.quoteId,
       quoteHandle: ({ composeData }) => composeData.quoteHandle,

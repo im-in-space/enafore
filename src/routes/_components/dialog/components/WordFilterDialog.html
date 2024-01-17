@@ -8,7 +8,7 @@
   <div class="word-filter-dialog">
     <div class="word-filter-keyword">
       <label for="word-filter-word-or-phrase" class="word-filter-keyword-label">
-        <span>{intl.wordOrPhrase}</span>
+        <span>{'intl.wordOrPhrase'}</span>
         <!-- no need for aria-label="Required", the input is already marked as required -->
         <span aria-hidden="true" class="required">*</span>
       </label>
@@ -22,18 +22,18 @@
       >
     </div>
     <div class="word-filter-expire-after" ref:expireSelectWrapper>
-      <span class="word-filter-label-like word-filter-expire-label">{intl.expireAfter}</span>
+      <span class="word-filter-label-like word-filter-expire-label">{'intl.expireAfter'}</span>
       <Select className="word-filter-expiry-select"
               options={expiryOptions}
               defaultValue={expiryDefaultValue}
               on:change="onExpiryChange(event)"
-              label="{intl.expireAfter}"
+              label="{'intl.expireAfter'}"
       />
     </div>
     <div class="word-filter-where-to-filter">
       <span class="word-filter-label-like" id="word-filter-where-to-filter-label">
-        <span>{intl.whereToFilter}</span>
-        <span aria-label="{intl.required}" class="required">*</span>
+        <span>{'intl.whereToFilter'}</span>
+        <span aria-label="{'intl.required'}" class="required">*</span>
       </span>
       <ul class="word-filter-radio-list" aria-describedby="word-filter-where-to-filter-label" ref:contextCheckboxes>
         {#each filterContexts as context}
@@ -53,14 +53,14 @@
              name="irreversible"
              ref:irreversibleCheckbox
              id="word-filter-irreversible">
-      <label for="word-filter-irreversible">{intl.irreversible}</label>
+      <label for="word-filter-irreversible">{'intl.irreversible'}</label>
     </div>
     <div class="word-filter-whole">
       <input type="checkbox"
              name="irreversible"
              ref:wholeWordCheckbox
              id="word-filter-whole">
-      <label for="word-filter-whole">{intl.wholeWord}</label>
+      <label for="word-filter-whole">{'intl.wholeWord'}</label>
     </div>
   </div>
 </GenericConfirmationDialog>

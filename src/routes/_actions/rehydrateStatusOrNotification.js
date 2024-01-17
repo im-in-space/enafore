@@ -5,13 +5,19 @@ import {
   init as initBlurhash
 } from '../_utils/blurhash.js'
 import { store } from '../_store/store.js'
-import ProcessContentWorker from '../_workers/processContent.js'
 import PromiseWorker from 'promise-worker'
 import { emit } from '../_utils/eventBus.js'
 
 let worker
 export function init () {
-  worker = worker || new PromiseWorker(new ProcessContentWorker())
+  worker = worker || new PromiseWorker(new Worker(new URL('../_workers/processContent/index.ts', import.meta.url)))
+  if (process.browser) {
+    try {
+      initBlurhash()
+    } catch (err) {
+      console.error('could not start blurhash worker', err)
+    }
+  }
 }
 
 function getActualStatus (statusOrNotification) {
@@ -19,13 +25,6 @@ function getActualStatus (statusOrNotification) {
     get(statusOrNotification, ['status']) ||
     get(statusOrNotification, ['notification', 'status'])
   )
-}
-if (process.browser) {
-  try {
-    initBlurhash()
-  } catch (err) {
-    console.error('could not start blurhash worker', err)
-  }
 }
 
 async function decodeAllBlurhashes (status) {
@@ -60,8 +59,8 @@ function rehydrateQuote (originalStatus) {
 
 async function processStatusContent (originalStatus) {
   try {
-    const { autoplayGifs, disableDecomojiConverter, currentVerifyCredentials } = store.get()
-    Object.assign(originalStatus, await worker.postMessage({ originalStatus, autoplayGifs, disableDecomojiConverter, currentVerifyCredentials }))
+    const { autoplayGifs, currentVerifyCredentials } = store.get()
+    Object.assign(originalStatus, await worker.postMessage({ originalStatus, autoplayGifs, currentVerifyCredentials }))
   } catch (e) {
     console.warn('failed to processStatusContent', originalStatus, e)
   }

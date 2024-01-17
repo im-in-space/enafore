@@ -1,5 +1,5 @@
 {#if massagedFields.length}
-  <h2 class="sr-only">{intl.fields}</h2>
+  <h2 class="sr-only">{'intl.fields'}</h2>
   <div class="account-profile-meta">
     {#each massagedFields as field, i}
       <div
@@ -22,7 +22,7 @@
               className="account-profile-meta-verified-svg"
               href="#fa-check"
             />
-            {intl.verified}
+            {'intl.verified'}
           </span>
         {/if}
       </div>
@@ -129,9 +129,9 @@
     computed: {
       emojis: ({ account }) => account.emojis || [],
       fields: ({ account }) => account.fields || [],
-      massagedFields: ({ fields, emojis, $autoplayGifs, $disableDecomojiConverter }) => (fields.map(field => ({
+      massagedFields: ({ fields, emojis, $autoplayGifs }) => (fields.map(field => ({
         name: field.name,
-        value: emojifyText(field.value, emojis, $autoplayGifs, $disableDecomojiConverter),
+        value: emojifyText(field.value, emojis, $autoplayGifs),
         verified: !!field.verified_at
       })))
     },

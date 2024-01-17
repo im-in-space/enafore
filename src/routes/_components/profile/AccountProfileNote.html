@@ -1,4 +1,4 @@
-<h2 class="sr-only">{intl.description}</h2>
+<h2 class="sr-only">{'intl.description'}</h2>
 <div class="account-profile-note">
   {@html massagedNote}
 </div>
@@ -23,14 +23,14 @@
 </style>
 <script>
   import { store } from '../../_store/store.js'
-  import { renderPostHTML } from '../../_utils/renderPostHTML.js'
+  import { renderPostHTML } from '../../_utils/renderPostHTML.ts'
 
   export default {
     store: () => store,
     computed: {
       note: ({ account }) => account.note,
       emojis: ({ account }) => account.emojis || [],
-      massagedNote: ({ note, emojis, $autoplayGifs, $disableDecomojiConverter }) => {
+      massagedNote: ({ note, emojis, $autoplayGifs }) => {
         const emojisMap = new Map()
         if (emojis) {
           for (const emoji of emojis) {
@@ -41,10 +41,9 @@
           content: note,
           tags: [],
           autoplayGifs: $autoplayGifs,
-          disableDecomojiConverter: $disableDecomojiConverter,
           emojis: emojisMap,
           mentionsByURL: new Map()
-        }).innerHTML
+        })
       }
     }
   }
